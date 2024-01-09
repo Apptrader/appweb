@@ -42,7 +42,7 @@ const User = sequelize.define('user', {
     allowNull: false
   },
   idPaidPlan: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID,
     allowNull: true
   },
 });
