@@ -40,6 +40,7 @@ export const register = async (req, res) => {
   }
 };
 
+console.log("Este es le nuevo cambio")
 
 export const login = async (req, res) => {
   const {
