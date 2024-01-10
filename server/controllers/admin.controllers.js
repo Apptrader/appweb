@@ -24,15 +24,15 @@ export const register = async (req, res) => {
     });
 
 
-    // Guarda los cambios en la base de datos (CREO QUE NO ES NECESARIO.)
-    await newAdmin.save(); //NO SE SI ES NECESARIO
+   
 
-    const token = await createAccesToken({id: newAdmin._id});
-    res.cookie("token", token)
+    const token = await createAccesToken({id: newAdmin.idAdmin});
+
     res.json({
-      id: newAdmin._id,
-      UserName: newAdmin.UserName,
-      Email: newAdmin.Email
+      id: newAdmin.idAdmin,
+      UserName: newAdmin.AdminName,
+      Email: newAdmin.Email,
+      token: token
     })
 
   } catch (error) {
@@ -46,6 +46,12 @@ export const login = async (req, res) => {
     Email,
     Password
   } = req.body;
+
+  /*
+  Siempre en cada controlador que reciba parametro por body tenemos que meter una verificacion
+  Si el email o el password estan vacios, mandamos un mensaje de error "Datos incompletos."
+  Sino continua el proceso.
+  */
 
   try {
     const adminFound = await Admin.findOne({
