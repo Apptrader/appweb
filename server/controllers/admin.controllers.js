@@ -1,6 +1,7 @@
 // controllers/admin.controllers.js
 import Admin from '../models/admin.model.js';
 import bcrypt from 'bcryptjs';
+import { createAccesToken } from '../libs/jwt.js';
 
 export const allAdmins = async (req,res) =>{
 
@@ -22,18 +23,16 @@ export const register = async (req, res) => {
       Phone
     });
 
-    const allAdmins = await Admin.findAll();
-    console.log("Registros en la base de datos:", allAdmins);
 
     // Guarda los cambios en la base de datos (CREO QUE NO ES NECESARIO.)
-    await newUser.save(); //NO SE SI ES NECESARIO
+    await newAdmin.save(); //NO SE SI ES NECESARIO
 
-    const token = await createAccesToken({id: newUser._id});
+    const token = await createAccesToken({id: newAdmin._id});
     res.cookie("token", token)
     res.json({
-      id: newUser._id,
-      UserName: newUser.UserName,
-      Email: newUser.Email
+      id: newAdmin._id,
+      UserName: newAdmin.UserName,
+      Email: newAdmin.Email
     })
 
   } catch (error) {
@@ -42,6 +41,39 @@ export const register = async (req, res) => {
 };
 
 
-export const login = (req, res) => {
-  res.send("Bienvenido al sistema de administración");
+export const login = async (req, res) => {
+  const {
+    Email,
+    Password
+  } = req.body;
+
+  try {
+    const adminFound = await Admin.findOne({
+      where: {
+        Email: Email
+      }
+    });
+
+    if(!adminFound) return res.status(400).json({message: "User not found"});
+    
+    const isMatch = await bcrypt.compare(Password, adminFound.Password);
+    console.log("Esto es isMatch: ", isMatch)
+
+    if(!isMatch) return res.status(400).json({message: "Incorrect password"});
+
+    const token = await createAccesToken({id: adminFound._id});
+  
+    res.cookie("token", token)
+
+    res.json({
+      id: adminFound._id,
+      AdminName: adminFound.UserName,
+      Email: adminFound.Email,
+      createdAt: adminFound.createdAt,
+      updatedAt: adminFound.updatedAt
+    });
+  } catch (error) {
+    res.status(500).json({message: error.message});
+  }
+
 };

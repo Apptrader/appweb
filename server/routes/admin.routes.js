@@ -3,7 +3,7 @@ import {allAdmins, login, register} from '../controllers/admin.controllers.js'
 
 const routerAdmin = Router();
 
-routerAdmin.get("/login", login)
+routerAdmin.post("/login", login)
 routerAdmin.post("/register", register)
 routerAdmin.get("/admins", allAdmins)
 

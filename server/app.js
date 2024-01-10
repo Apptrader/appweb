@@ -16,6 +16,7 @@ Exporta la instancia de la aplicación para que pueda ser utilizada en otros arc
 // app.js
 import express from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import routerAdmin from './routes/admin.routes.js';
 import routerUser from './routes/user.routes.js';
 import routerPaidPlans from './routes/paidplans.routes.js';
@@ -30,6 +31,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(cookieParser());
 
 // Rutas
 app.use('/apiUser', routerUser);
