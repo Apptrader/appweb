@@ -3,11 +3,11 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../dbconnection.js';
 
 const Admin = sequelize.define('userAdmin', {
-  idAdmin: { // Cambiado de idUsers a idUser
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
+  idAdmin: {
+    type: DataTypes.INTEGER,
     allowNull: false,
-    primaryKey: true
+    primaryKey: true,
+    autoIncrement: true
   },
   AdminName: {
     type: DataTypes.STRING,

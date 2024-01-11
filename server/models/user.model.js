@@ -39,7 +39,7 @@ const User = sequelize.define('user', {
   },
   UserPoints: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: true
   },
   idPaidPlan: {
     type: DataTypes.UUID,

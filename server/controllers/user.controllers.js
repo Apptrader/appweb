@@ -16,7 +16,6 @@ export const register = async (req, res) => {
     UserCode,
     Phone,
     CodeReferenced,
-    UserPoints,
     idPaidPlanForUser
   } = req.body;
 
@@ -31,19 +30,19 @@ export const register = async (req, res) => {
       UserCode,
       Phone,
       CodeReferenced,
-      UserPoints,
       idPaidPlanForUser
     });
 
-    // Guarda los cambios en la base de datos (CREO QUE NO ES NECESARIO.)
-    await newUser.save();
+    
 
-    const token = await createAccesToken({id: newUser._id});
-    res.cookie("token", token)
+    const token = await createAccesToken({id: newUser.idUser});
+    
     res.json({
-      id: newUser._id,
+      id: newUser.idUser,
       UserName: newUser.UserName,
-      Email: newUser.Email
+      Email: newUser.Email,
+      Phone:newUser.Phone,
+      token: token
     })
   } catch (error) {
     res.status(500).json({message: error.message});
@@ -57,6 +56,12 @@ export const login = async (req, res) => {
     Password
   } = req.body;
 
+  /*
+  Siempre en cada controlador que reciba parametro por body tenemos que meter una verificacion
+  Si el email o el password estan vacios, mandamos un mensaje de error "Datos incompletos."
+  Sino continua el proceso.
+  */
+
   try {
     const userFound = await User.findOne({
       where: {
@@ -67,21 +72,21 @@ export const login = async (req, res) => {
     if(!userFound) return res.status(400).json({message: "User not found"});
     
     const isMatch = await bcrypt.compare(Password, userFound.Password);
-    console.log("Esto es isMatch: ", isMatch)
+    
 
     if(!isMatch) return res.status(400).json({message: "Incorrect password"});
 
     const token = await createAccesToken({id: userFound._id});
   
-    res.cookie("token", token)
+    //res.cookie("token", token)
 
     res.json({
       id: userFound._id,
       UserName: userFound.UserName,
       Email: userFound.Email,
-      createdAt: userFound.createdAt,
-      updatedAt: userFound.updatedAt
+      token: token
     });
+
   } catch (error) {
     res.status(500).json({message: error.message});
   }
