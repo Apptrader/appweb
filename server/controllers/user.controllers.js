@@ -9,6 +9,11 @@ export const allUsers = async (req,res) =>{
 };
 
 export const register = async (req, res) => {
+
+  /*
+  
+  */
+
   const {
     UserName,
     Email,

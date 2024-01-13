@@ -1,10 +1,10 @@
 
-import PaidPlansComponent from '../components/PaidPlansComponent'
+import PaidPlansRegisterComponent from '../components/PaidPlansComponent'
 
 const PaidPlans = () => {
   return (
     <div>
-      <PaidPlansComponent />
+      <PaidPlansRegisterComponent />
     </div>
   )
 }
