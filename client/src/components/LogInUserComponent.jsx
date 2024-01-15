@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 
-const LogInComponent = () => {
+const LogInUserComponent = () => {
 
   const [formData, setFormData] = useState({
     Email: '',
@@ -102,4 +102,4 @@ const LogInComponent = () => {
   )
 }
 
-export default LogInComponent
+export default LogInUserComponent

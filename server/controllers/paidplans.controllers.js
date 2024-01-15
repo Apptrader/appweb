@@ -10,14 +10,18 @@ export const allPaidPlans = async (req,res) =>{
 export const createPaidPlan = async (req,res) =>{
     const {
         planName, 
-        planCost
+        planCost,
+        description,
+        feature
     } = req.body;
     
     try {
 
         const newPlan = await PaidPlan.create({
             planName,
-            planCost
+            planCost,
+            description,
+            feature
         });
 
         const allPaidPlan = await PaidPlan.findAll();

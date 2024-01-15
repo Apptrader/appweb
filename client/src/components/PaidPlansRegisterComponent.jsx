@@ -7,6 +7,8 @@ const PaidPlansRegisterComponent =() =>{
         
         planName: '',
         planCost: '',
+        description:'',
+        feature:''
     });
 
     const handleInputChange = (e) => {
@@ -38,7 +40,6 @@ const PaidPlansRegisterComponent =() =>{
       };
 
     return (
-        
         
         <div>
             <div className="flex justify-center m-5">
@@ -77,10 +78,14 @@ const PaidPlansRegisterComponent =() =>{
                                     <label htmlFor="planCost" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
                                     <input onChange={handleInputChange} type="number" name="planCost" id="planCost" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="$2999" required=""/>
                                 </div>
-                                {/* <div class="sm:col-span-2">
-                                    <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                                    <textarea id="description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Write product description here"></textarea>                    
-                                </div> */}  
+                                <div className="sm:col-span-2">
+                                    <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                                    <textarea onChange={handleInputChange} id="description" name="description" rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Write product description here"></textarea>                    
+                                </div> 
+                                <div className="sm:col-span-2">
+                                    <label htmlFor="feature" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Feature</label>
+                                    <textarea onChange={handleInputChange} id="feature" name="feature" rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Write features here"></textarea>                    
+                                </div>  
                                 
                                 
                             </div>
