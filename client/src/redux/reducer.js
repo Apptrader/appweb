@@ -1,12 +1,22 @@
 // reducer.js
 const initialState = {
-    count: 0
+    user: {
+      id: '',
+      UserName:'' ,
+      Email: '',
+      Phone:'',
+      token: '',
+      created:''
+    }
   };
   
   const rootReducer = (state = initialState, action) => {
     switch (action.type) {
-      case 'INCREMENT':
-        return { count: state.count + 1 };
+      case 'SET_USER':
+        return {
+          ...state,
+          user:action.payload
+        };
       case 'DECREMENT':
         return { count: state.count - 1 };
       default:

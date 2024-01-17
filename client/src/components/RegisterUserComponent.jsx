@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../redux/actions';
 
 const RegisterUserComponent =() =>{
+
+    const dispatch = useDispatch();
+
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         
@@ -13,6 +20,7 @@ const RegisterUserComponent =() =>{
         CodeReferenced:'',
         idPaidPlanForUser:'',
     });
+
 
     const handleInputChange = (e) => {
         setFormData({
@@ -37,6 +45,11 @@ const RegisterUserComponent =() =>{
         
           // Manejar la respuesta del servidor según sea necesario
           console.log('Respuesta del servidor:', response.data);
+          if (response.data.created == 'ok'){
+            dispatch(setUser(response.data));
+            navigate('/home');
+          }
+
         } catch (error) {
           console.error('Error al enviar datos al servidor:', error);
         }

@@ -20,6 +20,9 @@ import cookieParser from 'cookie-parser';
 import routerAdmin from './routes/admin.routes.js';
 import routerUser from './routes/user.routes.js';
 import routerPaidPlans from './routes/paidplans.routes.js';
+import morgan from 'morgan';
+
+
 
 const app = express();
 
@@ -31,6 +34,7 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 
+app.use(morgan('dev'));
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
