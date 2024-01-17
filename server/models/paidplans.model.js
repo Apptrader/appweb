@@ -18,6 +18,16 @@ const PaidPlan = sequelize.define('paidPlan', {
     allowNull: false,
     unique: false
   },
+  description: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: false
+  },
+  feature: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: false
+  }
 })
 
 export default PaidPlan;
