@@ -10,10 +10,6 @@ export const allUsers = async (req,res) =>{
 
 export const register = async (req, res) => {
 
-  /*
-  
-  */
-
   const {
     UserName,
     Email,
@@ -47,7 +43,8 @@ export const register = async (req, res) => {
       UserName: newUser.UserName,
       Email: newUser.Email,
       Phone:newUser.Phone,
-      token: token
+      token: token,
+      created:'ok'
     })
   } catch (error) {
     res.status(500).json({message: error.message});
