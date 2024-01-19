@@ -10,7 +10,7 @@ import sequelize from './dbconnection.js';
 import app from './app.js';
 
 
-sequelize.sync({ force: true }).then(() => {
+sequelize.sync({ force: false }).then(() => {
   const port = 4000;
   app.listen(port, () => {
     console.log(`Servidor escuchando en http://localhost:${port}`);
