@@ -45,7 +45,17 @@ const User = sequelize.define('user', {
     type: DataTypes.UUID,
     allowNull: true
   },
+  referralsCount: {
+    type: DataTypes.INTEGER,
+    allowNull: true
+  },
+  position: {
+    type: DataTypes.STRING,
+    allowNull: true
+  }
 });
+
+
 
 User.belongsTo(PaidPlan, { foreignKey: 'idPaidPlan' });
 

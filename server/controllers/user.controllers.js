@@ -1,6 +1,7 @@
 import User from '../models/user.model.js';
 import bcrypt from 'bcryptjs'
 import { createAccesToken } from '../libs/jwt.js';
+import sequelize from '../dbconnection.js';
 
 export const allUsers = async (req,res) =>{
 
@@ -8,8 +9,9 @@ export const allUsers = async (req,res) =>{
   res.json(users)
 };
 
-export const register = async (req, res) => {
 
+
+export const register = async (req, res) => {
   const {
     UserName,
     Email,
@@ -23,7 +25,75 @@ export const register = async (req, res) => {
   try {
     const passwordHash = await bcrypt.hash(Password, 10);
 
-    // Crear una nueva instancia del modelo User
+    if (!CodeReferenced) {
+      const newUser = await User.create({
+        UserName,
+        Email,
+        Password: passwordHash,
+        UserCode,
+        Phone,
+        CodeReferenced,
+        idPaidPlanForUser,
+        referralsCount: 0
+      });
+
+      const token = await createAccesToken({ id: newUser.idUser });
+
+      res.json({
+        id: newUser.idUser,
+        UserName: newUser.UserName,
+        Email: newUser.Email,
+        Phone: newUser.Phone,
+        token: token,
+        created: 'ok'
+      });
+      return;
+    }
+
+    // Buscar el usuario con el código de referencia
+    let referencedUser = await User.findOne({ where: { UserCode: CodeReferenced } });
+
+    if (!referencedUser) {
+      return res.status(404).json({ message: "Usuario con el código de referencia no encontrado" });
+    }
+
+    const newPoints = referencedUser.UserPoints + 1000;
+    const newReferralCount = referencedUser.referralsCount + 1;
+    let position = '';
+
+    if(newReferralCount %2 === 0){
+      position = 'right';
+    }else{
+      position = 'left';
+    }
+
+    const result = await User.update(
+      {UserPoints: newPoints,
+      referralsCount: newReferralCount},
+      {where: { idUser: referencedUser.idUser }},
+    )
+    console.log("este es el update: ", result)
+
+    let user = referencedUser;
+
+    // Proceso de referidos multinivel
+    while (user.CodeReferenced) {
+      const parentUser = await User.findOne({ where: { UserCode: user.CodeReferenced } });
+
+      if (!parentUser) {
+        break; // No se encontró el padre, salir del bucle
+      }
+
+      const newPoints = parentUser.UserPoints + 1000;
+      
+      await User.update(
+        { UserPoints: newPoints },
+        { where: { idUser: parentUser.idUser } }
+      );
+
+      user = parentUser;
+    }
+
     const newUser = await User.create({
       UserName,
       Email,
@@ -31,26 +101,27 @@ export const register = async (req, res) => {
       UserCode,
       Phone,
       CodeReferenced,
-      idPaidPlanForUser
+      idPaidPlanForUser,
+      referralsCount: 0
     });
 
-    
+    const token = await createAccesToken({ id: newUser.idUser });
 
-    const token = await createAccesToken({id: newUser.idUser});
-    
     res.json({
       id: newUser.idUser,
       UserName: newUser.UserName,
       Email: newUser.Email,
-      Phone:newUser.Phone,
+      Phone: newUser.Phone,
       token: token,
-      created:'ok'
-    })
-  } catch (error) {
-    res.status(500).json({message: error.message});
-  }
+      created: 'ok'
+    });
 
+  } catch (error) {
+    console.log("este es el error: ", error);
+    res.status(500).json({ message: error.message });
+  }
 };
+
 
 export const login = async (req, res) => {
   const {
