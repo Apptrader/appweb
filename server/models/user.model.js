@@ -37,7 +37,11 @@ const User = sequelize.define('user', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  UserPoints: {
+  pointsRight: {
+    type: DataTypes.INTEGER,
+    allowNull: true
+  },
+  pointsLeft: {
     type: DataTypes.INTEGER,
     allowNull: true
   },

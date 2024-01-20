@@ -57,7 +57,7 @@ export const register = async (req, res) => {
       return res.status(404).json({ message: "Usuario con el código de referencia no encontrado" });
     }
 
-    const newPoints = referencedUser.UserPoints + 1000;
+    
     const newReferralCount = referencedUser.referralsCount + 1;
     let position = '';
 
@@ -67,11 +67,24 @@ export const register = async (req, res) => {
       position = 'left';
     }
 
-    const result = await User.update(
-      {UserPoints: newPoints,
-      referralsCount: newReferralCount},
-      {where: { idUser: referencedUser.idUser }},
-    )
+    let result;
+
+    if (position === 'right'){
+      const newPoints = referencedUser.pointsRight + 1000;
+      result = await User.update(
+        {pointsRight: newPoints,
+        referralsCount: newReferralCount},
+        {where: { idUser: referencedUser.idUser }},
+      )
+    }else{
+      const newPoints = referencedUser.pointsLeft + 1000;
+      result = await User.update(
+        {pointsLeft: newPoints,
+        referralsCount: newReferralCount},
+        {where: { idUser: referencedUser.idUser }},
+      )
+    }
+    
     console.log("este es el update: ", result)
 
     let user = referencedUser;
@@ -84,13 +97,19 @@ export const register = async (req, res) => {
         break; // No se encontró el padre, salir del bucle
       }
 
-      const newPoints = parentUser.UserPoints + 1000;
-      
-      await User.update(
-        { UserPoints: newPoints },
-        { where: { idUser: parentUser.idUser } }
-      );
-
+      if (user.position === 'right'){
+        const newPoints = parentUser.pointsRight + 1000;
+        await User.update(
+          { pointsRight: newPoints },
+          { where: { idUser: parentUser.idUser } }
+        );
+      }else{
+        const newPoints = parentUser.pointsLeft + 1000;
+        await User.update(
+          { pointsLeft: newPoints },
+          { where: { idUser: parentUser.idUser } }
+        );
+      }
       user = parentUser;
     }
 
@@ -102,7 +121,8 @@ export const register = async (req, res) => {
       Phone,
       CodeReferenced,
       idPaidPlanForUser,
-      referralsCount: 0
+      referralsCount: 0,
+      position: position
     });
 
     const token = await createAccesToken({ id: newUser.idUser });
