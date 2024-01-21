@@ -15,6 +15,7 @@ const Home = () => {
         <NavbarComponent/>
         <SidebarComponent />
         <BodyComponent />
+        
        
 
         {/*  <FooterComponent /> */}

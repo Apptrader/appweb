@@ -1,4 +1,5 @@
 import PaidPlansListComponent from '../components/PaidPlansListComponent'
+import VideoListComponent from '../components/videoListComponent'
 
 const BodyComponent = () => {
     
@@ -21,6 +22,10 @@ const BodyComponent = () => {
                     
                     <div className="bg-gray-800  w-full h-full object-cover flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">  
                         <PaidPlansListComponent />
+                    </div>
+
+                    <div className="bg-gray-800  w-full h-full object-cover flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">  
+                        <VideoListComponent/>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 p-4 bg-gray-800 rounded dark:bg-gray-800">
