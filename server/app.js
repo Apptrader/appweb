@@ -20,6 +20,7 @@ import cookieParser from 'cookie-parser';
 import routerAdmin from './routes/admin.routes.js';
 import routerUser from './routes/user.routes.js';
 import routerPaidPlans from './routes/paidplans.routes.js';
+import routerVideos from './routes/video.routes.js';
 import morgan from 'morgan';
 
 
@@ -43,5 +44,7 @@ app.use(cookieParser());
 app.use('/apiUser', routerUser);
 app.use('/apiAdmin', routerAdmin);
 app.use('/apiPaidPlans', routerPaidPlans);
+app.use('/apiVideos', routerVideos);
+
 
 export default app;

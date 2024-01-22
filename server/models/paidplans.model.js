@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../dbconnection.js';
 
 const PaidPlan = sequelize.define('paidPlan', {
-  idPaidPlan: { // Cambiado de idUsers a idUser
+  idPaidPlan: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     allowNull: false,
@@ -27,7 +27,12 @@ const PaidPlan = sequelize.define('paidPlan', {
     type: DataTypes.STRING,
     allowNull: false,
     unique: false
+  },
+  // Nuevo campo para imágenes (BLOB)
+  planImage: {
+    type: DataTypes.BLOB,
+    allowNull: true // Puedes cambiar a false si las imágenes son obligatorias
   }
-})
+});
 
 export default PaidPlan;

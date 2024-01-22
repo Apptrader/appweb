@@ -17,7 +17,8 @@ const PaidPlansListComponent = () => {
   }, []); // El segundo parámetro [] significa que este efecto se ejecutará solo una vez al montar el componente
 
   return (
-    <div className='bg-gray-800'>
+    <div className='bg-gray-800' >
+      
       <section className="bg-gray-800 dark:bg-gray-900">
         <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
           <div className="mx-auto max-w-screen-md text-center mb-8 lg:mb-12">
@@ -25,7 +26,8 @@ const PaidPlansListComponent = () => {
           </div>
           <div className="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0">
             {plans.map(plan => (
-              <div key={plan.id} className="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-gray-500 rounded-lg   shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
+              <div key={plan.id} className="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-gray-800 rounded-lg   shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
+               <img className='w-full h-full object-cover rounded-xl' src={`data:image/jpeg;base64,${plan.planImage}`} alt={plan.planName} />
                 <h3 className="mb-4 text-white text-2xl font-semibold">{plan.planName}</h3>
                 <p className="font-light text-white sm:text-lg dark:text-gray-400">{plan.description}</p>
                 <div className="flex justify-center items-baseline my-8">
