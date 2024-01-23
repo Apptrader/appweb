@@ -13,7 +13,7 @@ const Home = () => {
     return (
     <div>
         <NavbarComponent/>
-        <SidebarComponent />
+        {/* <SidebarComponent /> */}
         <BodyComponent />
         
        
