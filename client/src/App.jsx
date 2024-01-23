@@ -4,7 +4,7 @@ import PaidPlansRegister from './views/PaidPlansRegister';
 import PaidPlansList from './views/PaidPlansList';
 import RegisterUser from './views/RegisterUser';
 import Home from './views/Home';
-
+import UserProfileComponent from './views/UserProfileComponent';
 function App() {
 
 
@@ -16,6 +16,7 @@ function App() {
         <Route path='/paidPlansRegister' element={<PaidPlansRegister />}></Route>
         <Route path='/paidPlansList' element={<PaidPlansList />}></Route>
         <Route path='/registerUser' element={<RegisterUser />}></Route>
+        <Route path='/profile' element={<UserProfileComponent />}></Route>
         
       </Routes>
     </>

@@ -168,8 +168,12 @@ export const login = async (req, res) => {
     
 
     if(!isMatch) return res.status(400).json({message: "Incorrect password"});
+    console.log(userFound, "usuario encontrado")
 
-    const token = await createAccesToken({id: userFound._id});
+    const userId = userFound.dataValues.idUser
+    console.log(userId)
+
+    const token = await createAccesToken({ id: userId });
   
     //res.cookie("token", token)
 
@@ -204,5 +208,56 @@ export const profile = async (req, res) => {
     UserName: userFound.UserName,
     Email: userFound.Email
   })
-  res.send("This is your profile.")
+
 }
+
+
+export const getReferralTree = async (req, res) => {
+  const userId = req.user.id;
+  console.log(req.user);
+
+  try {
+    const user = await User.findOne({
+      where: {
+        idUser: userId
+      }
+    });
+
+    if (user) {
+      const firstGen = await User.findAll({
+        where: {
+          CodeReferenced: user.UserCode
+        }
+      });
+
+      const referralTree = await getGenerations(user, firstGen);
+
+      res.json({ referralTree });
+    } else {
+      res.status(500).json({ message: 'Usuario no encontrado' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al obtener el árbol de referidos.' });
+  }
+};
+
+const getGenerations = async (user, generation) => {
+  const referralTree = [];
+  for (const referent of generation) {
+    const usersInGeneration = await User.findAll({
+      where: {
+        CodeReferenced: referent.UserCode
+      }
+    });
+
+    referralTree.push({
+      referent,
+      children: await getGenerations(referent, usersInGeneration)
+    });
+  }
+  return referralTree;
+};
+
+
+

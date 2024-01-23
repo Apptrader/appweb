@@ -1,9 +1,14 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import {useNavigate} from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../redux/actions';
 
 const LogInUserComponent = () => {
+
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const [formData, setFormData] = useState({
     Email: '',
@@ -29,9 +34,10 @@ const LogInUserComponent = () => {
           'Content-Type': 'application/json',
         },
       });
-     
-    
-      // Manejar la respuesta del servidor según sea necesario
+      
+      dispatch(setUser(response.data))
+      navigate("/home")
+
       console.log('Respuesta del servidor:', response.data);
     } catch (error) {
       console.error('Error al enviar datos al servidor:', error);
