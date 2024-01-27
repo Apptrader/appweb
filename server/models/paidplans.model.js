@@ -3,8 +3,8 @@ import sequelize from '../dbconnection.js';
 
 const PaidPlan = sequelize.define('paidPlan', {
   idPaidPlan: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
     allowNull: false,
     primaryKey: true
   },
@@ -20,12 +20,12 @@ const PaidPlan = sequelize.define('paidPlan', {
   },
   description: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
     unique: false
   },
   feature: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
     unique: false
   },
   // Nuevo campo para imágenes (BLOB)

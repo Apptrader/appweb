@@ -1,4 +1,4 @@
-import { SET_USER } from "./actionsTypes";
+import { SET_USER, SET_PLAN} from "./actionsTypes";
 
 export const setUser = (user)=>{
     return{
@@ -6,3 +6,10 @@ export const setUser = (user)=>{
         payload:user
     }
 };
+
+export const setPlan = (plan) => {
+    return {
+        type: SET_PLAN,
+        payload: plan
+    }
+}

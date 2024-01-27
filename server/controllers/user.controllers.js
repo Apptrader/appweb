@@ -259,5 +259,24 @@ const getGenerations = async (user, generation) => {
   return referralTree;
 };
 
+export const updateUserPlan = async (req, res) => {
+  const {plan} = req.body 
+  const {id} = req.user
+  console.log(plan, id)
 
+  try {
+    const result = await User.update(
+      { idPaidPlan: plan.id },
+      { where: { idUser: id } }
+    );
 
+    if(result[0] === 1) {
+      res.json({updated: "ok"})
+    } else {
+      res.json("Error")
+    }
+  } catch (error) {
+    console.log(error)
+  }
+
+}

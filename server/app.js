@@ -21,6 +21,7 @@ import routerAdmin from './routes/admin.routes.js';
 import routerUser from './routes/user.routes.js';
 import routerPaidPlans from './routes/paidplans.routes.js';
 import routerVideos from './routes/video.routes.js';
+import routerPayment from './routes/payment.routes.js';
 import morgan from 'morgan';
 
 
@@ -45,6 +46,7 @@ app.use('/apiUser', routerUser);
 app.use('/apiAdmin', routerAdmin);
 app.use('/apiPaidPlans', routerPaidPlans);
 app.use('/apiVideos', routerVideos);
+app.use('/api/payment', routerPayment);
 
 
 export default app;
