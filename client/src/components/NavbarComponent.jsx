@@ -20,7 +20,7 @@ const NavbarComponent = () => {
                             />
                         </div>
                         <div className="hidden ml-6 space-x-4 sm:flex">
-                            <Link to="/" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Home</Link>
+                            <Link to="/home" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Home</Link>
                             <Link to="/aiq-bonus-plan" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">AIQ Bonus Plan</Link>
                             <Link to="/neo-tech-ai-robot" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">NeoTech AI Robot</Link>
                             <Link to="/about" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">About</Link>
@@ -29,6 +29,7 @@ const NavbarComponent = () => {
                             <Link to="/contact" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Contact</Link>
                         </div>
                         <div className="flex items-center">
+                        <video src='https://res.cloudinary.com/doqyrz0sg/image/upload/v1706298897/tickVerde_g2wk3p.png'></video>
                             <div className="relative ml-3">
                                 <button
                                     type="button"

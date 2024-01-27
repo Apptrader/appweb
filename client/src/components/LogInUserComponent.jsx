@@ -45,7 +45,7 @@ const LogInUserComponent = () => {
   };
 
   return (
-    <div className=" bg-gray-800 flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <div className=" bg-gray-800 flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 text-black">
   <div className="sm:mx-auto sm:w-full sm:max-w-sm">
     <img className="mx-auto h-10 w-auto" src="https://static.wixstatic.com/media/39c6da_c313300b528e4aa284d37b4c31f951a8~mv2.png/v1/crop/x_83,y_128,w_336,h_226/fill/w_154,h_104,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/Untitled%20design.png" alt="Your Company"/>
     <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-white">Sign in to your account</h2>

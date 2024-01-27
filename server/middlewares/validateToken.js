@@ -14,7 +14,6 @@ export const authRequired = (req, res, next) => {
         if (err) return res.status(403).json({ message: "Invalid token" });
 
         console.log(decodedToken, "en auth");
-        const userId = decodedToken._id;
 
         req.user = decodedToken;
         next();

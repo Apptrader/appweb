@@ -46,9 +46,9 @@ const User = sequelize.define('user', {
     allowNull: true
   },
   idPaidPlan: {
-    type: DataTypes.UUID,
+    type: DataTypes.INTEGER,
     allowNull: true
-  },
+},
   referralsCount: {
     type: DataTypes.INTEGER,
     allowNull: true

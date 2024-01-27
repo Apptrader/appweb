@@ -1,5 +1,4 @@
-/* eslint-disable no-case-declarations */
-import { SET_USER } from "./actionsTypes";
+import { SET_PLAN, SET_USER } from "./actionsTypes";
 
 // reducer.js
 const initialState = {
@@ -10,21 +9,34 @@ const initialState = {
     Phone: '',
     token: '',
     created: ''
-  }
+  },
+  plan: {}
 };
+
 const rootReducer = (
   state = initialState,
   { type, payload, count, error, idDelete, countClient }
 ) => {
+  let newState;
+
   switch (type) {
     case SET_USER:
-      const newState = {
+      newState = {
         ...state,
         user: payload
       };
 
       localStorage.setItem('userState', JSON.stringify(newState));
 
+      return newState;
+
+    case SET_PLAN:
+      newState = {
+        ...state,
+        plan: payload
+      };
+      localStorage.setItem('userState', JSON.stringify(newState));
+      
       return newState;
 
     default:
