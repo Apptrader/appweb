@@ -7,7 +7,7 @@ Exporta la instancia de Sequelize para que pueda ser utilizada en otros archivos
 // dbconnection.js
 import { Sequelize } from 'sequelize';
 
-const sequelize = new Sequelize('tradesite', 'root', 'lucsakser', {
+const sequelize = new Sequelize('tradesite', 'root', 'root', {
   host: 'localhost',
   dialect: 'mysql',
   logging: false, // Puedes configurar esto según tus necesidades

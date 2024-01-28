@@ -8,13 +8,13 @@ const NavbarComponent = () => {
     };
 
     return (
-        <div>
-            <nav className="bg-black p-12">
-                <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+        <div className=''>
+            <nav className="bg-black ">
+                <div className="mx-auto  max-w-7xl px-2 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center">
                             <img
-                                className="h-16 w-auto"
+                                className="h-24 w-auto"
                                 src="https://static.wixstatic.com/media/39c6da_c313300b528e4aa284d37b4c31f951a8~mv2.png/v1/crop/x_83,y_128,w_336,h_226/fill/w_154,h_104,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/Untitled%20design.png"
                                 alt="Your Company"
                             />
@@ -50,10 +50,10 @@ const NavbarComponent = () => {
 
                 <div className="sm:hidden" id="mobile-menu">
                     <div className="space-y-1 px-2 pb-3 pt-2">
-                        <a href="#" className="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page">Dashboard</a>
-                        <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Team</a>
-                        <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Projects</a>
-                        <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Calendar</a>
+                        <a href="#" className=" text-center bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page">Dashboard</a>
+                        <a href="#" className="text-center text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Team</a>
+                        <a href="#" className="text-center text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Projects</a>
+                        <a href="#" className="text-center text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Calendar</a>
                     </div>
                 </div>
             </nav>
