@@ -4,7 +4,7 @@ const PartnersComponent = () => {
     
     return(
 
-        <footer className="bg-black pt-24 pb-4 shadow dark:bg-gray-900 m-4">
+        <section className="bg-black pt-24 pb-4 shadow dark:bg-gray-900 m-4">
             <div className="w-full max-w-screen-xl mx-auto  md:py-8">
                 <div className="flex justify-center ">
                     <h2 className="text-center self-center py-12 text-white text-4xl font-semibold whitespace-nowrap">OUR PARTNERS</h2></div>
@@ -34,7 +34,7 @@ const PartnersComponent = () => {
             
                 
             </div>
-        </footer>
+        </section>
 
     )
 }
