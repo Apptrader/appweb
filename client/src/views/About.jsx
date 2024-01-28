@@ -2,10 +2,11 @@ import React from 'react'
 import NavbarComponent from '../components/NavbarComponent'
 import PartnersComponent from '../components/PartnersComponent'
 import FooterComponent from '../components/FooterComponent'
-import VideosListComponent from '../components/VideosListComponent'
-import VideosHeaderComponent from '../components/VideosHeaderComponent'
+import AboutHeaderComponent from '../components/AboutHeaderComponent'
 
-const Videos = () => {
+
+
+const About = () => {
 
 
     return (
@@ -13,8 +14,7 @@ const Videos = () => {
 
 
             <NavbarComponent/>
-            <VideosHeaderComponent/>
-            <VideosListComponent/>
+            <AboutHeaderComponent/>
             <PartnersComponent/>
             <FooterComponent/>
 
@@ -22,4 +22,4 @@ const Videos = () => {
     )
 }
 
-export default Videos
+export default About
