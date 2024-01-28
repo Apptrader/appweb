@@ -4,6 +4,7 @@ import NavbarComponent from './NavbarComponent';
 import 'animate.css';
 import { ChevronDownIcon, ChevronUpIcon, CheckBadgeIcon } from '@heroicons/react/24/solid'
 import ConfirmPayModal from './modals/ConfirmPayModal';
+import FooterComponent from './FooterComponent';
 
 
 const PaidPlansListComponent = () => {
@@ -56,7 +57,8 @@ const PaidPlansListComponent = () => {
   const partnerImageClass = 'max-w-[150px]'
 
   return (
-    <>
+    <div  className='bg-black'>
+      <div>
       <NavbarComponent />
       <div className='bg-black px-4 md:px-8 lg:px-16 xl:px-32 font-bold pt-24'>
         <h1 className='text-white text-3xl md:text-4xl lg:text-5xl xl:text-6xl mb-6'>Packages</h1>
@@ -263,12 +265,14 @@ const PaidPlansListComponent = () => {
           </div>
         ))}
       </div>
+      <FooterComponent />
+      </div>
       {
         showConfirmPayModal && product && (
           <ConfirmPayModal prod={product} setShowConfirmPayModal={setShowConfirmPayModal} />
         )
       }
-    </>
+    </div>
   );
 }
 

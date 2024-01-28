@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../dbconnection.js';
-
+import VideoChapter from './videoChapter.js';
 const Video = sequelize.define('video', {
   id: {
     type: DataTypes.UUID,
@@ -18,21 +18,15 @@ const Video = sequelize.define('video', {
     allowNull: false,
     unique: false
   },
-  duration: {
-    type: DataTypes.INTEGER, // Asumo que la duración se mide en minutos, puedes ajustar según tus necesidades
+  chapter_id: {
+    type: DataTypes.INTEGER,
     allowNull: false,
-    unique: false
-  },
-  description: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: false
   }
-  /* ,
-  thumbnailUrl: {
-    type: DataTypes.STRING, // Puedes usar un BLOB si necesitas almacenar imágenes en la base de datos
-    allowNull: true
-  } */
+});
+
+// Definir la asociación
+Video.belongsTo(VideoChapter, {
+  foreignKey: 'chapter_id'
 });
 
 export default Video;

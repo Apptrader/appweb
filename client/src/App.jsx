@@ -7,6 +7,7 @@ import PaymentSuccesComponent from './components/PaymentSuccesComponent';
 import Home from './views/Home';
 import UserProfileComponent from './views/UserProfileComponent';
 import Videos from './views/VIdeos';
+import AiqBonusPlan from './views/AiqBonusPlan';
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
         <Route path='/payment/success' element={<PaymentSuccesComponent />}></Route>
         <Route path='/allvideos' element={<Videos/>}></Route>
        {/*  <Route path='/payment/cancel' element={<PaymentCancelComponent />}></Route> */}
+       <Route path='/aiqBonusPlan' element={<AiqBonusPlan />}></Route>
         
       </Routes>
     </>
