@@ -1,4 +1,6 @@
 import ReactPlayer from 'react-player';
+import FooterComponent from './FooterComponent';
+import PartnersComponent from './PartnersComponent';
 
 const BodyComponent = () => {
 
@@ -17,7 +19,7 @@ const BodyComponent = () => {
                             <source src="https://video.wixstatic.com/video/a1316e_ea5ee04ee5aa4185ad0a6b2d17d04e64/480p/mp4/file.mp4" type="video/mp4" />
                             Tu navegador no soporta el elemento de video.
                         </video>
-                        <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
+                        <div className="mt-36 absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
                             <h1 className="text-8xl font-bold text-white mb-8">Welcome to AIQ Learning!</h1>
                             <p className="text-4xl text-gray-300 mb-8">Empowering you with valuable knowledge.</p>
                             <p className="text-2xl text-gray-400 dark:text-gray-500 mt-12">
@@ -174,11 +176,11 @@ const BodyComponent = () => {
 
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 p-4  rounded dark:">
-                        <div className=" flex items-center justify-center h-68 bg-gray-50 rounded dark:">
-                            <img className="w-full h-full object-cover rounded" src="https://static.wixstatic.com/media/a1316e_a1c7c9e9f742496198740ebb8d23df67~mv2.jpg/v1/fill/w_300,h_300,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/Screen%20Shot%202024-01-03%20at%202_43_edited.jpg" alt="Descripción de la imagen" />
+                        <div className=" flex items-center justify-center h-68 bg-black rounded dark:">
+                            <img className="w-[500px] h-[500px] rounded" src="https://static.wixstatic.com/media/a1316e_a1c7c9e9f742496198740ebb8d23df67~mv2.jpg/v1/fill/w_300,h_300,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/Screen%20Shot%202024-01-03%20at%202_43_edited.jpg" alt="Descripción de la imagen" />
                         </div>
 
-                        <div className=" flex flex-col items-center justify-center h-full p-6 bg-gray-50 rounded dark:">
+                        <div className=" flex flex-col items-center justify-center h-full p-6 bg-black rounded dark:">
                             <h1 className="text-5xl text-gray-400 dark:text-gray-500 mb-4">
                                 WHAT SET US APART
                             </h1>
@@ -186,6 +188,12 @@ const BodyComponent = () => {
                                 Discover a revolutionary approach to Forex training that sets us apart from the rest. Our comprehensive program combines cutting-edge technology, personalized coaching, and real-world simulations to elevate your trading skills. Benefit from live market analysis, interactive workshops, and a dynamic community, ensuring you gain the confidence and expertise needed to thrive in the ever-changing world of Forex. Join us on a journey where innovation meets education, and success becomes a tangible reality
                             </h4>
                         </div>
+                    </div>
+                    <div className=" ">
+                        <PartnersComponent/>
+                    </div>
+                    <div className=" ">
+                        <FooterComponent/>
                     </div>
 
 

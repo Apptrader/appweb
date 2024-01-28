@@ -6,6 +6,8 @@ import RegisterUser from './views/RegisterUser';
 import PaymentSuccesComponent from './components/PaymentSuccesComponent';
 import Home from './views/Home';
 import UserProfileComponent from './views/UserProfileComponent';
+import Videos from './views/VIdeos';
+
 function App() {
 
 
@@ -19,6 +21,7 @@ function App() {
         <Route path='/registerUser' element={<RegisterUser />}></Route>
         <Route path='/profile' element={<UserProfileComponent />}></Route>
         <Route path='/payment/success' element={<PaymentSuccesComponent />}></Route>
+        <Route path='/allvideos' element={<Videos/>}></Route>
        {/*  <Route path='/payment/cancel' element={<PaymentCancelComponent />}></Route> */}
         
       </Routes>
