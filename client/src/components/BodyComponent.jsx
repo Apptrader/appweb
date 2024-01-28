@@ -36,16 +36,16 @@ const BodyComponent = () => {
                         </div>
                     </div>
                     <div className="relative h-4096 mb-4 rounded bg-black ml-[700px]">
-                    <ReactPlayer
-                    
-                        url="https://res.cloudinary.com/dqtm0nme2/video/upload/v1706318219/1_ouod0y.mp4"
-                        width="50%"
-                        height="50%"
-                        controls={true} // Agregar el atributo controls para mostrar la interfaz de reproducción
-                        playsinline={true}
-                    />
-                    {/* Resto del contenido */}
-                </div>
+                        <ReactPlayer
+                        
+                            url="https://res.cloudinary.com/dqtm0nme2/video/upload/v1706318219/1_ouod0y.mp4"
+                            width="50%"
+                            height="50%"
+                            controls={true} // Agregar el atributo controls para mostrar la interfaz de reproducción
+                            playsinline={true}
+                        />
+                        {/* Resto del contenido */}
+                    </div>
                     <div className='flex flex-col md:flex-row gap-10 mx-auto max-w-7xl justify-center pt-64'>
                         {/* Package 1 */}
                         <div className="flex items-center flex-col max-w-full md:max-w-[280px] gap-5">
