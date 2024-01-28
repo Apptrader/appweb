@@ -7,6 +7,7 @@ import PaymentSuccesComponent from './components/PaymentSuccesComponent';
 import Home from './views/Home';
 import UserProfileComponent from './views/UserProfileComponent';
 import Videos from './views/VIdeos';
+import AiqBonusPlan from './views/AiqBonusPlan';
 import About from './views/About';
 
 function App() {
@@ -23,8 +24,9 @@ function App() {
         <Route path='/profile' element={<UserProfileComponent />}></Route>
         <Route path='/payment/success' element={<PaymentSuccesComponent />}></Route>
         <Route path='/allvideos' element={<Videos/>}></Route>
+       {/*  <Route path='/payment/cancel' element={<PaymentCancelComponent />}></Route> */}
+       <Route path='/aiqBonusPlan' element={<AiqBonusPlan />}></Route>
         <Route path='/about' element={<About/>}></Route>
-        {/*  <Route path='/payment/cancel' element={<PaymentCancelComponent />}></Route> */}
         
       </Routes>
     </>

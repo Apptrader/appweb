@@ -1,6 +1,7 @@
 
 import PaidPlansListComponent from '../components/PaidPlansListComponent'
 
+
 const PaidPlansList = () => {
   return (
     <div>

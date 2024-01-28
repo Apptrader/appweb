@@ -1,9 +1,11 @@
 import ReactPlayer from 'react-player';
 import FooterComponent from './FooterComponent';
 import PartnersComponent from './PartnersComponent';
+import { useNavigate } from 'react-router-dom';
 
 const BodyComponent = () => {
 
+    const navigate = useNavigate()
 
 
     return (
@@ -26,10 +28,10 @@ const BodyComponent = () => {
                                 Join a trading community where you can be part of a club of like-minded traders, a team of players navigating the markets, or a global community of artists in finance. Spend time with fellow traders, discuss daily market movements, and make learning and having fun a seamless experience.
                             </p>
                             <div className="flex flex-row items-center justify-center mt-12"> {/* Contenedor para los botones con ajuste de top */}
-                                <button className="bg-blue-500 text-white px-24 py-3 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800 mr-4">
+                                <button onClick={() => navigate("/loginUser")} className="bg-blue-500 text-white px-24 py-3 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800 mr-4">
                                     Login
                                 </button>
-                                <button className="bg-green-500 text-white px-24 py-3 rounded-full hover:bg-green-700 focus:outline-none focus:shadow-outline-green active:bg-green-800">
+                                <button onClick={() => navigate("/registerUser")} className="bg-green-500 text-white px-24 py-3 rounded-full hover:bg-green-700 focus:outline-none focus:shadow-outline-green active:bg-green-800">
                                     Sign Up
                                 </button>
                             </div>
