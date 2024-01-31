@@ -2,8 +2,13 @@ import ReactPlayer from 'react-player';
 import FooterComponent from './FooterComponent';
 import PartnersComponent from './PartnersComponent';
 import { useNavigate } from 'react-router-dom';
+import { useInView } from 'react-intersection-observer';
 
 const BodyComponent = () => {
+
+    const [ref, inView] = useInView({
+        triggerOnce: true, // La animación se activará solo una vez
+    });
 
     const navigate = useNavigate()
 
@@ -36,17 +41,6 @@ const BodyComponent = () => {
                                 </button>
                             </div>
                         </div>
-                    </div>
-                    <div className="relative h-4096 mb-4 rounded bg-black ml-[700px]">
-                        <ReactPlayer
-                        
-                            url="https://res.cloudinary.com/dqtm0nme2/video/upload/v1706318219/1_ouod0y.mp4"
-                            width="50%"
-                            height="50%"
-                            controls={true} // Agregar el atributo controls para mostrar la interfaz de reproducción
-                            playsinline={true}
-                        />
-                        {/* Resto del contenido */}
                     </div>
                     <div className='flex flex-col md:flex-row gap-10 mx-auto max-w-7xl justify-center pt-64'>
                         {/* Package 1 */}
@@ -161,12 +155,12 @@ const BodyComponent = () => {
 
 
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 py-64 px-40  rounded dark:">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 py-64 px-40 font-bold rounded dark:">
                         <div className="bg-black flex flex-col items-center justify-center h-full p-6  rounded dark:">
-                            <h1 className="text-5xl text-gray-400 dark:text-gray-500 mb-4 ">
+                            <h1 className="text-5xl text-white dark:text-gray-500 mb-4 ">
                                 About AIQ Learning
                             </h1>
-                            <h4 className="text-2xl text-gray-400 dark:text-gray-500">
+                            <h4 className=" text-white">
                                 AIQ is committed to providing valuable and insightful information. Our mission is to empower individuals with knowledge, serving as a trusted publisher in various domains. We prioritize accuracy and aim to foster a learning environment. While we offer information, it's important to note that we do not provide specific advice, especially in financial matters. Our focus is on contributing to your understanding, and we encourage users to exercise their own judgment and seek professional advice when needed.
                             </h4>
                         </div>
@@ -177,25 +171,25 @@ const BodyComponent = () => {
                     </div>
 
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 p-4  rounded dark:">
-                        <div className=" flex items-center justify-center h-68 bg-black rounded dark:">
-                            <img className="w-[500px] h-[500px] rounded" src="https://static.wixstatic.com/media/a1316e_a1c7c9e9f742496198740ebb8d23df67~mv2.jpg/v1/fill/w_300,h_300,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/Screen%20Shot%202024-01-03%20at%202_43_edited.jpg" alt="Descripción de la imagen" />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 p-4 font-bold rounded dark:">
+                        <div ref={ref} className={`flex items-center justify-center h-68 bg-black rounded dark: ${inView ? 'animate__animated animate__fadeInLeft' : ''}`}>
+                            <img className="w-[300px] h-[300px] rounded" src="https://static.wixstatic.com/media/a1316e_a1c7c9e9f742496198740ebb8d23df67~mv2.jpg/v1/fill/w_300,h_300,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/Screen%20Shot%202024-01-03%20at%202_43_edited.jpg" alt="Descripción de la imagen" />
                         </div>
 
-                        <div className=" flex flex-col items-center justify-center h-full p-6 bg-black rounded dark:">
-                            <h1 className="text-5xl text-gray-400 dark:text-gray-500 mb-4">
+                        <div className="flex flex-col items-center justify-center h-full p-6 bg-black rounded dark:">
+                            <h1 className="text-5xl text-white mb-4">
                                 WHAT SET US APART
                             </h1>
-                            <h4 className="text-2xl text-gray-400 dark:text-gray-500">
+                            <h4 className="text-white">
                                 Discover a revolutionary approach to Forex training that sets us apart from the rest. Our comprehensive program combines cutting-edge technology, personalized coaching, and real-world simulations to elevate your trading skills. Benefit from live market analysis, interactive workshops, and a dynamic community, ensuring you gain the confidence and expertise needed to thrive in the ever-changing world of Forex. Join us on a journey where innovation meets education, and success becomes a tangible reality
                             </h4>
                         </div>
                     </div>
                     <div className=" ">
-                        <PartnersComponent/>
+                        <PartnersComponent />
                     </div>
                     <div className=" ">
-                        <FooterComponent/>
+                        <FooterComponent />
                     </div>
 
 

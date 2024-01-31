@@ -133,6 +133,7 @@ export const register = async (req, res) => {
       Email: newUser.Email,
       Phone: newUser.Phone,
       token: token,
+      plan: newUser.idPaidPlan,
       created: 'ok'
     });
 
@@ -178,10 +179,8 @@ export const login = async (req, res) => {
     //res.cookie("token", token)
 
     res.json({
-      id: userFound._id,
-      UserName: userFound.UserName,
-      Email: userFound.Email,
-      token: token
+     token: token,
+     userFound
     });
 
   } catch (error) {
@@ -266,12 +265,23 @@ export const updateUserPlan = async (req, res) => {
 
   try {
     const result = await User.update(
-      { idPaidPlan: plan.id },
+      { 
+        idPaidPlan: plan.id,
+        status: 1
+      },
       { where: { idUser: id } }
     );
 
+      const userFound = await User.findAll({
+        where: {
+          idUser: id
+        }
+      })
+
+      console.log(result, "resultado")
+
     if(result[0] === 1) {
-      res.json({updated: "ok"})
+      res.json({updated: "ok", userFound})
     } else {
       res.json("Error")
     }

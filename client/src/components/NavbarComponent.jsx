@@ -1,7 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { ChevronDownIcon, ArrowRightStartOnRectangleIcon} from '@heroicons/react/24/solid'
 
 const NavbarComponent = () => {
     const navigate = useNavigate();
+    const user = useSelector((state)=> state?.user);
+ 
 
     const handleGoProfile = () => {
         navigate('/profile');
@@ -24,13 +28,13 @@ const NavbarComponent = () => {
                         <Link to="/aiqBonusPlan" className="text-white font-bold hover:bg-gray-700 hover:text-white px-3 py-2 text-sm border-r border-blue-500">AIQ Bonus Plan</Link>
                         <Link to="/neo-tech-ai-robot" className="text-white font-bold hover:bg-gray-700 hover:text-white px-3 py-2 text-sm border-r border-blue-500">NeoTech AI Robot</Link>
                         <Link to="/about" className="text-white font-bold hover:bg-gray-700 hover:text-white px-3 py-2 text-sm border-r border-blue-500">About</Link>
-                        <Link to="/training-videos" className="text-white font-bold hover:bg-gray-700 hover:text-white px-3 py-2 text-sm border-r border-blue-500">Training Videos</Link>
+                        <Link to="/allVideos" className="text-white font-bold hover:bg-gray-700 hover:text-white px-3 py-2 text-sm border-r border-blue-500">Training Videos</Link>
                         <Link to="/paidPlansList" className="text-white font-bold hover:bg-gray-700 hover:text-white px-3 py-2 text-sm border-r border-blue-500">Plans & Pricing</Link>
                         <Link to="/contact" className="text-white font-bold hover:bg-gray-700 hover:text-white px-3 py-2 text-sm">Contact</Link>
                     </div>
                     <div className="flex items-center">
-                        <video className="w-8 h-8" src='https://res.cloudinary.com/doqyrz0sg/image/upload/v1706298897/tickVerde_g2wk3p.png' alt="Tick Icon"></video>
-                        <div className="relative ml-3">
+                       
+                        <div className="relative ml-3 flex flex-row gap-4">
                             <button
                                 type="button"
                                 onClick={handleGoProfile}
@@ -43,6 +47,8 @@ const NavbarComponent = () => {
                                     alt="User Profile"
                                 />
                             </button>
+                            <p className='text-white font-bold mt-1'>{user.UserName}</p>
+                            <ArrowRightStartOnRectangleIcon onClick={() => navigate("/loginUser")} className='cursor-pointer h-8 w-8 text-white' />
                         </div>
                     </div>
                 </div>

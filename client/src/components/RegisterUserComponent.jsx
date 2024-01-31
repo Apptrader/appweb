@@ -146,7 +146,7 @@ const RegisterUserComponent =() =>{
 
                 <div className=" text-gray-500  mt-6">
                     Already have an account? 
-                    <a className= " font-semibold leading-6 text-indigo-600 hover:text-indigo-500" href="../login/">
+                    <a className= " font-semibold leading-6 text-indigo-600 hover:text-indigo-500" href="/loginUser">
                          Log in
                     </a>.
                 </div>

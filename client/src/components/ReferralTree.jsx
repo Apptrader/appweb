@@ -1,7 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Tree from 'react-d3-tree';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 
-const ReferralTree = ({ treeData }) => {
+const ReferralTree = () => {
+
+  const [treeData, setTreeData] = useState()
+  const user = useSelector((state)=> state?.user);
+
+  useEffect(() => {
+    const fetchTreeData = async () => {
+      try {
+        const tree = await axios.get('http://localhost:4000/apiUser/referralTree', {
+          headers: {
+            Authorization: `Bearer ${user.token}`
+          }
+        });
+
+        console.log(tree.data.referralTree)
+        setTreeData(tree.data.referralTree);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+    fetchTreeData();
+  }, [user.token])
+
+
   const addNameToNode = (node) => {
     if (node.referent) {
       node.name = node.referent.UserName;
@@ -16,7 +42,7 @@ const ReferralTree = ({ treeData }) => {
     addNameToNode(modifiedTreeData[0]);
 
     return (
-      <div className="w-full h-500px">
+      <div className="w-full h-500px bg-gray-800">
         <Tree
           data={modifiedTreeData[0]}
           orientation="horizontal"

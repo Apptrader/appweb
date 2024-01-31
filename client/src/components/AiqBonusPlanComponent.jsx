@@ -5,7 +5,7 @@ import FooterComponent from './FooterComponent'
 const AiqBonusPlanComponent = () => {
   return (
     <div className="bg-black text-white font-bold">
-      <img className='w-full pb-16' src='https://res.cloudinary.com/doqyrz0sg/image/upload/v1706404426/banner2Aiq_t0ctud.webp' alt="bannerBonus" />
+      <img className='w-2/3 m-auto pb-16 rounded-lg' src='https://res.cloudinary.com/doqyrz0sg/image/upload/v1706404426/banner2Aiq_t0ctud.webp' alt="bannerBonus" />
       <div>
         <p className='text-blue-400 text-center text-5xl font-bold'>AIQ BONUS PLAN</p>
         <div className='p-4 w-2/3 m-auto'>

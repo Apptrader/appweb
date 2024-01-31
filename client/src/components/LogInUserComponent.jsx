@@ -37,6 +37,8 @@ const LogInUserComponent = () => {
         }
       );
 
+      console.log(response.data, "en el login")
+
       dispatch(setUser(response.data));
       navigate('/home');
 
@@ -47,7 +49,7 @@ const LogInUserComponent = () => {
   };
 
   return (
-    <div className="bg-gray-800 flex min-h-full flex-col text-white justify-center px-6 py-12 lg:px-8 text-black">
+    <div className="bg-gray-800 flex min-h-full flex-col text-white justify-center px-6 py-12 lg:px-8 text-black h-screen">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
           className="mx-auto h-10 w-auto"
@@ -125,10 +127,10 @@ const LogInUserComponent = () => {
         <p className="mt-8 text-center text-sm text-gray-400">
           Not a member?
           <a
-            href="#"
+            href="/registerUser"
             className="ml-1 font-semibold text-indigo-600 hover:text-indigo-500"
           >
-            Start a 14 day free trial
+            Sing Up
           </a>
         </p>
       </div>

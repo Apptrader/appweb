@@ -1,40 +1,54 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NavbarComponent from './NavbarComponent';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import { setUser } from '../redux/actions';
 
 const PaymentSuccessComponent = () => {
   const navigate = useNavigate();
-  const plan = useSelector((state) => state?.plan)
-  const token = useSelector((state) => state?.user.token)
+  const plan = useSelector((state) => state?.plan);
+  const token = useSelector((state) => state?.user.token);
+  const [isEffectExecuted, setIsEffectExecuted] = useState(false);
 
-  console.log(plan)
-  console.log(token, "token")
+  const dispatch = useDispatch()
+
+  console.log(plan);
+  console.log(token, "token");
 
   useEffect(() => {
-    console.log("corriendo")
-    const updateUser = async () => {
-      const response = await axios.post(
-        "http://localhost:4000/apiUser/updateUserPlan",
-        { plan },
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          },
-        }
-      );
-      console.log(response)
-/* 
-      if(response.updated === "ok") {
-        navigate("/home")
-      } else {
-        console.log("not okey")
-      } */
-    }
+    console.log("PaymentSuccessComponent renderizado");
 
-    updateUser()
-  }, []);
+    if (!isEffectExecuted) {
+      const updateUser = async () => {
+        try {
+          const response = await axios.post(
+            "http://localhost:4000/apiUser/updateUserPlan",
+            { plan },
+            {
+              headers: {
+                'Authorization': `Bearer ${token}`
+              },
+            }
+          );
+
+          console.log(response, "respuesta");
+
+          if (response.data.updated === "ok") {
+            dispatch(setUser(response.data.user[0]))
+            
+          } else {
+            console.log("Not okay");
+          }
+        } catch (error) {
+          console.error("Error updating user plan:", error);
+        }
+      };
+
+      updateUser();
+      setIsEffectExecuted(true);
+    }
+  }, [isEffectExecuted, plan, token, navigate]);
 
   return (
     <div>

@@ -25,6 +25,8 @@ const ConfirmPayModal = ({ prod, setShowConfirmPayModal }) => {
         name,
       });
 
+      console.log(response.data)
+
       window.location.href = response.data.url;
     } catch (error) {
       console.error('Error fetching payment session URL', error.message);

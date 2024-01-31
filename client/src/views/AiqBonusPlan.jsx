@@ -6,7 +6,7 @@ const AiqBonusPlan = () => {
 
 
     return (
-    <div>
+    <div className='bg-black'>
         <NavbarComponent />
     
         <AiqBonusPlanComponent />
