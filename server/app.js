@@ -23,6 +23,7 @@ import routerPaidPlans from './routes/paidplans.routes.js';
 import routerVideos from './routes/video.routes.js';
 import routerPayment from './routes/payment.routes.js';
 import morgan from 'morgan';
+import routerContact from './routes/contact.routes.js';
 
 
 
@@ -30,7 +31,7 @@ const app = express();
 
 // Configuración CORS
 const corsOptions = {
-  origin: 'http://localhost:5173',
+  origin: '*',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 200,
@@ -47,6 +48,7 @@ app.use('/apiAdmin', routerAdmin);
 app.use('/apiPaidPlans', routerPaidPlans);
 app.use('/apiVideos', routerVideos);
 app.use('/api/payment', routerPayment);
+app.use('/apiContact', routerContact);
 
 
 export default app;

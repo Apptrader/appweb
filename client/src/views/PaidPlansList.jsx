@@ -6,6 +6,7 @@ const PaidPlansList = () => {
   return (
     <div>
       <PaidPlansListComponent />
+      
     </div>
   )
 }
