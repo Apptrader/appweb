@@ -4,7 +4,7 @@ import LogInUserComponent from '../components/LogInUserComponent'
 const LogInUser = () => {
   return (
     <div>
-      <LogInUserComponent />
+      <LogInUserComponent/>
     </div>
   )
 }

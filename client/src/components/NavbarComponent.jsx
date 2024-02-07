@@ -32,25 +32,7 @@ const NavbarComponent = () => {
                         <Link to="/paidPlansList" className="text-white font-bold hover:bg-gray-700 hover:text-white px-3 py-2 text-sm border-r border-blue-500">Plans & Pricing</Link>
                         <Link to="/contact" className="text-white font-bold hover:bg-gray-700 hover:text-white px-3 py-2 text-sm">Contact</Link>
                     </div>
-                    <div className="flex items-center">
-                       
-                        <div className="relative ml-3 flex flex-row gap-4">
-                            <button
-                                type="button"
-                                onClick={handleGoProfile}
-                                className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                            >
-                                <span className="sr-only">Open user menu</span>
-                                <img
-                                    className="h-8 w-8 rounded-full"
-                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                    alt="User Profile"
-                                />
-                            </button>
-                            <p className='text-white font-bold mt-1'>{user.UserName}</p>
-                            <ArrowRightStartOnRectangleIcon onClick={() => navigate("/loginUser")} className='cursor-pointer h-8 w-8 text-white' />
-                        </div>
-                    </div>
+                    
                 </div>
             </nav>
 
