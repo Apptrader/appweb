@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { ChevronDownIcon, ArrowRightStartOnRectangleIcon, ArrowRightCircleIcon} from '@heroicons/react/24/solid'
+import {  ArrowRightStartOnRectangleIcon, ArrowRightCircleIcon} from '@heroicons/react/24/solid'
 import { setLogOut } from '../redux/actions';
 
 const NavbarComponent = () => {

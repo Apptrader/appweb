@@ -5,6 +5,7 @@ import 'animate.css';
 import { ChevronDownIcon, ChevronUpIcon, CheckBadgeIcon } from '@heroicons/react/24/solid'
 import ConfirmPayModal from './modals/ConfirmPayModal';
 import FooterComponent from './FooterComponent';
+import PartnersComponent from './PartnersComponent';
 
 
 const PaidPlansListComponent = () => {
@@ -63,7 +64,7 @@ const PaidPlansListComponent = () => {
       <div>
       <NavbarComponent />
       <div className='bg-black px-4 md:px-8 lg:px-16 xl:px-32 font-bold pt-24'>
-        <h1 className='text-white text-3xl md:text-4xl lg:text-5xl xl:text-6xl mb-6'>Packages</h1>
+        <h1 className=' text-center text-white text-3xl md:text-4xl lg:text-5xl xl:text-6xl mb-6'>Packages</h1>
         <div className='flex flex-col md:flex-row gap-10 mx-auto max-w-7xl justify-center pt-16'>
           {/* Package 1 */}
           <div className="flex items-center flex-col max-w-full md:max-w-[280px] gap-5">
@@ -184,38 +185,7 @@ const PaidPlansListComponent = () => {
           <p>You have to submit proof of address to be eligible for this discount.</p>
         </div>
       </div>
-      <div className='bg-black text-white font-bold text-center text-3xl'>
-        <div className='p-5 md:p-10'>
-          <p>OUR PARTNERS</p>
-        </div>
-        <div className='flex flex-col md:flex-row md:gap-4 md:items-center md:justify-center'>
-          <img
-            src='https://res.cloudinary.com/doqyrz0sg/image/upload/v1706138824/partnet1_dakluu.webp'
-            className={`w-full xs:w-1/2 sm:w-1/3 md:w-1/2 h-32 md:h-auto mb-4 md:mb-0 ${partnerImageClass}`}
-            alt='Partner 1'
-          />
-          <img
-            src='https://res.cloudinary.com/doqyrz0sg/image/upload/v1706138831/partnet2_iekf6x.webp'
-            className={`w-full xs:w-1/2 sm:w-1/3 md:w-1/2 h-32 md:h-auto mb-4 md:mb-0 ${partnerImageClass}`}
-            alt='Partner 2'
-          />
-          <img
-            src='https://res.cloudinary.com/doqyrz0sg/image/upload/v1706138838/partne3_x2utb4.webp'
-            className={`w-full xs:w-1/2 sm:w-1/3 md:w-1/2 h-32 md:h-auto mb-4 md:mb-0 ${partnerImageClass}`}
-            alt='Partner 3'
-          />
-          <img
-            src='https://res.cloudinary.com/doqyrz0sg/image/upload/v1706138845/partner4_ct0wjl.webp'
-            className={`w-full xs:w-1/2 sm:w-1/3 md:w-1/2 h-32 md:h-auto mb-4 md:mb-0 ${partnerImageClass}`}
-            alt='Partner 4'
-          />
-          <img
-            src='https://res.cloudinary.com/doqyrz0sg/image/upload/v1706138851/partnet5_q00hbm.webp'
-            className={`w-full xs:w-1/2 sm:w-1/3 md:w-1/2 h-32 md:h-auto mb-4 md:mb-0 ${partnerImageClass}`}
-            alt='Partner 5'
-          />
-        </div>
-      </div>
+      <PartnersComponent />
       <h1 className='text-center bg-black font-bold text-7xl text-white pt-32'>Choose your package</h1>
       <div className='flex flex-col bg-black text-white font-bold pt-32 items-stretch justify-center sm:flex-row sm:flex-wrap sm:gap-4 md:gap-8 lg:gap-10'>
         

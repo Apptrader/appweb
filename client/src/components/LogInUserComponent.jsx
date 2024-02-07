@@ -49,7 +49,7 @@ const LogInUserComponent = () => {
   };
 
   return (
-    <div className="bg-gray-800 flex min-h-full flex-col text-white justify-center px-6 py-12 lg:px-8 text-black h-screen">
+    <div className="bg-black flex min-h-full flex-col text-white justify-center px-6 py-12 lg:px-8 text-black h-screen">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
           className="mx-auto h-10 w-auto"
@@ -66,7 +66,7 @@ const LogInUserComponent = () => {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium leading-6 text-gray-400"
+              className="block text-sm leading-6 text-white font-bold"
             >
               Email address
             </label>
@@ -88,7 +88,7 @@ const LogInUserComponent = () => {
             <div className="flex items-center justify-between">
               <label
                 htmlFor="password"
-                className="block text-sm font-medium leading-6 text-gray-400"
+                className="block text-sm leading-6 text-white font-bold" 
               >
                 Password
               </label>
@@ -117,7 +117,7 @@ const LogInUserComponent = () => {
           <div>
             <button
               type="submit"
-              className="flex w-full justify-center py-2 px-4 border border-transparent rounded-md bg-indigo-600 text-sm font-semibold text-white hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className="flex w-full justify-center py-2 px-4 border border-transparent rounded-md bg-indigo-600 text-sm font-bold text-white hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             >
               Sign in
             </button>
