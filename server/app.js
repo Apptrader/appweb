@@ -23,7 +23,7 @@ import routerPaidPlans from './routes/paidplans.routes.js';
 import routerVideos from './routes/video.routes.js';
 import routerPayment from './routes/payment.routes.js';
 import morgan from 'morgan';
-
+import routerRank from './routes/rank.routes.js';
 
 
 const app = express();
@@ -47,6 +47,7 @@ app.use('/apiAdmin', routerAdmin);
 app.use('/apiPaidPlans', routerPaidPlans);
 app.use('/apiVideos', routerVideos);
 app.use('/api/payment', routerPayment);
+app.use('/api/rank', routerRank);
 
 
 export default app;

@@ -154,7 +154,7 @@ const AiqBonusPlanComponent = () => {
           <p className='text-blue-400 w-2/3 m-auto py-16 text-center text-5xl font-bold'>BINARY TEAM COMMISSIONS & BONUS TABLE</p>
           <p className='py-2 px-3 text-center'>The table below graphically illustrates the ranks, qualifications for ranks, and incentives earned at each rank.</p>
           <div>
-            <img className='m-auto pt-4' src='https://res.cloudinary.com/doqyrz0sg/image/upload/v1706423048/imagenGrande1_h7ut0v.webp' alt="imgEnrollment" />
+            <img className='w-[60%] h-[60%] m-auto pt-4' src='https://res.cloudinary.com/doqyrz0sg/image/upload/v1706423048/imagenGrande1_h7ut0v.webp' alt="imgEnrollment" />
           </div>
           <p className='px-3 m-auto py-6 w-1/3'>No more than 50% of the volume produced by one enrollment leg can count towards rank qualification.</p>
           <p className='px-3 m-auto py-6 w-1/3'>**4 Week pay lock is from Binary Team Commissions only. Any volume that is unpaid because earnings exceed the pay lock will roll into holding volume and will be paid out in a later commission period in which the pay lock is not met.</p>

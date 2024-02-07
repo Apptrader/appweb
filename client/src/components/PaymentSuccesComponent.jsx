@@ -13,8 +13,6 @@ const PaymentSuccessComponent = () => {
 
   const dispatch = useDispatch()
 
-  console.log(plan);
-  console.log(token, "token");
 
   useEffect(() => {
     console.log("PaymentSuccessComponent renderizado");
@@ -31,8 +29,6 @@ const PaymentSuccessComponent = () => {
               },
             }
           );
-
-          console.log(response, "respuesta");
 
           if (response.data.updated === "ok") {
             dispatch(setUser(response.data.user[0]))

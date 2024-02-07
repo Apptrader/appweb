@@ -2,6 +2,8 @@ import User from '../models/user.model.js';
 import bcrypt from 'bcryptjs'
 import { createAccesToken } from '../libs/jwt.js';
 import sequelize from '../dbconnection.js';
+import Rank from '../models/rank.model.js';
+import PaidPlan from '../models/paidplans.model.js';
 
 export const allUsers = async (req,res) =>{
 
@@ -25,7 +27,7 @@ export const register = async (req, res) => {
   try {
     const passwordHash = await bcrypt.hash(Password, 10);
 
-    if (!CodeReferenced) {
+
       const newUser = await User.create({
         UserName,
         Email,
@@ -34,7 +36,8 @@ export const register = async (req, res) => {
         Phone,
         CodeReferenced,
         idPaidPlanForUser,
-        referralsCount: 0
+        referralsCount: 0,
+        status: 0
       });
 
       const token = await createAccesToken({ id: newUser.idUser });
@@ -47,96 +50,6 @@ export const register = async (req, res) => {
         token: token,
         created: 'ok'
       });
-      return;
-    }
-
-    // Buscar el usuario con el código de referencia
-    let referencedUser = await User.findOne({ where: { UserCode: CodeReferenced } });
-
-    if (!referencedUser) {
-      return res.status(404).json({ message: "Usuario con el código de referencia no encontrado" });
-    }
-
-    
-    const newReferralCount = referencedUser.referralsCount + 1;
-    let position = '';
-
-    if(newReferralCount %2 === 0){
-      position = 'right';
-    }else{
-      position = 'left';
-    }
-
-    let result;
-
-    if (position === 'right'){
-      const newPoints = referencedUser.pointsRight + 1000;
-      result = await User.update(
-        {pointsRight: newPoints,
-        referralsCount: newReferralCount},
-        {where: { idUser: referencedUser.idUser }},
-      )
-    }else{
-      const newPoints = referencedUser.pointsLeft + 1000;
-      result = await User.update(
-        {pointsLeft: newPoints,
-        referralsCount: newReferralCount},
-        {where: { idUser: referencedUser.idUser }},
-      )
-    }
-    
-    console.log("este es el update: ", result)
-
-    let user = referencedUser;
-
-    // Proceso de referidos multinivel
-    while (user.CodeReferenced) {
-      const parentUser = await User.findOne({ where: { UserCode: user.CodeReferenced } });
-
-      if (!parentUser) {
-        break; // No se encontró el padre, salir del bucle
-      }
-
-      if (user.position === 'right'){
-        const newPoints = parentUser.pointsRight + 1000;
-        await User.update(
-          { pointsRight: newPoints },
-          { where: { idUser: parentUser.idUser } }
-        );
-      }else{
-        const newPoints = parentUser.pointsLeft + 1000;
-        await User.update(
-          { pointsLeft: newPoints },
-          { where: { idUser: parentUser.idUser } }
-        );
-      }
-      user = parentUser;
-    }
-
-    const newUser = await User.create({
-      UserName,
-      Email,
-      Password: passwordHash,
-      UserCode,
-      Phone,
-      CodeReferenced,
-      idPaidPlanForUser,
-      referralsCount: 0,
-      position: position
-    });
-
-    const token = await createAccesToken({ id: newUser.idUser });
-
-    res.json({
-      id: newUser.idUser,
-      UserName: newUser.UserName,
-      Email: newUser.Email,
-      Phone: newUser.Phone,
-      token: token,
-      plan: newUser.idPaidPlan,
-      created: 'ok'
-    });
-
   } catch (error) {
     console.log("este es el error: ", error);
     res.status(500).json({ message: error.message });
@@ -160,9 +73,12 @@ export const login = async (req, res) => {
     const userFound = await User.findOne({
       where: {
         Email: Email
-      }
+      },
+      include: [
+        { model: PaidPlan, attributes: ['idPaidPlan', 'planName',]},
+        { model: Rank, attributes: ['id', 'name', "right", "left"] }
+      ]
     });
-
     if(!userFound) return res.status(400).json({message: "User not found"});
     
     const isMatch = await bcrypt.compare(Password, userFound.Password);
@@ -172,7 +88,7 @@ export const login = async (req, res) => {
     console.log(userFound, "usuario encontrado")
 
     const userId = userFound.dataValues.idUser
-    console.log(userId)
+    
 
     const token = await createAccesToken({ id: userId });
   
@@ -199,7 +115,7 @@ export const logout = async (req, res) => {
 export const profile = async (req, res) => {
 
   const userFound = await User.findOne(req.user.idUser)
-  console.log("Esto es user found: ", userFound)
+
   if(!userFound) return res.status(400).json({message: "User not found"});
 
   return res.json({
@@ -213,7 +129,7 @@ export const profile = async (req, res) => {
 
 export const getReferralTree = async (req, res) => {
   const userId = req.user.id;
-  console.log(req.user);
+
 
   try {
     const user = await User.findOne({
@@ -261,13 +177,114 @@ const getGenerations = async (user, generation) => {
 export const updateUserPlan = async (req, res) => {
   const {plan} = req.body 
   const {id} = req.user
-  console.log(plan, id)
+
 
   try {
+
+    let referencedUser = await User.findOne({ where: { UserCode: plan.referred } });
+
+    if (!referencedUser) {
+      const result = await User.update(
+        { 
+          idPaidPlan: plan.id,
+          status: 1,
+          position: "",
+          CodeReferenced: plan.referred
+        },
+        { where: { idUser: id } }
+      );
+  
+        const userFound = await User.findAll({
+          where: {
+            idUser: id
+          }
+        })
+
+  
+      if(result[0] === 1) {
+        res.json({updated: "ok", userFound})
+      } else {
+        res.json("Error")
+      }
+    }
+
+    
+    const newReferralCount = referencedUser.referralsCount + 1;
+
+    const newPv =  plan.price / 2
+
+    let position = '';
+
+    if(newReferralCount %2 === 0){
+      position = 'right';
+    }else{
+      position = 'left';
+    }
+
+    if (position === 'right'){
+      const newPoints = referencedUser.pointsRight + newPv;
+      let newPayAmount
+      if(referencedUser.payAmount === null) {
+        newPayAmount = newPv
+      } else {
+        newPayAmount = referencedUser.payAmount + newPv
+      }
+       await User.update(
+        {pointsRight: newPoints,
+          payAmount: referencedUser.payAmount + newPv,
+        referralsCount: newReferralCount},
+        {where: { idUser: referencedUser.idUser }},
+      )
+    }else{
+      const newPoints = referencedUser.pointsLeft + newPv;
+      await User.update(
+        {pointsLeft: newPoints,
+          payAmount: referencedUser.payAmount + newPv,
+        referralsCount: newReferralCount},
+        {where: { idUser: referencedUser.idUser }},
+      )
+      
+      await assignRank(referencedUser.idUser)
+
+    }
+    
+
+    let user = referencedUser;
+
+    // Proceso de referidos multinivel
+    while (user.CodeReferenced) {
+      const parentUser = await User.findOne({ where: { UserCode: user.CodeReferenced } });
+
+      if (!parentUser) {
+        break; // No se encontró el padre, salir del bucle
+      }
+
+      if (user.position === 'right'){
+        const newPoints = parentUser.pointsRight + 1000;
+        await User.update(
+          { pointsRight: newPoints },
+          { where: { idUser: parentUser.idUser } }
+        );
+      }else{
+        const newPoints = parentUser.pointsLeft + 1000;
+        await User.update(
+          { pointsLeft: newPoints },
+          { where: { idUser: parentUser.idUser } }
+        );
+
+      }
+
+      await assignRank(parentUser.idUser) 
+      user = parentUser;
+    }
+
+
     const result = await User.update(
       { 
         idPaidPlan: plan.id,
-        status: 1
+        status: 1,
+        position: position,
+        CodeReferenced: plan.referred
       },
       { where: { idUser: id } }
     );
@@ -278,7 +295,7 @@ export const updateUserPlan = async (req, res) => {
         }
       })
 
-      console.log(result, "resultado")
+   
 
     if(result[0] === 1) {
       res.json({updated: "ok", userFound})
@@ -290,3 +307,102 @@ export const updateUserPlan = async (req, res) => {
   }
 
 }
+
+
+const assignRank = async (userId) => {
+  try {
+    const user = await User.findOne({ where: { idUser: userId } });
+
+    if (!user) {
+      console.log("User not found");
+      return;
+    }
+
+    const userPoints = user.pointsLeft + user.pointsRight;
+
+    const ranks = await Rank.findAll({
+      order: [['points', 'DESC']]
+    });
+
+    let assignedRank = null;
+
+    for (const rank of ranks) {
+      if (userPoints >= rank.points) {
+        // Assign the rank to the user
+        assignedRank = rank;
+        await User.update(
+          { rank_id: rank.id },
+          { where: { idUser: userId } }
+        );
+        console.log(`User ${userId} assigned rank ${rank.rankName}`);
+        break;
+      }
+    }
+
+    // Check if the assigned rank has a higher id than the current highestRank
+    if (assignedRank && assignedRank.id > user.highestRank) {
+      // Update the highestRank
+      await User.update(
+        { highestRank: assignedRank.id },
+        { where: { idUser: userId } }
+      );
+      console.log(`User ${userId} has a new highestRank: ${assignedRank.id}`);
+    }
+  } catch (error) {
+    console.error("Error assigning rank:", error);
+  }
+};
+
+export const getUserByUserCode = async (req, res) => {
+
+  const {userCode} = req.body
+
+  try {
+    const referred = await User.findOne({ where: { UserCode: userCode } })
+
+
+    res.json(referred)
+  } catch (error) {
+    console.log(error)
+    res.json(error)
+  }
+
+
+}
+
+
+export const calculate = async (req, res) => {
+  try {
+    const users = await User.findAll({
+      include: [{ model: Rank, attributes: ['id', 'name', 'commission'] }],
+    });
+
+    for (const user of users) {
+      if (user.rank && user.pointsLeft !== null && user.pointsRight !== null) {
+        const commissionPercentage = user.rank.commission; // Obtén el porcentaje de comisión del rango
+
+        // Determina la pierna con menos puntos
+        const weakerLeg = user.pointsLeft < user.pointsRight ? 'pointsLeft' : 'pointsRight';
+        const strongerLeg = weakerLeg === 'pointsLeft' ? 'pointsRight' : 'pointsLeft';
+
+        // Calcula el monto de comisión
+        const commissionAmount = (user[weakerLeg] * commissionPercentage) / 100;
+
+        // Actualiza el usuario
+        await User.update(
+          {
+            payAmount: user.payAmount + commissionAmount,
+            [weakerLeg]: null,
+            [strongerLeg]: user[strongerLeg] - user[weakerLeg],
+          },
+          { where: { idUser: user.idUser } }
+        );
+      }
+    }
+
+    res.json({ success: true, message: 'Cálculos realizados con éxito.' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Error en el servidor.' });
+  }
+};

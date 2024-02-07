@@ -37,7 +37,7 @@ const LogInUserComponent = () => {
         }
       );
 
-      console.log(response.data, "en el login")
+      
 
       dispatch(setUser(response.data));
       navigate('/home');

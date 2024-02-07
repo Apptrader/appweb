@@ -73,6 +73,10 @@ const User = sequelize.define('user', {
   aiqToken: {
     type: DataTypes.INTEGER,
     allowNull: true
+  },
+  payAmount: {
+    type: DataTypes.FLOAT,
+    allowNull: true
   }
 });
 

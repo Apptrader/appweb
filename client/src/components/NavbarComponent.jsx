@@ -1,11 +1,18 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { ChevronDownIcon, ArrowRightStartOnRectangleIcon} from '@heroicons/react/24/solid'
+import { useDispatch, useSelector } from 'react-redux';
+import { ChevronDownIcon, ArrowRightStartOnRectangleIcon, ArrowRightCircleIcon} from '@heroicons/react/24/solid'
+import { setLogOut } from '../redux/actions';
 
 const NavbarComponent = () => {
     const navigate = useNavigate();
     const user = useSelector((state)=> state?.user);
- 
+    const dispatch = useDispatch()
+
+
+    const logOut = () => {
+        dispatch(setLogOut())
+        navigate("/home")
+    }   
 
     const handleGoProfile = () => {
         navigate('/profile');
@@ -34,6 +41,7 @@ const NavbarComponent = () => {
                     </div>
                     <div className="flex items-center">
                        
+                       {user ? (
                         <div className="relative ml-3 flex flex-row gap-4">
                             <button
                                 type="button"
@@ -47,9 +55,22 @@ const NavbarComponent = () => {
                                     alt="User Profile"
                                 />
                             </button>
-                            <p className='text-white font-bold mt-1'>{user.UserName}</p>
-                            <ArrowRightStartOnRectangleIcon onClick={() => navigate("/loginUser")} className='cursor-pointer h-8 w-8 text-white' />
+                            <p className='text-white font-bold mt-1'>{user.userFound.UserName}</p>
+                            <div className='flex flex-row gap-2'>
+                        
+                        <ArrowRightStartOnRectangleIcon onClick={logOut} className='cursor-pointer h-8 w-8 text-white'  />
+                        <p className='text-white font-bold mt-1'>Log out</p>
                         </div>
+                        </div>
+                       ) : (
+                        <div className='flex flex-row gap-2'>
+                        
+                        <ArrowRightCircleIcon onClick={() => navigate("/loginUser")} className='cursor-pointer h-8 w-8 text-white'  />
+                        <p className='text-white font-bold mt-1'>Log in</p>
+                        </div>
+                       )
+                       
+                       }
                     </div>
                 </div>
             </nav>

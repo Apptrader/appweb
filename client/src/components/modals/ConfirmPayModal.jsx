@@ -9,9 +9,9 @@ const ConfirmPayModal = ({ prod, setShowConfirmPayModal }) => {
       referred: "",
       id: prod.details.id,
       name: prod.name,
-      price: prod.price
+      price: prod.details.price
   });
-  console.log(prod)
+  
   const dispatch = useDispatch()
 
   const fetchSessionUrl = async () => {
@@ -42,7 +42,7 @@ const ConfirmPayModal = ({ prod, setShowConfirmPayModal }) => {
       referred: value,
     }));
   };
-  console.log(newPlan)
+
   
 
   return (

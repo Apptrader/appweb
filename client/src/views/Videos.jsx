@@ -11,7 +11,6 @@ const Videos = () => {
   const user = useSelector((state) => state?.user.userFound);
   const navigate = useNavigate();
 
-  console.log(user, "in videos");
 
   useEffect(() => {
     // Check if user.plan is null or not 1, 2, or 3

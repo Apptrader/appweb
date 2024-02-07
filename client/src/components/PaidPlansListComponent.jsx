@@ -56,6 +56,8 @@ const PaidPlansListComponent = () => {
 
   const partnerImageClass = 'max-w-[150px]'
 
+  console.log(product, "producto")
+
   return (
     <div  className='bg-black'>
       <div>

@@ -44,7 +44,6 @@ const RegisterUserComponent =() =>{
          
         
           // Manejar la respuesta del servidor según sea necesario
-          console.log('Respuesta del servidor:', response.data);
           if (response.data.created == 'ok'){
             dispatch(setUser(response.data));
             navigate('/home');

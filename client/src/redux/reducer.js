@@ -1,6 +1,5 @@
-import { SET_PLAN, SET_USER } from "./actionsTypes";
+import { LOG_OUT, SET_NODES, SET_PLAN, SET_USER } from "./actionsTypes";
 
-// reducer.js
 const initialState = {
   user: {
     id: '',
@@ -10,13 +9,11 @@ const initialState = {
     token: '',
     created: ''
   },
-  plan: {}
+  plan: {},
+  nodes: {}
 };
 
-const rootReducer = (
-  state = initialState,
-  { type, payload, count, error, idDelete, countClient }
-) => {
+const rootReducer = (state = initialState, { type, payload }) => {
   let newState;
 
   switch (type) {
@@ -25,9 +22,7 @@ const rootReducer = (
         ...state,
         user: payload
       };
-
       localStorage.setItem('userState', JSON.stringify(newState));
-
       return newState;
 
     case SET_PLAN:
@@ -36,8 +31,19 @@ const rootReducer = (
         plan: payload
       };
       localStorage.setItem('userState', JSON.stringify(newState));
-      
       return newState;
+
+    case SET_NODES:
+      newState = {
+        ...state,
+        nodes: payload
+      };
+      localStorage.setItem('userState', JSON.stringify(newState));
+      return newState;
+
+    case LOG_OUT:
+      localStorage.removeItem('userState'); // Eliminar el estado del localStorage
+      return initialState; // Restablecer el estado inicial
 
     default:
       return state;
