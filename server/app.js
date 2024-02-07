@@ -24,11 +24,13 @@ import routerVideos from './routes/video.routes.js';
 import routerPayment from './routes/payment.routes.js';
 import morgan from 'morgan';
 import routerRank from './routes/rank.routes.js';
+import routerContact from './routes/contact.routes.js'
+
 const app = express();
 
 // Configuración CORS
 const corsOptions = {
-  origin: '*',
+  origin: 'http://localhost:5173',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 200,

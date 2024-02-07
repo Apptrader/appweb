@@ -11,7 +11,7 @@ const NavbarComponent = () => {
 
     const logOut = () => {
         dispatch(setLogOut())
-        navigate("/home")
+        navigate("/logInUser")
     }   
 
     const handleGoProfile = () => {
