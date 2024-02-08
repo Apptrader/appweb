@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import ProfileCard from "./ProfileCard";
 import { useSelector } from 'react-redux';
-import ProfileDetail from "./ProfileDetail";
-import ReferralTree from "./ReferralTree";
-import axios from "axios";
 
-const ProfileHome = () => {
-  const user = useSelector((state) => state?.user);
+import axios from "axios";
+import NodeProfileDetail from "./NodeProfileDetail";
+
+const NodeProfileHome = ({user}) => {
+  
   const [rankNames, setRankNames] = useState({
     rankId: "",
     highestRankId: ""
@@ -17,7 +17,7 @@ const ProfileHome = () => {
  
 
 
-  const userInfo = user.userFound
+  const userInfo = user
   const [referred, setReferred] = useState({})
 
   const ranks = {
@@ -61,20 +61,16 @@ const ProfileHome = () => {
 
 if (!isLoading) {
   return (
-    <div className='container m-auto w-full px-10'>
+    <div className='container m-auto w-full px-[200px]'>
       <button onClick={calculate} className="text-white font-bold p-5 rounded-full">Calculate</button>
       <div className='flex flex-row gap-5'>
-        <div className='bg-gray-900 w-3/5' style={{ flex: '1', padding: '20px' }}>
-          {/* Amplié el ancho del primer componente a w-3/5 */}
-          <ReferralTree />
-        </div>
         <div className='bg-gray-900 w-1/5' style={{ flex: '1', padding: '20px' }}>
          
           <ProfileCard userInfo={userInfo} rankNames={rankNames} referred={referred}  />
         </div>
         <div className='bg-gray-900 w-1/5' style={{ flex: '1', padding: '20px' }}>
           {/* Reduje el ancho del tercer componente a w-1/5 */}
-          <ProfileDetail userInfo={userInfo} rankNames={rankNames} token={user.token} />
+          <NodeProfileDetail userInfo={userInfo} rankNames={rankNames} />
         </div>
       </div>
     </div>
@@ -87,4 +83,4 @@ if (!isLoading) {
   
 }
 
-export default ProfileHome;
+export default NodeProfileHome;

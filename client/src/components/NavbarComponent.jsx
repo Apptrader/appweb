@@ -1,12 +1,14 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import {  ArrowRightStartOnRectangleIcon, ArrowRightCircleIcon} from '@heroicons/react/24/solid'
+import {  ArrowRightStartOnRectangleIcon, ArrowRightCircleIcon, UserCircleIcon} from '@heroicons/react/24/solid'
 import { setLogOut } from '../redux/actions';
 
 const NavbarComponent = () => {
     const navigate = useNavigate();
     const user = useSelector((state)=> state?.user);
     const dispatch = useDispatch()
+
+    console.log(user)
 
 
     const logOut = () => {
@@ -49,14 +51,10 @@ const NavbarComponent = () => {
                                 className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                             >
                                 <span className="sr-only">Open user menu</span>
-                                <img
-                                    className="h-8 w-8 rounded-full"
-                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                    alt="User Profile"
-                                />
                             </button>
                             <p className='text-white font-bold mt-1'>{user.userFound.UserName}</p>
-                            <div className='flex flex-row gap-2'>
+                            <UserCircleIcon onClick={handleGoProfile} className='cursor-pointer h-8 w-8 text-white '/>
+                            <div className='flex flex-row gap-2 '>
                         
                         <ArrowRightStartOnRectangleIcon onClick={logOut} className='cursor-pointer h-8 w-8 text-white'  />
                         <p className='text-white font-bold mt-1'>Log out</p>

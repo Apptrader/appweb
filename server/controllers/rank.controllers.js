@@ -51,3 +51,32 @@ export const getNextRankById = async (req, res) => {
     res.status(500).json(error)
   }
 }
+
+
+export const getNextRankByIdNode = async (req, res) => {
+  const {id} = req.body
+
+  try {
+    const user = await User.findOne({
+      where: {
+        idUser: id
+      },
+      include: [
+        { model: Rank, attributes: ['id', 'name', "right", "left"] }
+      ]
+    });
+
+    const nextRank = await Rank.findOne({
+      where: {
+        id: user.rank.id + 1
+      }
+    })
+
+    res.status(200).json(nextRank)
+
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error)
+  }
+}
