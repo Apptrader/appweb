@@ -4,6 +4,7 @@ import { createAccesToken } from '../libs/jwt.js';
 import sequelize from '../dbconnection.js';
 import Rank from '../models/rank.model.js';
 import PaidPlan from '../models/paidplans.model.js';
+import nodemailer from 'nodemailer';
 
 export const allUsers = async (req,res) =>{
 
@@ -11,7 +12,37 @@ export const allUsers = async (req,res) =>{
   res.json(users)
 };
 
+export const sendEmailRegister = async (email) => {
+  const contentHTML = `
+  <h1>User Information</h1>
+  <ul>
+      <li>User Email: ${email}</li>
+  </ul>
+  <p>Thank you for registering!</p>
+  `;
 
+  let transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+          user: 'augustofavrearg@gmail.com',
+          pass: 'xxxx xxxx xxxx xxxx'
+      }
+  });
+  
+  try {
+    let info = await transporter.sendMail({
+      from: '"xxx Server" <augustofavrearg@gmail.com>',
+      to: email,
+      subject: 'Welcome to Our Website!',
+      html: contentHTML
+    });
+
+    console.log('Message sent: %s', info.messageId);
+    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+  } catch (error) {
+    console.log("Error sending email:", error);
+  }
+}
 
 export const register = async (req, res) => {
   const {
@@ -41,6 +72,9 @@ export const register = async (req, res) => {
       });
 
       const token = await createAccesToken({ id: newUser.idUser });
+
+      // Llama a la función sendEmailRegister pasando el correo electrónico del usuario
+      await sendEmailRegister(Email);
 
       res.json({
         id: newUser.idUser,
