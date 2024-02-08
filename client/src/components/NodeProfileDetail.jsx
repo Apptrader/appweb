@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
-const ProfileDetail = ({ rankNames, userInfo, token }) => {
+const NodeProfileDetail = ({ rankNames, userInfo }) => {
   const [nextRank, setNextRank] = useState(null);
 
   console.log(userInfo)
@@ -17,13 +17,9 @@ const ProfileDetail = ({ rankNames, userInfo, token }) => {
 
   useEffect(() => {
     const getNextRank = async () => {
+        console.log("holaaaaa2222")
       try {
-        const response = await axios.get("http://localhost:4000/api/rank/getNextRankById", {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-          }
-        });
+        const response = await axios.post("http://localhost:4000/api/rank/getNextRankByIdNode", { id: userInfo.idUser});
         const result = response.data;
         console.log(result);
         setNextRank(result);
@@ -32,7 +28,7 @@ const ProfileDetail = ({ rankNames, userInfo, token }) => {
       }
     };
 
-    if(userInfo.rank) {
+    if(userInfo.rank_id) {
       getNextRank();
     } else {
       setNextRank(
@@ -101,7 +97,7 @@ const ProfileDetail = ({ rankNames, userInfo, token }) => {
               </li>
             </div>
             <li className='flex flex-col p-2 items-center py-2 border-b-8 border-t-8 border-black'>
-              <span>Total Enrollment Volume:</span>
+            <span>Total Enrollment Volume:</span>
               <span>{userInfo.enrollmentVolume ? userInfo.enrollmentVolume : 0 }</span>
             </li>
             <li className='flex flex-col p-2 items-center py-2 border-b-8 border-t-8 border-black'>
@@ -121,4 +117,4 @@ const ProfileDetail = ({ rankNames, userInfo, token }) => {
   }
 };
 
-export default ProfileDetail;
+export default NodeProfileDetail;

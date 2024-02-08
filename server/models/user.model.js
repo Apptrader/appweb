@@ -25,9 +25,10 @@ const User = sequelize.define('user', {
     allowNull: false
   },
   UserCode: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: false,
-    unique: true
+    primaryKey: true,
+    autoIncrement: true
   },
   Phone: {
     type: DataTypes.STRING,
@@ -76,6 +77,10 @@ const User = sequelize.define('user', {
   },
   payAmount: {
     type: DataTypes.FLOAT,
+    allowNull: true
+  },
+  enrollmentVolume: {
+    type: DataTypes.INTEGER,
     allowNull: true
   }
 });

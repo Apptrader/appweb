@@ -10,6 +10,7 @@ import Videos from './views/VIdeos';
 import AiqBonusPlan from './views/AiqBonusPlan';
 import About from './views/About';
 import Contact from './views/Contact';
+import NodeProfile from './views/NodeProfileComponent';
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
         <Route path='/aiqBonusPlan' element={<AiqBonusPlan />}></Route>
         <Route path='/about' element={<About/>}></Route>
         <Route path='/contact' element={<Contact/>}></Route>
+        <Route path='/nodeProfile' element={<NodeProfile/>}></Route>
         
       </Routes>
     </>

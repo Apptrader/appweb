@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/actions';
+import NavbarComponent from './navbarComponent';
 
 const LogInUserComponent = () => {
   const navigate = useNavigate();
@@ -13,6 +14,8 @@ const LogInUserComponent = () => {
     Password: '',
   });
 
+  const [errors, setErrors] = useState({});
+
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
@@ -20,36 +23,56 @@ const LogInUserComponent = () => {
     });
   };
 
+  const validateForm = () => {
+    let errors = {};
+    let isValid = true;
+
+    if (!formData.Email) {
+      errors.Email = 'Email is required';
+      isValid = false;
+    }
+
+    if (!formData.Password) {
+      errors.Password = 'Password is required';
+      isValid = false;
+    }
+
+    setErrors(errors);
+    return isValid;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      // Realizar la solicitud a tu servidor Node.js
-      console.log('Datos del formulario:', formData);
-      const response = await axios.post(
-        'http://localhost:4000/apiUser/login',
-        formData,
-        {
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+    if (validateForm()) {
+      try {
+        // Realizar la solicitud a tu servidor Node.js
+        console.log('Datos del formulario:', formData);
+        const response = await axios.post(
+          'http://localhost:4000/apiUser/login',
+          formData,
+          {
+            withCredentials: true,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
 
-      
+        dispatch(setUser(response.data));
+        navigate('/home');
 
-      dispatch(setUser(response.data));
-      navigate('/home');
-
-      console.log('Respuesta del servidor:', response.data);
-    } catch (error) {
-      console.error('Error al enviar datos al servidor:', error);
+        console.log('Respuesta del servidor:', response.data);
+      } catch (error) {
+        console.error('Error al enviar datos al servidor:', error);
+      }
     }
   };
 
   return (
-    <div className="bg-black flex min-h-full flex-col text-white justify-center px-6 py-12 lg:px-8 text-black h-screen">
+    <>
+    <NavbarComponent />
+    <div className="bg-black flex min-h-full flex-col text-white justify-center px-6 py-6 lg:px-8 text-black h-screen">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
           className="mx-auto h-10 w-auto"
@@ -79,8 +102,13 @@ const LogInUserComponent = () => {
                 required
                 value={formData.Email}
                 onChange={handleInputChange}
-                className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-gray-700 text-white"
+                className={`block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-gray-700 text-white ${
+                  errors.Email ? 'border-red-500' : ''
+                }`}
               />
+              {errors.Email && (
+                <p className="text-red-500 text-sm mt-1">{errors.Email}</p>
+              )}
             </div>
           </div>
 
@@ -88,7 +116,7 @@ const LogInUserComponent = () => {
             <div className="flex items-center justify-between">
               <label
                 htmlFor="password"
-                className="block text-sm leading-6 text-white font-bold" 
+                className="block text-sm leading-6 text-white font-bold"
               >
                 Password
               </label>
@@ -110,8 +138,13 @@ const LogInUserComponent = () => {
                 required
                 value={formData.Password}
                 onChange={handleInputChange}
-                className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-gray-700 text-white"
+                className={`block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-gray-700 text-white ${
+                  errors.Password ? 'border-red-500' : ''
+                }`}
               />
+              {errors.Password && (
+                <p className="text-red-500 text-sm mt-1">{errors.Password}</p>
+              )}
             </div>
           </div>
           <div>
@@ -130,11 +163,12 @@ const LogInUserComponent = () => {
             href="/registerUser"
             className="ml-1 font-semibold text-indigo-600 hover:text-indigo-500"
           >
-            Sing Up
+            Sign Up
           </a>
         </p>
       </div>
     </div>
+    </>
   );
 };
 

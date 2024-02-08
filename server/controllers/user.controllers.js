@@ -43,10 +43,7 @@ export const register = async (req, res) => {
       const token = await createAccesToken({ id: newUser.idUser });
 
       res.json({
-        id: newUser.idUser,
-        UserName: newUser.UserName,
-        Email: newUser.Email,
-        Phone: newUser.Phone,
+        userFound: newUser,
         token: token,
         created: 'ok'
       });
@@ -221,25 +218,40 @@ export const updateUserPlan = async (req, res) => {
       position = 'left';
     }
 
-    if (position === 'right'){
-      const newPoints = referencedUser.pointsRight + newPv;
+    const newPoints = referencedUser.pointsLeft + newPv;
+
+    let enrollmentVolume
+      if(referencedUser.enrollmentVolume === null) {
+        enrollmentVolume = newPv
+      } else {
+        enrollmentVolume = referencedUser.enrollmentVolume + newPv
+      }
+
       let newPayAmount
       if(referencedUser.payAmount === null) {
         newPayAmount = newPv
       } else {
         newPayAmount = referencedUser.payAmount + newPv
       }
+
+    if (position === 'right'){
+      
+     
        await User.update(
         {pointsRight: newPoints,
-          payAmount: referencedUser.payAmount + newPv,
+          payAmount: newPayAmount,
+          enrollmentVolume: enrollmentVolume,
         referralsCount: newReferralCount},
         {where: { idUser: referencedUser.idUser }},
       )
+      await assignRank(referencedUser.idUser)
+
     }else{
-      const newPoints = referencedUser.pointsLeft + newPv;
+     
       await User.update(
         {pointsLeft: newPoints,
-          payAmount: referencedUser.payAmount + newPv,
+          payAmount: newPayAmount,
+          enrollmentVolume: enrollmentVolume,
         referralsCount: newReferralCount},
         {where: { idUser: referencedUser.idUser }},
       )
@@ -319,6 +331,7 @@ const assignRank = async (userId) => {
     }
 
     const userPoints = user.pointsLeft + user.pointsRight;
+    console.log(userPoints)
 
     const ranks = await Rank.findAll({
       order: [['points', 'DESC']]
