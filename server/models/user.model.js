@@ -26,9 +26,7 @@ const User = sequelize.define('user', {
   },
   UserCode: {
     type: DataTypes.INTEGER,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true
+    allowNull: true
   },
   Phone: {
     type: DataTypes.STRING,
@@ -91,6 +89,13 @@ const User = sequelize.define('user', {
     type: DataTypes.INTEGER,
     allowNull: true
   }
+});
+
+User.beforeCreate((user, options) => {
+  return User.max('UserCode')
+    .then(max => {
+      user.UserCode = (max || 0) + 1; // Incrementa el valor máximo encontrado o establece 1 si no hay filas
+    });
 });
 
 
