@@ -12,26 +12,57 @@ export const allUsers = async (req,res) =>{
   res.json(users)
 };
 
-export const sendEmailRegister = async (email) => {
+export const sendEmailRegister = async (email, code, name) => {
   const contentHTML = `
-  <h1>User Information</h1>
-  <ul>
-      <li>User Email: ${email}</li>
-  </ul>
-  <p>Thank you for registering!</p>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Email</title>
+</head>
+<body>
+    <table style="width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; font-family: Arial, sans-serif; border-collapse: collapse;">
+        <tr>
+            <td style="background-color: #4299e1; color: white; padding: 20px; text-align: center;">
+                <h2>Welcome to AIQ Academy!</h2>
+                <p>Thank you for registering!</p>
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #f8fafc; padding: 20px;">
+                <h3>Great to see you ${name}, this is your User Information</h3>
+                <ul>
+                    <li><strong>User Email:</strong> ${email}</li>
+                    <li><strong>AIQ code:</strong> ${code}</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #f8fafc; padding: 20px; text-align: center;">
+                <p>If you have any questions, feel free to contact us.</p>
+                <p class="text-gray-700">Best regards,</p>
+                <p class="text-gray-700">AIQ Team</p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
   `;
 
   let transporter = nodemailer.createTransport({
-      service: 'gmail',
+    host: 'smtp-mail.outlook.com',
+    port: 587,
+    secure: false,
       auth: {
-          user: 'augustofavrearg@gmail.com',
-          pass: 'xxxx xxxx xxxx xxxx'
+          user: 'ramiro.alet@hotmail.com',
+          pass: 'luciana.11'
       }
   });
   
   try {
     let info = await transporter.sendMail({
-      from: '"xxx Server" <augustofavrearg@gmail.com>',
+      from: 'aiqacount19921@outlook.es',
       to: email,
       subject: 'Welcome to Our Website!',
       html: contentHTML
@@ -49,10 +80,7 @@ export const register = async (req, res) => {
     UserName,
     Email,
     Password,
-    UserCode,
     Phone,
-    CodeReferenced,
-    idPaidPlanForUser
   } = req.body;
 
   try {
@@ -63,18 +91,16 @@ export const register = async (req, res) => {
         UserName,
         Email,
         Password: passwordHash,
-        UserCode,
         Phone,
-        CodeReferenced,
-        idPaidPlanForUser,
         referralsCount: 0,
         status: 0
       });
 
       const token = await createAccesToken({ id: newUser.idUser });
 
+
       // Llama a la función sendEmailRegister pasando el correo electrónico del usuario
-      await sendEmailRegister(Email);
+      await sendEmailRegister(Email, newUser.UserCode, newUser.UserName);
 
       res.json({
         userFound: newUser,
@@ -209,6 +235,8 @@ export const updateUserPlan = async (req, res) => {
   const {plan} = req.body 
   const {id} = req.user
 
+  console.log(plan, "updateplan")
+
 
   try {
 
@@ -225,14 +253,18 @@ export const updateUserPlan = async (req, res) => {
         { where: { idUser: id } }
       );
   
-        const userFound = await User.findAll({
-          where: {
-            idUser: id
-          }
-        })
+      const userFound = await User.findOne({
+        where: {
+          idUser: id
+        },
+        include: [
+          { model: PaidPlan, attributes: ['idPaidPlan', 'planName',]},
+          { model: Rank, attributes: ['id', 'name', "right", "left"] }
+        ]})
 
   
       if(result[0] === 1) {
+        await sendEmailPaidPlan(userFound.Email, userFound.UserName, plan) 
         res.json({updated: "ok", userFound})
       } else {
         res.json("Error")
@@ -275,6 +307,7 @@ export const updateUserPlan = async (req, res) => {
         {pointsRight: newPoints,
           payAmount: newPayAmount,
           enrollmentVolume: enrollmentVolume,
+          directRight: referencedUser.directRight + 1,
         referralsCount: newReferralCount},
         {where: { idUser: referencedUser.idUser }},
       )
@@ -286,6 +319,7 @@ export const updateUserPlan = async (req, res) => {
         {pointsLeft: newPoints,
           payAmount: newPayAmount,
           enrollmentVolume: enrollmentVolume,
+          directLeft: referencedUser.directLeft + 1,
         referralsCount: newReferralCount},
         {where: { idUser: referencedUser.idUser }},
       )
@@ -335,15 +369,20 @@ export const updateUserPlan = async (req, res) => {
       { where: { idUser: id } }
     );
 
-      const userFound = await User.findAll({
-        where: {
-          idUser: id
-        }
-      })
+    const userFound = await User.findOne({
+      where: {
+        idUser: id
+      },
+      include: [
+        { model: PaidPlan, attributes: ['idPaidPlan', 'planName',]},
+        { model: Rank, attributes: ['id', 'name', "right", "left"] }
+      ]
+    });
 
    
 
     if(result[0] === 1) {
+     await sendEmailPaidPlan(userFound.Email, userFound.UserName, userFound.idPaidPlan) 
       res.json({updated: "ok", userFound})
     } else {
       res.json("Error")
@@ -421,11 +460,13 @@ export const getUserByUserCode = async (req, res) => {
 export const calculate = async (req, res) => {
   try {
     const users = await User.findAll({
-      include: [{ model: Rank, attributes: ['id', 'name', 'commission'] }],
+      include: [{ model: Rank, attributes: ['id', 'name', 'commission', 'left', 'right'] }],
     });
 
     for (const user of users) {
       if (user.rank && user.pointsLeft !== null && user.pointsRight !== null) {
+
+        if (user.directLeft >= user.rank.left && user.directRight >= user.rank.right) {
         const commissionPercentage = user.rank.commission; // Obtén el porcentaje de comisión del rango
 
         // Determina la pierna con menos puntos
@@ -444,6 +485,7 @@ export const calculate = async (req, res) => {
           },
           { where: { idUser: user.idUser } }
         );
+        }
       }
     }
 
@@ -453,3 +495,63 @@ export const calculate = async (req, res) => {
     res.status(500).json({ success: false, message: 'Error en el servidor.' });
   }
 };
+
+export const sendEmailPaidPlan = async (email, name, plan) => {
+  const contentHTML = `
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Email</title>
+</head>
+<body>
+    <table style="width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; font-family: Arial, sans-serif; border-collapse: collapse;">
+        <tr>
+            <td style="background-color: #4299e1; color: white; padding: 20px; text-align: center;">
+                <h2>Congratulations ${name}</h2>
+                <p>You are now a ${plan.name} member!</p>
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #f8fafc; padding: 20px;">
+                <h3>You can access now to the video section and start lerning</h3>
+                <p>Remember your plan has a $ ${plan.renewal} monthly renewal</p>
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #f8fafc; padding: 20px; text-align: center;">
+                <p>If you have any questions, feel free to contact us.</p>
+                <p class="text-gray-700">Best regards,</p>
+                <p class="text-gray-700">AIQ Team</p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+  `;
+
+  let transporter = nodemailer.createTransport({
+    host: 'smtp-mail.outlook.com',
+    port: 587,
+    secure: false,
+      auth: {
+          user: 'ramiro.alet@hotmail.com',
+          pass: 'luciana.11'
+      }
+  });
+  
+  try {
+    let info = await transporter.sendMail({
+      from: 'ramiro.alet@hotmail.com',
+      to: email,
+      subject: 'This is your new Plan!',
+      html: contentHTML
+    });
+
+    console.log('Message sent: %s', info.messageId);
+    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+  } catch (error) {
+    console.log("Error sending email:", error);
+  }
+}

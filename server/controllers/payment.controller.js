@@ -15,7 +15,7 @@ export const handlePayment = async (req,res) =>{
                 price_data: {
                     product_data: {
                         name: `${name} plan`,
-                        description: `AIQ Accademy ${name} plan`
+                        description: `AIQ Accademy ${name} plan with a $${product.renewal} monthly renewal`
                     },
                     currency: "usd",
                     unit_amount: product.price * 100

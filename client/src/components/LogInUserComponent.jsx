@@ -72,7 +72,7 @@ const LogInUserComponent = () => {
   return (
     <>
     <NavbarComponent />
-    <div className="bg-black flex min-h-full flex-col text-white justify-center px-6 py-6 lg:px-8 text-black h-screen">
+    <div className="mt-[-150px] bg-black flex min-h-full flex-col text-white justify-center px-6 py-6 lg:px-8 text-black h-screen">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
           className="mx-auto h-10 w-auto"

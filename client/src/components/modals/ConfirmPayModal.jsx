@@ -9,7 +9,8 @@ const ConfirmPayModal = ({ prod, setShowConfirmPayModal }) => {
       referred: "",
       id: prod.details.id,
       name: prod.name,
-      price: prod.details.price
+      price: prod.details.price,
+      renewal: prod.details.renewal
   });
   
   const dispatch = useDispatch()

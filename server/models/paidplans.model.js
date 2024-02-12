@@ -32,6 +32,16 @@ const PaidPlan = sequelize.define('paidPlan', {
   planImage: {
     type: DataTypes.BLOB,
     allowNull: true // Puedes cambiar a false si las imágenes son obligatorias
+  },
+  bonus: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    unique: false
+  },
+  renewal: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    unique: false
   }
 });
 
