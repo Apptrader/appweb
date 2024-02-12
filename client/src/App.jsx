@@ -1,16 +1,16 @@
 import { Routes, Route } from 'react-router-dom';
-import LogInUser from './views/LoginUser';
-import PaidPlansRegister from './views/PaidPlansRegister';
-import PaidPlansList from './views/PaidPlansList';
-import RegisterUser from './views/RegisterUser';
-import PaymentSuccesComponent from './components/PaymentSuccesComponent';
-import Home from './views/Home';
-import UserProfileComponent from './views/UserProfileComponent';
-import Videos from './views/VIdeos';
-import AiqBonusPlan from './views/AiqBonusPlan';
-import About from './views/About';
-import Contact from './views/Contact';
-import NodeProfile from './views/NodeProfileComponent';
+import LogInUser from './views/LoginUser.jsx';
+import PaidPlansRegister from './views/PaidPlansRegister.jsx';
+import PaidPlansList from './views/PaidPlansList.jsx';
+import RegisterUser from './views/RegisterUser.jsx';
+import PaymentSuccesComponent from './components/PaymentSuccesComponent.jsx';
+import Home from './views/Home.jsx';
+import UserProfileComponent from './views/UserProfileComponent.jsx';
+import Videos from './views/Videos.jsx';
+import AiqBonusPlan from './views/AiqBonusPlan.jsx';
+import About from './views/About.jsx';
+import Contact from './views/Contact.jsx';
+import NodeProfile from './views/NodeProfileComponent.jsx';
 
 function App() {
 
