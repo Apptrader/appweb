@@ -13,7 +13,7 @@ const NavbarComponent = () => {
 
     const logOut = () => {
         dispatch(setLogOut())
-        navigate("/logInUser")
+        navigate("/loginUser")
     }   
 
     const handleGoProfile = () => {
@@ -43,7 +43,7 @@ const NavbarComponent = () => {
                     </div>
                     <div className="flex items-center">
                        
-                       {user ? (
+                    {user && user.userFound !== undefined ? (
                         <div className="relative ml-3 flex flex-row gap-4">
                             <button
                                 type="button"

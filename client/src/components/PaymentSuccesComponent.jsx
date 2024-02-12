@@ -17,7 +17,7 @@ const PaymentSuccessComponent = () => {
   useEffect(() => {
     console.log("PaymentSuccessComponent renderizado");
 
-    if (!isEffectExecuted) {
+   
       const updateUser = async () => {
         try {
           const response = await axios.post(
@@ -30,7 +30,10 @@ const PaymentSuccessComponent = () => {
             }
           );
 
+          console.log(response.data, "en paid")
+
           if (response.data.updated === "ok") {
+            console.log("okey")
             dispatch(setUser(response.data.user[0]))
             
           } else {
@@ -39,12 +42,11 @@ const PaymentSuccessComponent = () => {
         } catch (error) {
           console.error("Error updating user plan:", error);
         }
-      };
+      }
 
       updateUser();
-      setIsEffectExecuted(true);
-    }
-  }, [isEffectExecuted, plan, token, navigate]);
+    
+  }, []);
 
   return (
     <div>

@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 
 const NodeProfileDetail = ({ rankNames, userInfo }) => {
   const [nextRank, setNextRank] = useState(null);
+  const [rank, setRank] = useState(null);
+
 
   console.log(userInfo)
 
@@ -22,7 +24,8 @@ const NodeProfileDetail = ({ rankNames, userInfo }) => {
         const response = await axios.post("http://localhost:4000/api/rank/getNextRankByIdNode", { id: userInfo.idUser});
         const result = response.data;
         console.log(result);
-        setNextRank(result);
+        setNextRank(result.nextRank);
+        setRank(result.rank)
       } catch (error) {
         console.error('Error al obtener el siguiente rango:', error);
       }
@@ -71,9 +74,9 @@ const NodeProfileDetail = ({ rankNames, userInfo }) => {
             </li>
             <li className='flex flex-col p-2 items-center py-2 border-b-8 border-t-8 border-black'>
               <span>Personal Enrollments Needed:</span>
-              {userInfo.rank && (
+              {rank && (
                 <span>
-                  {userInfo.rank.left} Left -- {userInfo.rank.right} Right
+                  {rank.left} Left -- {rank.right} Right
                 </span>
               )}
             </li>
@@ -81,11 +84,11 @@ const NodeProfileDetail = ({ rankNames, userInfo }) => {
             <div className='grid grid-cols-2'>
               <li className='flex flex-col p-2 items-center py-2 border-b-8 border-r-8 border-black'>
                 <span>Active Left:</span>
-                <span>{totalNodos.left}</span>
+                <span>{userInfo.directLeft}</span>
               </li>
               <li className='flex flex-col p-2 items-center py-2 border-b-8 border-l-8 border-black'>
                 <span>Active Right:</span>
-                 <span>{totalNodos.right}</span>
+                 <span>{userInfo.directRight}</span>
               </li>
               <li className='flex flex-col p-2 items-center py-2 border-b-8 border-r-8 border-black'>
                 <span>BV Left:</span>

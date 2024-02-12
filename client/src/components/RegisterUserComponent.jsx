@@ -50,10 +50,6 @@ const RegisterUserComponent = () => {
             isValid = false;
         }
 
-        if (!formData.UserCode) {
-            errors.UserCode = 'User Code is required';
-            isValid = false;
-        }
 
         if (!formData.Phone) {
             errors.Phone = 'Phone is required';
@@ -65,10 +61,12 @@ const RegisterUserComponent = () => {
     };
 
     const handleSubmit = async (e) => {
+       console.log(errors)
         e.preventDefault();
 
         if (validateForm()) {
             try {
+                console.log("holaw")
                 // Realizar la solicitud a tu servidor Node.js
                 console.log('Datos del formulario:', formData);
                 const response = await axios.post(

@@ -37,7 +37,7 @@ const User = sequelize.define('user', {
   },
   CodeReferenced: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: true
   },
   pointsRight: {
     type: DataTypes.INTEGER,
@@ -80,6 +80,14 @@ const User = sequelize.define('user', {
     allowNull: true
   },
   enrollmentVolume: {
+    type: DataTypes.INTEGER,
+    allowNull: true
+  },
+  directLeft: {
+    type: DataTypes.INTEGER,
+    allowNull: true
+  },
+  directRight: {
     type: DataTypes.INTEGER,
     allowNull: true
   }

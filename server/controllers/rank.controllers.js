@@ -72,7 +72,7 @@ export const getNextRankByIdNode = async (req, res) => {
       }
     })
 
-    res.status(200).json(nextRank)
+    res.status(200).json({nextRank, rank: user.rank})
 
 
   } catch (error) {

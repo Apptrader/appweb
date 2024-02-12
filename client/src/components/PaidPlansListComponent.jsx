@@ -13,9 +13,9 @@ const PaidPlansListComponent = () => {
 
 
   const initialPackageStates = {
-    BASIC: { selected: true, details: ['Access to Learning and Training Videos', 'Market BUY&SELL Alerts', 'Forex Daily Alerts'], price: 150, id: 1 },
-    PRO: { selected: true, details: ['Access to Learning and Training Videos', 'Market BUY&SELL Alerts', 'Forex Daily Alerts', 'Market Daily Discussions', 'Market Daily Analysis', 'Forex Alerts - VIP', 'Funded Account Challenges'], price: 250, id: 2 },
-    SONIC: { selected: true, details: ['Access to Learning and Training Videos', 'Market BUY&SELL Alerts', 'Forex Daily Alerts', 'Market Daily Discussions', 'Market Daily Analysis', 'Forex Alerts - VIP', 'Funded Account Challenges', 'Binary Alerts (10s to 5min alerts)', 'Crypto Alerts (SPOT and FUTURE)', 'NeoTech Robot (is an Artificial intelligence robot that trades on your behalf)'], price: 600, id: 3 },
+    BASIC: { selected: true, details: ['Access to Learning and Training Videos', 'Market BUY&SELL Alerts', 'Forex Daily Alerts'], price: 150, id: 1, bonus: 30, renewal: 60 },
+    PRO: { selected: true, details: ['Access to Learning and Training Videos', 'Market BUY&SELL Alerts', 'Forex Daily Alerts', 'Market Daily Discussions', 'Market Daily Analysis', 'Forex Alerts - VIP', 'Funded Account Challenges'], price: 250, id: 2, bonus: 75, renewal: 85 },
+    SONIC: { selected: true, details: ['Access to Learning and Training Videos', 'Market BUY&SELL Alerts', 'Forex Daily Alerts', 'Market Daily Discussions', 'Market Daily Analysis', 'Forex Alerts - VIP', 'Funded Account Challenges', 'Binary Alerts (10s to 5min alerts)', 'Crypto Alerts (SPOT and FUTURE)', 'NeoTech Robot (is an Artificial intelligence robot that trades on your behalf)'], price: 600, id: 3, bonus: 150, renewal: 90 },
   };
 
   const [packageStates, setPackageStates] = useState(initialPackageStates);
@@ -81,8 +81,8 @@ const PaidPlansListComponent = () => {
                 <p className="text-white mb-2">
                   <span className="bullet">&#8226;</span> Forex Daily Alerts
                 </p>
-                <button className='relative ml-auto bg-[#8c8Ac1] p-2 px-6 md:px-10 text-white overflow-hidden group'>
-                  <span className='relative z-10'>BUY $150</span>
+                <button onClick={handlePaymentConfirm} className='relative ml-auto bg-[#8c8Ac1] p-2 px-6 md:px-10 text-white overflow-hidden group'>
+                  <span  className='relative z-10'>BUY $150</span>
                   <span className='absolute inset-0 bg-cover bg-center bg-no-repeat opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
                     <img src='https://i.pinimg.com/originals/31/fb/7b/31fb7b6c808cb6d714a0e303c5a4119b.jpg' alt='Fondo al hacer hover' className='w-full h-full' />
                   </span>
