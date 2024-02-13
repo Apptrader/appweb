@@ -1,6 +1,5 @@
 import React from 'react';
-import NavbarComponent from '../components/navbarComponent';
-import ProfileHome from '../components/ProfileHome';
+import NavbarComponent from '../components/NavbarComponent';
 import { useLocation } from 'react-router-dom';
 import NodeProfileHome from '../components/NodeProfileHome';
 
