@@ -1,4 +1,4 @@
-import ReactPlayer from 'react-player';
+
 import FooterComponent from './FooterComponent';
 import PartnersComponent from './PartnersComponent';
 import { useNavigate } from 'react-router-dom';
