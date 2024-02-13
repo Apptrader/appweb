@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/actions';
-import NavbarComponent from './navbarComponent';
+import NavbarComponent from './NavbarComponent';
 
 const LogInUserComponent = () => {
   const navigate = useNavigate();

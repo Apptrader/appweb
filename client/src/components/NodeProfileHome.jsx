@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ProfileCard from "./ProfileCard";
-import { useSelector } from 'react-redux';
+
 
 import axios from "axios";
 import NodeProfileDetail from "./NodeProfileDetail";
