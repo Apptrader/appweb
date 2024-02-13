@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import LogInUser from './views/LoginUser.jsx';
+import LogInUser from './views/LogInUser.jsx'
 import PaidPlansRegister from './views/PaidPlansRegister.jsx';
 import PaidPlansList from './views/PaidPlansList.jsx';
 import RegisterUser from './views/RegisterUser.jsx';
