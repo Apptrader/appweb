@@ -12,25 +12,33 @@ import About from './views/About.jsx';
 import Contact from './views/Contact.jsx';
 import NodeProfile from './views/NodeProfileComponent.jsx';
 
+import getParamsEnv from './functions/getParamsEnv.js';
+
+const {API_URL_BASE, VITE_LOGIN_USER, HOME, VITE_PAID_PLANS_REGISTER, VITE_PAID_PLAN_LIST,
+  VITE_REGISTER_USER, VITE_PROFILE, VITE_PAYMENT_SUCCES, VITE_ALL_VIDEOS,
+  VITE_AIQ_BONUS_PLAN, VITE_ABOUT, VITE_CONTACT, VITE_NODE_PROFILE} = getParamsEnv()
+
+
+
 function App() {
 
 
   return (
     <>
       <Routes>
-        <Route path='/home' element={<Home/>}></Route>
-        <Route path='/logInUser' element={<LogInUser />}></Route>
-        <Route path='/paidPlansRegister' element={<PaidPlansRegister />}></Route>
-        <Route path='/paidPlansList' element={<PaidPlansList />}></Route>
-        <Route path='/registerUser' element={<RegisterUser />}></Route>
-        <Route path='/profile' element={<UserProfileComponent />}></Route>
-        <Route path='/payment/success' element={<PaymentSuccesComponent />}></Route>
-        <Route path='/allvideos' element={<Videos/>}></Route>
+        <Route path={HOME} element={<Home/>}></Route>
+        <Route path={VITE_LOGIN_USER} element={<LogInUser />}></Route>
+        <Route path={VITE_PAID_PLANS_REGISTER} element={<PaidPlansRegister />}></Route>
+        <Route path={VITE_PAID_PLAN_LIST} element={<PaidPlansList />}></Route>
+        <Route path={VITE_REGISTER_USER} element={<RegisterUser />}></Route>
+        <Route path={VITE_PROFILE} element={<UserProfileComponent />}></Route>
+        <Route path={VITE_PAYMENT_SUCCES} element={<PaymentSuccesComponent />}></Route>
+        <Route path={VITE_ALL_VIDEOS} element={<Videos/>}></Route>
         {/*  <Route path='/payment/cancel' element={<PaymentCancelComponent />}></Route> */}
-        <Route path='/aiqBonusPlan' element={<AiqBonusPlan />}></Route>
-        <Route path='/about' element={<About/>}></Route>
-        <Route path='/contact' element={<Contact/>}></Route>
-        <Route path='/nodeProfile' element={<NodeProfile/>}></Route>
+        <Route path={VITE_AIQ_BONUS_PLAN} element={<AiqBonusPlan />}></Route>
+        <Route path={VITE_ABOUT} element={<About/>}></Route>
+        <Route path={VITE_CONTACT} element={<Contact/>}></Route>
+        <Route path={VITE_NODE_PROFILE} element={<NodeProfile/>}></Route>
         
       </Routes>
     </>
