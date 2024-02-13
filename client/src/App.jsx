@@ -16,7 +16,7 @@ import getParamsEnv from './functions/getParamsEnv.js';
 
 const {API_URL_BASE, VITE_LOGIN_USER, HOME, VITE_PAID_PLANS_REGISTER, VITE_PAID_PLAN_LIST,
   VITE_REGISTER_USER, VITE_PROFILE, VITE_PAYMENT_SUCCES, VITE_ALL_VIDEOS,
-  VITE_AIQ_BONUS_PLAN, VITE_ABOUT, VITE_CONTACT, VITE_NODE_PROFILE} = getParamsEnv()
+  VITE_AIQ_BONUS_PLAN, VITE_ABOUT, VITE_CONTACT, VITE_NODE_PROFILE, VITE_ROOT} = getParamsEnv()
 
 
 
@@ -39,6 +39,7 @@ function App() {
         <Route path={VITE_ABOUT} element={<About/>}></Route>
         <Route path={VITE_CONTACT} element={<Contact/>}></Route>
         <Route path={VITE_NODE_PROFILE} element={<NodeProfile/>}></Route>
+        <Route path={VITE_ROOT} element={<Home/>}></Route>
         
       </Routes>
     </>
