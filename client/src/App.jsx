@@ -14,7 +14,7 @@ import NodeProfile from './views/NodeProfileComponent.jsx';
 
 import getParamsEnv from './functions/getParamsEnv.js';
 
-const {API_URL_BASE, VITE_LOGIN_USER, HOME, VITE_PAID_PLANS_REGISTER, VITE_PAID_PLAN_LIST,
+const {API_URL_BASE, VITE_LOGIN_USER, VITE_HOME, VITE_PAID_PLANS_REGISTER, VITE_PAID_PLAN_LIST,
   VITE_REGISTER_USER, VITE_PROFILE, VITE_PAYMENT_SUCCES, VITE_ALL_VIDEOS,
   VITE_AIQ_BONUS_PLAN, VITE_ABOUT, VITE_CONTACT, VITE_NODE_PROFILE, VITE_ROOT, VITE_REGISTER} = getParamsEnv()
 
@@ -26,7 +26,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path={HOME} element={<Home/>}></Route>
+        <Route path={VITE_HOME} element={<Home/>}></Route>
         <Route path={VITE_LOGIN_USER} element={<LogInUser />}></Route>
         <Route path={VITE_PAID_PLANS_REGISTER} element={<PaidPlansRegister />}></Route>
         <Route path={VITE_PAID_PLAN_LIST} element={<PaidPlansList />}></Route>
