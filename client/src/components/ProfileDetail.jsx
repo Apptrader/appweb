@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import getParamsEnv from '../functions/getParamsEnv';
 
-const {API_URL_BASE} = getParamsEnv
+const {API_URL_BASE} = getParamsEnv()
 
 const ProfileDetail = ({ rankNames, userInfo, token }) => {
   const [nextRank, setNextRank] = useState(null);
