@@ -30,7 +30,7 @@ const app = express();
 
 // Configuración CORS
 const corsOptions = {
-  origin: '*',
+  origin: 'https://frontend-aiqlearning.onrender.com',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 200,
