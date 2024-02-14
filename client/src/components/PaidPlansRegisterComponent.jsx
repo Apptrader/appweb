@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import getParamsEnv from '../functions/getParamsEnv';
+
+const {API_URL_BASE} = getParamsEnv()
 
 const PaidPlansRegisterComponent =() =>{
 
@@ -24,7 +27,7 @@ const PaidPlansRegisterComponent =() =>{
         try {
           // Realizar la solicitud a tu servidor Node.js
           console.log('Datos del formulario:', formData);
-          const response = await axios.post('http://localhost:4000/apiPaidPlans/create', formData, {
+          const response = await axios.post(`${API_URL_BASE}/apiPaidPlans/create`, formData, {
             withCredentials: true,
             headers: {
               'Content-Type': 'application/json',

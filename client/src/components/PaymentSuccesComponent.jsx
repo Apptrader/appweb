@@ -4,6 +4,9 @@ import NavbarComponent from './NavbarComponent';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { setUser } from '../redux/actions';
+import getParamsEnv from '../functions/getParamsEnv';
+
+const {API_URL_BASE} = getParamsEnv()
 
 const PaymentSuccessComponent = () => {
   const navigate = useNavigate();
@@ -21,7 +24,7 @@ const PaymentSuccessComponent = () => {
       const updateUser = async () => {
         try {
           const response = await axios.post(
-            "http://localhost:4000/apiUser/updateUserPlan",
+            `${API_URL_BASE}/apiUser/updateUserPlan`,
             { plan },
             {
               headers: {

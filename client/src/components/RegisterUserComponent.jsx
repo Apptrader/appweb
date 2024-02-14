@@ -4,6 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/actions';
 import NavbarComponent from './NavbarComponent';
+import getParamsEnv from '../functions/getParamsEnv';
+
+const {API_URL_BASE} = getParamsEnv()
+
+console.log(API_URL_BASE)
 
 const RegisterUserComponent = () => {
     const dispatch = useDispatch();
@@ -70,7 +75,7 @@ const RegisterUserComponent = () => {
                 // Realizar la solicitud a tu servidor Node.js
                 console.log('Datos del formulario:', formData);
                 const response = await axios.post(
-                    'http://localhost:4000/apiUser/register',
+                    `${API_URL_BASE}/apiUser/register`,
                     formData,
                     {
                         withCredentials: true,
