@@ -25,12 +25,13 @@ import routerPayment from './routes/payment.routes.js';
 import morgan from 'morgan';
 import routerRank from './routes/rank.routes.js';
 import routerContact from './routes/contact.routes.js'
+import {FRONTEND_URL} from './config.js'
 
 const app = express();
 
 // Configuración CORS
 const corsOptions = {
-  origin: 'https://appwebserver.vercel.app',
+  origin: FRONTEND_URL,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 200,

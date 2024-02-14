@@ -23,7 +23,9 @@ export const createPaidPlan = async (req,res) =>{
             planCost,
             description,
             feature,
-            planImage
+            planImage,
+            bonus, 
+            renewal
         });
 
         const allPaidPlan = await PaidPlan.findAll();

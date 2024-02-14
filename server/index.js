@@ -1,21 +1,125 @@
-/*
-Este archivo sirve como punto de entrada principal de la aplicación.
-Importa el objeto app desde el archivo app.js.
-Define el puerto en el que el servidor estará escuchando (en este caso, 4000).
-Inicia el servidor Express llamando al método listen en el objeto app, y muestra un mensaje en la consola cuando el servidor está listo para recibir conexiones.
-
-*/ 
-
 import sequelize from './dbconnection.js';
 import app from './app.js';
+import User from './models/user.model.js'; // Importa el modelo de usuario
+import PaidPlan from './models/paidplans.model.js';
+import bcrypt from 'bcryptjs'
+import createRanks from './functions/ranks.js';
 
+const createDefaultUser = async () => {
+  try {
+    // Verifica si ya existe un usuario por defecto
+    const existingUser = await User.findOne({ where: { UserName: 'default' } });
 
-sequelize.sync({ force: true }).then(() => {
-  const port = 4000;
-  app.listen(port, () => {
-    console.log(`Servidor escuchando en http://localhost:${port}`);
+    // Si no existe, crea el usuario por defecto
+    if (!existingUser) {
+      const defaultUserData = {
+        UserName: 'Nahyan',
+        Email: 'nahyan@gmail.com',
+        Password: '123456', // Cambia esto por la contraseña deseada
+        Phone: '1234567890',
+        referralsCount: 0,
+        status: 0,
+        role: '1' // Define el rol del usuario por defecto
+      };
+
+      await createUser(defaultUserData);
+    }
+  } catch (error) {
+    console.error('Error al crear el usuario por defecto:', error);
+  }
+};
+
+const createUser = async (userData) => {
+  try {
+    const { UserName, Email, Password, Phone, referralsCount, status, role } = userData;
+
+    const passwordHash = await bcrypt.hash(Password, 10);
+
+    const newUser = await User.create({
+      UserName,
+      Email,
+      Password: passwordHash,
+      Phone,
+      referralsCount,
+      status,
+      role
+    });
+
+    console.log('Usuario creado:', newUser);
+
+    // Puedes agregar aquí cualquier otra lógica que necesites después de crear el usuario
+
+    return newUser;
+  } catch (error) {
+    throw new Error('Error al crear el usuario:', error);
+  }
+};
+
+const createPaidPlan = async (planData) => {
+  try {
+    const { planName, planCost, description, feature, planImage, bonus, renewal } = planData;
+
+    const newPlan = await PaidPlan.create({
+      planName,
+      planCost,
+      description,
+      feature,
+      planImage,
+      bonus,
+      renewal
+    });
+
+    console.log('Nuevo plan creado:', newPlan);
+
+    return newPlan;
+  } catch (error) {
+    throw new Error('Error al crear el plan:', error);
+  }
+};
+
+sequelize.sync({ force: true })
+  .then(async () => {
+    console.log('Modelos sincronizados con la base de datos.');
+
+    // Crea el usuario por defecto
+    await createDefaultUser();
+    await createPaidPlan({
+      planName: 'Sonic',
+      planCost: 600,
+      description: '',
+      feature: '',
+      planImage: '',
+      bonus: 150,
+      renewal: 90
+    });
+
+    await createPaidPlan({
+      planName: 'Pro',
+      planCost: 250,
+      description: '',
+      feature: '',
+      planImage: '',
+      bonus: 60,
+      renewal: 85
+    });
+
+    await createPaidPlan({
+      planName: 'Basic',
+      planCost: 150,
+      description: '',
+      feature: '',
+      planImage: '',
+      bonus: 35,
+      renewal: 60
+    });
+
+    await createRanks()
+
+    const port = 4000;
+    app.listen(port, () => {
+      console.log(`Servidor escuchando en http://localhost:${port}`);
+    });
+  })
+  .catch((error) => {
+    console.error('Error al sincronizar modelos con la base de datos:', error);
   });
-
-}).catch((error) => {
-  console.error('Error al sincronizar modelos con la base de datos:', error);
-});

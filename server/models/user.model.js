@@ -4,7 +4,7 @@ import PaidPlan from './paidplans.model.js';
 import Rank from './rank.model.js';
 
 const User = sequelize.define('user', {
-  idUser: { // Cambiado de idUsers a idUser
+  idUser: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     allowNull: false,
@@ -34,7 +34,7 @@ const User = sequelize.define('user', {
     unique: true
   },
   CodeReferenced: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: true
   },
   pointsRight: {
@@ -48,7 +48,7 @@ const User = sequelize.define('user', {
   idPaidPlan: {
     type: DataTypes.INTEGER,
     allowNull: true
-},
+  },
   referralsCount: {
     type: DataTypes.INTEGER,
     allowNull: true
@@ -88,6 +88,11 @@ const User = sequelize.define('user', {
   directRight: {
     type: DataTypes.INTEGER,
     allowNull: true
+  },
+  role: {
+    type: DataTypes.ENUM('0', '1'),
+    allowNull: false,
+    defaultValue: '0'
   }
 });
 
