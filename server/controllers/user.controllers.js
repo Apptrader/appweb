@@ -93,7 +93,8 @@ export const register = async (req, res) => {
         Password: passwordHash,
         Phone,
         referralsCount: 0,
-        status: 0
+        status: 0,
+        role: 0
       });
 
       const token = await createAccesToken({ id: newUser.idUser });
@@ -194,6 +195,7 @@ export const getReferralTree = async (req, res) => {
         idUser: userId
       }
     });
+    console.log(user.UserCode)
 
     if (user) {
       const firstGen = await User.findAll({

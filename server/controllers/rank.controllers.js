@@ -80,3 +80,26 @@ export const getNextRankByIdNode = async (req, res) => {
     res.status(500).json(error)
   }
 }
+
+export const addRank = async (req, res) => {
+  const {rank} = req.body
+
+  try {
+    const newRank = await Rank.create(
+      {
+        name: rank.name,
+          commission: rank.commission,
+          points: rank.points,
+          left: rank.left,
+          right: rank.right,
+          topPayMonth: rank.topPayMonth,
+          topPayWeek: rank.topPayWeek
+      }
+    )
+
+    res.status(200).json(newRank)
+
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}

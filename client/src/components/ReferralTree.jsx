@@ -15,6 +15,8 @@ const ReferralTree = () => {
   const [showModal, setShowModal] = useState(false)
   const navigate = useNavigate()
 
+  console.log(API_URL_BASE, "referal tree")
+
 
   useEffect(() => {
     const fetchTreeData = async () => {
