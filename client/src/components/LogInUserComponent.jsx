@@ -6,7 +6,7 @@ import { setUser } from '../redux/actions';
 import NavbarComponent from './NavbarComponent';
 import getParamsEnv from '../functions/getParamsEnv';
 
-const {API_URL_BASE} = getParamsEnv()
+const {API_URL_BASE, VITE_HOME, VITE_REGISTER } = getParamsEnv()
 
 const LogInUserComponent = () => {
   const navigate = useNavigate();
@@ -63,7 +63,7 @@ const LogInUserComponent = () => {
         );
 
         dispatch(setUser(response.data));
-        navigate('/home');
+        navigate(VITE_HOME);
 
         console.log('Respuesta del servidor:', response.data);
       } catch (error) {
@@ -163,7 +163,7 @@ const LogInUserComponent = () => {
         <p className="mt-8 text-center text-sm text-gray-400">
           Not a member?
           <a
-            href="/registerUser"
+            href={VITE_REGISTER}
             className="ml-1 font-semibold text-indigo-600 hover:text-indigo-500"
           >
             Sign Up
