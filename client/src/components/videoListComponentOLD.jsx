@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import getParamsEnv from '../functions/getParamsEnv';
+
+const {API_URL_BASE} = getParamsEnv()
 
 const VideoListComponent = () => {
   const [videos, setVideos] = useState([]);
 
   useEffect(() => {
     // Realizar la solicitud GET a la API de videos
-    axios.get('http://localhost:4000/apiVideos/videos')
+    axios.get(`${API_URL_BASE}/apiVideos/videos`)
       .then(response => {
         // Actualizar el estado con los datos obtenidos
         setVideos(response.data);

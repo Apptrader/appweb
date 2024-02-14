@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import getParamsEnv from '../functions/getParamsEnv';
+
+const {API_URL_BASE} = getParamsEnv()
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -26,7 +29,7 @@ const ContactForm = () => {
       // Realizar la solicitud a tu servidor Node.js
       console.log('Datos del formulario:', formData);
       const response = await axios.post(
-        'http://localhost:4000/apiContact/contact',
+        `${API_URL_BASE}/apiContact/contact`,
         formData,
         {
           headers: {

@@ -27,7 +27,7 @@ function App() {
     <>
       <Routes>
         <Route path={HOME} element={<Home/>}></Route>
-        <Route path={VITE_LOGIN_USER} element={<RegisterUser />}></Route>
+        <Route path={VITE_LOGIN_USER} element={<LogInUser />}></Route>
         <Route path={VITE_PAID_PLANS_REGISTER} element={<PaidPlansRegister />}></Route>
         <Route path={VITE_PAID_PLAN_LIST} element={<PaidPlansList />}></Route>
         <Route path={VITE_REGISTER_USER} element={<RegisterUser />}></Route>

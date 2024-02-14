@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import getParamsEnv from '../functions/getParamsEnv';
+
+const {API_URL_BASE} = getParamsEnv()
 
 const NodeProfileDetail = ({ rankNames, userInfo }) => {
   const [nextRank, setNextRank] = useState(null);
@@ -19,9 +22,8 @@ const NodeProfileDetail = ({ rankNames, userInfo }) => {
 
   useEffect(() => {
     const getNextRank = async () => {
-        console.log("holaaaaa2222")
       try {
-        const response = await axios.post("http://localhost:4000/api/rank/getNextRankByIdNode", { id: userInfo.idUser});
+        const response = await axios.post(`${API_URL_BASE}/api/rank/getNextRankByIdNode`, { id: userInfo.idUser});
         const result = response.data;
         console.log(result);
         setNextRank(result.nextRank);

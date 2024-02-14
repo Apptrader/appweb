@@ -4,6 +4,9 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setNodes } from '../redux/actions';
 import { useNavigate } from 'react-router-dom';
+import getParamsEnv from '../functions/getParamsEnv';
+
+const {API_URL_BASE} = getParamsEnv()
 
 const ReferralTree = () => {
   const [treeData, setTreeData] = useState()
@@ -16,7 +19,7 @@ const ReferralTree = () => {
   useEffect(() => {
     const fetchTreeData = async () => {
       try {
-        const tree = await axios.get('http://localhost:4000/apiUser/referralTree', {
+        const tree = await axios.get(`${API_URL_BASE}/apiUser/referralTree`, {
           headers: {
             Authorization: `Bearer ${user.token}`
           }

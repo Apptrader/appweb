@@ -4,6 +4,9 @@ import { useSelector } from 'react-redux';
 import ProfileDetail from "./ProfileDetail";
 import ReferralTree from "./ReferralTree";
 import axios from "axios";
+import getParamsEnv from "../functions/getParamsEnv";
+
+const {API_URL_BASE} = getParamsEnv()
 
 const ProfileHome = () => {
   const user = useSelector((state) => state?.user);
@@ -29,13 +32,13 @@ const ProfileHome = () => {
   useEffect(() => {
     const getRankNames = async () => {
 
-      const results = await axios.post("http://localhost:4000/api/rank/getName", ranks )
+      const results = await axios.post(`${API_URL_BASE}/api/rank/getName`, ranks )
       setRankNames(results.data)
     }
 
     const getReferralInfo = async () => {
      
-        const result = await axios.post("http://localhost:4000/apiUser/getUserByUserCode", {userCode: userInfo.CodeReferenced})
+        const result = await axios.post(`${API_URL_BASE}/apiUser/getUserByUserCode`, {userCode: userInfo.CodeReferenced})
         setReferred(result.data)
     
       
@@ -54,7 +57,7 @@ const ProfileHome = () => {
 
   const calculate = async () => {
    
-    const response = await axios.post("http://localhost:4000/apiUser/calculate")
+    const response = await axios.post(`${API_URL_BASE}/apiUser/calculate`)
   
   }
 

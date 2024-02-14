@@ -6,6 +6,9 @@ import { ChevronDownIcon, ChevronUpIcon, CheckBadgeIcon } from '@heroicons/react
 import ConfirmPayModal from './modals/ConfirmPayModal';
 import FooterComponent from './FooterComponent';
 import PartnersComponent from './PartnersComponent';
+import getParamsEnv from '../functions/getParamsEnv';
+
+const {API_URL_BASE} = getParamsEnv()
 
 
 const PaidPlansListComponent = () => {
@@ -46,7 +49,7 @@ const PaidPlansListComponent = () => {
 
 
   useEffect(() => {
-    axios.get('http://localhost:4000/apiPaidPlans/paidplans')
+    axios.get(`${API_URL_BASE}/apiPaidPlans/paidplans`)
       .then(response => {
         setPlans(response.data);
       })

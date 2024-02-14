@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setPlan } from '../../redux/actions';
+import getParamsEnv from '../../functions/getParamsEnv';
+
+const {API_URL_BASE} = getParamsEnv()
 
 const ConfirmPayModal = ({ prod, setShowConfirmPayModal }) => {
   const { name, details } = prod;
@@ -21,7 +24,7 @@ const ConfirmPayModal = ({ prod, setShowConfirmPayModal }) => {
 
     try {
       
-      const response = await axios.post('http://localhost:4000/api/payment/checkout', {
+      const response = await axios.post(`${API_URL_BASE}/api/payment/checkout`, {
         product: details,
         name,
       });
