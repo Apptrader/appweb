@@ -30,7 +30,7 @@ const app = express();
 
 // Configuración CORS
 const corsOptions = {
-  origin: 'https://appweb-om31.vercel.app',
+  origin: 'https://appwebserver.vercel.app',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 200,
