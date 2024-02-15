@@ -1,6 +1,6 @@
 import Stripe from "stripe";
 
-import { FRONTEND_URL } from "../config";}
+import { FRONTEND_URL } from "../config";
 
 export const handlePayment = async (req,res) =>{
 
