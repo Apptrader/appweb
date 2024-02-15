@@ -1,11 +1,11 @@
-
+/* 
 
 const SidebarComponent = () => {
 
 
 
     return (
-        <div className=" bg-gray-700 ">
+        <div className=" bg-black ">
 
             <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
                 <span className="sr-only">Open sidebar</span>
@@ -15,7 +15,7 @@ const SidebarComponent = () => {
             </button>
 
             <aside id="logo-sidebar" className=" mt-5  z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
-                <div className="h-full px-3 py-4 overflow-y-auto bg-gray-700 dark:bg-gray-800">
+                <div className="h-full py-4 overflow-y-auto bg-black dark:bg-gray-800">
                     <a href="https://flowbite.com/" className=" flex items-center ps-2.5 mb-5">
                         <img src="https://static.wixstatic.com/media/39c6da_c313300b528e4aa284d37b4c31f951a8~mv2.png/v1/crop/x_83,y_128,w_336,h_226/fill/w_154,h_104,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/Untitled%20design.png" className="h-6 me-3 sm:h-7" alt="Flowbite Logo" />
                         <span className=" text-white self-center text-xl font-semibold whitespace-nowrap dark:text-white">AIQ LEARNING</span>
@@ -92,4 +92,92 @@ const SidebarComponent = () => {
 
 }
 
-export default SidebarComponent
+export default SidebarComponent */
+
+//hooks, components, reducer
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+
+//icons
+import { FaCalendar } from "react-icons/fa";
+import { FaLocationPin } from "react-icons/fa6";
+import { IoMdAnalytics, IoIosFilm, IoIosListBox  } from "react-icons/io";
+import { HiMiniUserGroup } from "react-icons/hi2";
+import { GiFingernail } from "react-icons/gi";
+import { ImProfile } from "react-icons/im";
+import { TfiMenu } from "react-icons/tfi";
+import { MdWorkHistory } from "react-icons/md";
+import { AiFillTool } from "react-icons/ai";
+
+// Variables de entorno
+import getParamsEnv from "../functions/getParamsEnv";
+const { VITE_USERS, VITE_VIDEOS_PANEL,VITE_PLANS_PANEL } = getParamsEnv();
+
+const IconWithTooltip = ({ to, iconName, tooltipText }) => {
+  const [tooltipVisible, setTooltipVisible] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setTooltipVisible(true);
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setTooltipVisible(false);
+    setIsHovered(false);
+  };
+
+  return (
+    <Link
+      to={to}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <div className={`relative ${isHovered ? "text-gray" : ""}`}>
+        {renderIcon(iconName)}
+        {tooltipVisible && (
+          <span className="tooltip absolute bg-gray-700 font-bold text-white rounded p-2 opacity-100 transition-opacity ml-[50px] mt-[-30px] dark:bg-darkPrimary dark:text-darkText">
+            {tooltipText}
+          </span>
+        )}
+      </div>
+    </Link>
+  );
+};
+
+const renderIcon = (iconName) => {
+  switch (iconName) {
+    case "videos":
+      return <IoIosFilm className="w-6 h-6 text-white hover:text-gray-500" />;
+    case "users":
+      return <HiMiniUserGroup className="w-6 h-6 text-white hover:text-gray-500" />;
+    case "plans":
+      return <IoIosListBox className="w-6 h-6 text-white hover:text-gray-500" />;
+    default:
+      return null;
+  }
+};
+
+const SideBar = () => {
+  const dynamicMinHeight = `calc(100vh - 80px)`;
+
+
+  return (
+    <div
+      style={{ minHeight: dynamicMinHeight }}
+      className="bg-black w-14 flex flex-col items-center gap-8 pointer-events-auto shadow-md shadow-gray dark:shadow-gray-100 dark:bg-darkPrimary dark:text-gray relative"
+    >
+      <hr className="w-14 h-[1px] bg-blue-500 border-0" />
+    
+      <IconWithTooltip to={VITE_USERS} iconName="users" tooltipText="Users" />
+      <IconWithTooltip to={VITE_VIDEOS_PANEL} iconName="videos" tooltipText="Videos" />
+      <IconWithTooltip to={VITE_PLANS_PANEL} iconName="plans" tooltipText="Plans" />
+       
+      <hr className="w-14 h-[1px] bg-blue-500 border-0" />
+
+    </div>
+  );
+};
+
+export default SideBar;

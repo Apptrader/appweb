@@ -1,10 +1,14 @@
 import Video from "../models/video.model.js";
-
+import VideoChapter from "../models/videoChapter.js";
 
 
 export const allVideos = async (req,res) =>{
 
-    const video = await Video.findAll();
+    const video = await Video.findAll({
+      include:[
+        { model: VideoChapter, attributes: ['name']}
+      ]
+    });
     res.json(video)
 };
 

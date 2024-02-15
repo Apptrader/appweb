@@ -14,12 +14,14 @@ export default function getParamsEnv() {
     const VITE_NODE_PROFILE = import.meta.env.VITE_NODE_PROFILE || "/nodeProfile"
     const VITE_ROOT = import.meta.env.VITE_ROOT || "/"
     const VITE_REGISTER = import.meta.env.VITE_REGISTER || "/register"
-    
+    const VITE_USERS = import.meta.env.VITE_USERS || "/users"
+    const VITE_VIDEOS_PANEL = import.meta.env.VITE_VIDEOS_PANEL || "/videosPanel"
+    const VITE_PLANS_PANEL = import.meta.env.VITE_PLANS_PANEL || "/plansPanel"
     
     return {
         API_URL_BASE, VITE_LOGIN_USER, VITE_HOME, VITE_PAID_PLANS_REGISTER,VITE_PAID_PLAN_LIST,
         VITE_REGISTER_USER, VITE_PROFILE, VITE_PAYMENT_SUCCES, VITE_ALL_VIDEOS,
-        VITE_AIQ_BONUS_PLAN, VITE_ABOUT, VITE_CONTACT, VITE_NODE_PROFILE, VITE_ROOT, VITE_REGISTER
+        VITE_AIQ_BONUS_PLAN, VITE_ABOUT, VITE_CONTACT, VITE_NODE_PROFILE, VITE_ROOT, VITE_REGISTER, VITE_USERS,VITE_PLANS_PANEL, VITE_VIDEOS_PANEL
     };
   }
   
