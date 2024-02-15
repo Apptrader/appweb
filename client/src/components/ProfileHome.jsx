@@ -8,8 +8,8 @@ import getParamsEnv from "../functions/getParamsEnv";
 
 const {API_URL_BASE} = getParamsEnv()
 
-const ProfileHome = () => {
-  const user = useSelector((state) => state?.user);
+const ProfileHome = ({user}) => {
+
   const [rankNames, setRankNames] = useState({
     rankId: "",
     highestRankId: ""
@@ -65,7 +65,6 @@ const ProfileHome = () => {
 if (!isLoading) {
   return (
     <div className='container m-auto w-full px-10'>
-      <button onClick={calculate} className="text-white font-bold p-5 rounded-full">Calculate</button>
       <div className='flex flex-row gap-5'>
         <div className='bg-gray-900 w-3/5' style={{ flex: '1', padding: '20px' }}>
           {/* Amplié el ancho del primer componente a w-3/5 */}

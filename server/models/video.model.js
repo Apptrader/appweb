@@ -3,8 +3,8 @@ import sequelize from '../dbconnection.js';
 import VideoChapter from './videoChapter.js';
 const Video = sequelize.define('video', {
   id: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
     allowNull: false,
     primaryKey: true
   },

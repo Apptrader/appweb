@@ -7,9 +7,21 @@ import PaidPlan from '../models/paidplans.model.js';
 import nodemailer from 'nodemailer';
 
 export const allUsers = async (req,res) =>{
+  console.log("hola")
 
-  const users = await User.findAll();
-  res.json(users)
+ try {
+  const users = await User.findAll({
+    include: [
+      { model: PaidPlan, attributes: ['idPaidPlan', 'planName',]},
+      { model: Rank, attributes: ['id', 'name', "right", "left"] }
+    ]
+  });
+
+  console.log(users,"usuarios")
+  res.status(200).json(users)
+ } catch (error) {
+  res.status(500).json(error)
+ }
 };
 
 export const sendEmailRegister = async (email, code, name) => {

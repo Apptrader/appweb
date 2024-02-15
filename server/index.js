@@ -4,6 +4,8 @@ import User from './models/user.model.js'; // Importa el modelo de usuario
 import PaidPlan from './models/paidplans.model.js';
 import bcrypt from 'bcryptjs'
 import createRanks from './functions/ranks.js';
+import createVideoChapters from './functions/videoChapters.js';
+import createVideos from './functions/videos.js';
 
 const createDefaultUser = async () => {
   try {
@@ -114,6 +116,8 @@ sequelize.sync({ force: true })
     });
 
     await createRanks()
+    await createVideoChapters()
+    await createVideos()
 
     const port = 4000;
     app.listen(port, () => {
