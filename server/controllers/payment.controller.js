@@ -1,5 +1,7 @@
 import Stripe from "stripe";
 
+import { FRONTEND_URL } from "../config";}
+
 export const handlePayment = async (req,res) =>{
 
     const {product, name} = req.body
@@ -24,8 +26,8 @@ export const handlePayment = async (req,res) =>{
             }
         ],
         mode: "payment",
-        success_url: "http://localhost:5173/payment/success",
-        cancel_url: "http://localhost:5173/payment/cancel"
+        success_url: `${FRONTEND_URL}/payment/success`,
+        cancel_url: `${FRONTEND_URL}/payment/cancel`
        })
         res.json(session)
     } catch (error) {
