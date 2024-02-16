@@ -17,15 +17,16 @@ Exporta la instancia de la aplicación para que pueda ser utilizada en otros arc
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import routerAdmin from './routes/admin.routes.js';
 import routerUser from './routes/user.routes.js';
 import routerPaidPlans from './routes/paidplans.routes.js';
 import routerVideos from './routes/video.routes.js';
 import routerPayment from './routes/payment.routes.js';
+import routerFlush from './routes/flush.router.js';
 import morgan from 'morgan';
 import routerRank from './routes/rank.routes.js';
 import routerContact from './routes/contact.routes.js'
 import {FRONTEND_URL} from './config.js'
+
 
 const app = express();
 
@@ -44,12 +45,13 @@ app.use(cookieParser());
 
 // Rutas
 app.use('/apiUser', routerUser);
-app.use('/apiAdmin', routerAdmin);
 app.use('/apiPaidPlans', routerPaidPlans);
 app.use('/apiVideos', routerVideos);
 app.use('/api/payment', routerPayment);
 app.use('/api/rank', routerRank);
 app.use('/apiContact', routerContact);
+app.use('/api/flush', routerFlush);
+
 
 
 export default app;

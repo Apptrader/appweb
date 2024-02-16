@@ -4,7 +4,7 @@ import { API_KEY } from './maps/API_KEYS';
 
 const MapComponent = () => {
   const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: API_KEY,
+    googleMapsApiKey: "AIzaSyCM8hPXnCcO_wGR9bR3ZvkHBBoHi99lhpU",
   });
 
   const mapStyles = {

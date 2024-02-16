@@ -66,9 +66,10 @@ if (!isLoading) {
   return (
     <div className='container m-auto w-full px-10'>
       <div className='flex flex-row gap-5'>
-        <div className='bg-gray-900 w-3/5' style={{ flex: '1', padding: '20px' }}>
-          {/* Amplié el ancho del primer componente a w-3/5 */}
+        <div className=' bg-gray-800 w-3/5' style={{ flex: '1', padding: '20px' }}>
+         
           <ReferralTree />
+          
         </div>
         <div className='bg-gray-900 w-1/5' style={{ flex: '1', padding: '20px' }}>
          

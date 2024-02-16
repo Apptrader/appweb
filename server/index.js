@@ -20,7 +20,8 @@ const createDefaultUser = async () => {
         Password: '123456', // Cambia esto por la contraseña deseada
         Phone: '1234567890',
         referralsCount: 0,
-        status: 0,
+        idPaidPlan: 3,
+        status: 1,
         role: '1' // Define el rol del usuario por defecto
       };
 
