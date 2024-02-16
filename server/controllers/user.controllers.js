@@ -5,6 +5,7 @@ import sequelize from '../dbconnection.js';
 import Rank from '../models/rank.model.js';
 import PaidPlan from '../models/paidplans.model.js';
 import nodemailer from 'nodemailer';
+import Flush from '../models/flush.model.js';
 
 export const allUsers = async (req,res) =>{
   console.log("hola")
@@ -248,21 +249,31 @@ const getGenerations = async (user, generation) => {
 export const updateUserPlan = async (req, res) => {
   const {plan} = req.body 
   const {id} = req.user
+  console.log(plan, "plandetails")
 
-  console.log(plan, "updateplan")
+  let bonus
+
+  if(plan.id === 3){
+    bonus = 150
+  } else if (plan.id === 2) {
+    bonus = 60
+  } else {
+    bonus = 35
+  }
 
 
-  try {
+ try { 
 
-    let referencedUser = await User.findOne({ where: { UserCode: plan.referred } });
+    
 
-    if (!referencedUser) {
+    if (plan.referred.length === 0) {
+
+      console.log(plan.referred.length, "plan22")
       const result = await User.update(
         { 
           idPaidPlan: plan.id,
           status: 1,
           position: "",
-          CodeReferenced: plan.referred
         },
         { where: { idUser: id } }
       );
@@ -283,8 +294,10 @@ export const updateUserPlan = async (req, res) => {
       } else {
         res.json("Error")
       }
-    }
+    } else {
 
+
+      let referencedUser = await User.findOne({ where: { UserCode: plan.referred } });
     
     const newReferralCount = referencedUser.referralsCount + 1;
 
@@ -341,6 +354,14 @@ export const updateUserPlan = async (req, res) => {
       await assignRank(referencedUser.idUser)
 
     }
+
+    const newFlush = await Flush.create({ 
+      user_id: referencedUser.idUser,
+      plan_id: plan.id,
+      date: new Date(),
+      amount: bonus
+  });
+
     
 
     let user = referencedUser;
@@ -401,9 +422,13 @@ export const updateUserPlan = async (req, res) => {
     } else {
       res.json("Error")
     }
+    }
+
+   
   } catch (error) {
     console.log(error)
-  }
+  } 
+
 
 }
 

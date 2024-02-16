@@ -66,6 +66,7 @@ const RegisterUserComponent = () => {
     };
 
     const handleSubmit = async (e) => {
+        //loadingOn(true)
        console.log(errors)
         e.preventDefault();
 
@@ -87,6 +88,7 @@ const RegisterUserComponent = () => {
 
                 // Manejar la respuesta del servidor según sea necesario
                 if (response.data.created === 'ok') {
+                    //false
                     dispatch(setUser(response.data));
                     navigate('/home');
                 }

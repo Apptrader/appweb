@@ -2,6 +2,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {  ArrowRightStartOnRectangleIcon, ArrowRightCircleIcon, UserCircleIcon} from '@heroicons/react/24/solid'
 import { setLogOut } from '../redux/actions';
+import getParamsEnv from '../functions/getParamsEnv';
+
+const {VITE_HOME, VITE_AIQ_BONUS_PLAN, VITE_NEO_TECH_AI_ROBOT, VITE_ABOUT, VITE_ALL_VIDEOS, VITE_PAID_PLAN_LIST, VITE_CONTACT} = getParamsEnv()
 
 const NavbarComponent = () => {
     const navigate = useNavigate();
@@ -33,13 +36,13 @@ const NavbarComponent = () => {
                         <div className="text-white font-bold text-xl ml-2">AIQ Academy</div>
                     </div>
                     <div className="hidden ml-6 space-x-4 sm:flex items-center justify-center">
-                        <Link to="/home" className="text-white font-bold hover:bg-gray-700 hover:text-white px-3 py-2 text-sm border-r border-blue-500">Home</Link>
-                        <Link to="/aiqBonusPlan" className="text-white font-bold hover:bg-gray-700 hover:text-white px-3 py-2 text-sm border-r border-blue-500">AIQ Bonus Plan</Link>
-                        <Link to="/neo-tech-ai-robot" className="text-white font-bold hover:bg-gray-700 hover:text-white px-3 py-2 text-sm border-r border-blue-500">NeoTech AI Robot</Link>
-                        <Link to="/about" className="text-white font-bold hover:bg-gray-700 hover:text-white px-3 py-2 text-sm border-r border-blue-500">About</Link>
-                        <Link to="/allVideos" className="text-white font-bold hover:bg-gray-700 hover:text-white px-3 py-2 text-sm border-r border-blue-500">Training Videos</Link>
-                        <Link to="/paidPlansList" className="text-white font-bold hover:bg-gray-700 hover:text-white px-3 py-2 text-sm border-r border-blue-500">Plans & Pricing</Link>
-                        <Link to="/contact" className="text-white font-bold hover:bg-gray-700 hover:text-white px-3 py-2 text-sm">Contact</Link>
+                        <Link to={VITE_HOME} className="text-white font-bold hover:bg-gray-700 hover:text-white px-3 py-2 text-sm border-r border-blue-500">Home</Link>
+                        <Link to={VITE_AIQ_BONUS_PLAN} className="text-white font-bold hover:bg-gray-700 hover:text-white px-3 py-2 text-sm border-r border-blue-500">AIQ Bonus Plan</Link>
+                        <Link to={VITE_NEO_TECH_AI_ROBOT} className="text-white font-bold hover:bg-gray-700 hover:text-white px-3 py-2 text-sm border-r border-blue-500">NeoTech AI Robot</Link>
+                        <Link to={VITE_ABOUT} className="text-white font-bold hover:bg-gray-700 hover:text-white px-3 py-2 text-sm border-r border-blue-500">About</Link>
+                        <Link to={VITE_ALL_VIDEOS} className="text-white font-bold hover:bg-gray-700 hover:text-white px-3 py-2 text-sm border-r border-blue-500">Training Videos</Link>
+                        <Link to={VITE_PAID_PLAN_LIST} className="text-white font-bold hover:bg-gray-700 hover:text-white px-3 py-2 text-sm border-r border-blue-500">Plans & Pricing</Link>
+                        <Link to={VITE_CONTACT} className="text-white font-bold hover:bg-gray-700 hover:text-white px-3 py-2 text-sm">Contact</Link>
                     </div>
                     <div className="flex items-center">
                        
