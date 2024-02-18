@@ -11,7 +11,7 @@ const Video = sequelize.define('video', {
   videoUrl: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true
+    unique: false
   },
   title: {
     type: DataTypes.STRING,
@@ -21,6 +21,10 @@ const Video = sequelize.define('video', {
   chapter_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
+  },
+  language: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false
   }
 });
 
