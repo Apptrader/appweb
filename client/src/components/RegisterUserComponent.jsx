@@ -5,6 +5,8 @@ import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/actions';
 import NavbarComponent from './NavbarComponent';
 import getParamsEnv from '../functions/getParamsEnv';
+import './styles/loader.css';
+
 
 const {API_URL_BASE} = getParamsEnv()
 
@@ -13,6 +15,8 @@ console.log(API_URL_BASE)
 const RegisterUserComponent = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const [isLoading, setLoading] = useState(false);
 
     const [formData, setFormData] = useState({
         UserName: '',
@@ -66,8 +70,8 @@ const RegisterUserComponent = () => {
     };
 
     const handleSubmit = async (e) => {
-        //loadingOn(true)
-       console.log(errors)
+        setLoading(true); // Mostrar el loader
+        console.log(errors)
         e.preventDefault();
 
         if (validateForm()) {
@@ -88,7 +92,7 @@ const RegisterUserComponent = () => {
 
                 // Manejar la respuesta del servidor según sea necesario
                 if (response.data.created === 'ok') {
-                    //false
+                    setLoading(false); // Ocultar el loader
                     dispatch(setUser(response.data));
                     navigate('/home');
                 }
@@ -106,6 +110,7 @@ const RegisterUserComponent = () => {
                 <div className="bg-black px-6 py-8 rounded shadow-md  w-full">
                     <img className="mx-auto h-10 w-auto" src="https://static.wixstatic.com/media/39c6da_c313300b528e4aa284d37b4c31f951a8~mv2.png/v1/crop/x_83,y_128,w_336,h_226/fill/w_154,h_104,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/Untitled%20design.png" alt="Your Company" />
                     <h1 className="mt-10 mb-10 text-center text-2xl font-bold leading-9 tracking-tight text-white">Sign up</h1>
+                   
                     <form onSubmit={handleSubmit}>
                         <div className="mb-4">
                             <label
@@ -192,10 +197,19 @@ const RegisterUserComponent = () => {
                             )}
                        </div>
 
-                        <button
-                            type="submit"
-                            className="mt-6 flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 font-bold leading-6 text-white shadow-sm hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                        >Create Account</button>
+                        
+                        <div className="flex justify-center items-center mt-6 flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 font-bold leading-6 text-white shadow-sm hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                        {isLoading ? (
+                            <span className="loader"></span>
+                        ) : (
+                            <button
+                                type="submit"
+                                className="flex justify-center rounded-md bg-blue-600 px-3 py-1.5 font-bold leading-6 text-white shadow-sm hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            >
+                                Create Account
+                            </button>
+                        )}
+                        </div>
                     </form>
 
                     <div className="text-center text-sm text-white mt-4 font-bold">

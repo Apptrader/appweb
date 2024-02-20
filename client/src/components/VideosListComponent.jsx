@@ -1,89 +1,89 @@
-
+import { useState, useEffect } from 'react';
 import ReactPlayer from 'react-player';
+import axios from 'axios';
 
 const VideosListComponent = () => {
+    const [language, setLanguage] = useState(true); // Estado para almacenar el idioma seleccionado (true para inglés, false para árabe)
+    const [selectedChapter, setSelectedChapter] = useState(null); // Estado para almacenar el capítulo seleccionado
+    const [videosData, setVideosData] = useState([]); // Estado para almacenar los datos de los videos
 
-    // Const videos = useSelector
-    // Const chapters= userSelector
-    
-    const videosData = [
-        {   
-            title: "Understanding Trends, HH, HL",
-            chapter:"1",
-            url: "https://www.youtube.com/watch?v=bo9Z_pgByQY&ab_channel=EdgarCrampton"
-        },
-        {
-            title: "Understanding Trends, HH, HL",
-            chapter:"1",
-            url: "https://www.youtube.com/watch?v=bo9Z_pgByQY&ab_channel=EdgarCrampton"
-        },
-        {
-            title: "Understanding Trends, HH, HL",
-            chapter:"1",
-            url: "https://www.youtube.com/watch?v=bo9Z_pgByQY&ab_channel=EdgarCrampton"
-        },
-        {
-            title: "Understanding Trends, HH, HL",
-            chapter:"2",
-            url: "https://www.youtube.com/watch?v=bo9Z_pgByQY&ab_channel=EdgarCrampton"
-        },
-        {
-            title: "Understanding Trends, HH, HL",
-            chapter:"2",
-            url: "https://www.youtube.com/watch?v=bo9Z_pgByQY&ab_channel=EdgarCrampton"
-        },
-        {
-            title: "Understanding Trends, HH, HL",
-            chapter:"2",
-            url: "https://www.youtube.com/watch?v=bo9Z_pgByQY&ab_channel=EdgarCrampton"
-        },
-        {
-            title: "Understanding Trends, HH, HL",
-            chapter:"2",
-            url: "https://www.youtube.com/watch?v=bo9Z_pgByQY&ab_channel=EdgarCrampton"
-        },
-        {
-            title: "Understanding Trends, HH, HL",
-            chapter:"2",
-            url: "https://www.youtube.com/watch?v=bo9Z_pgByQY&ab_channel=EdgarCrampton"
-        },
+    const handleLanguageChange = (selectedLanguage) => {
+        setLanguage(selectedLanguage);
+    };
 
-        
-    ];
+    const handleChapterChange = (chapterId) => {
+        setSelectedChapter(chapterId);
+    };
 
-    const chaptersVideos = [
-        {
-            id:1,
-            name: "Chapter 1: A world of technical trading"
-        
-        },
-        {
-            id:2,
-            name: "Chapter 2: The New Beginning"
-        
-        }
-    ]
+    useEffect(() => {
+        // Realizar la solicitud HTTP para obtener los datos de los videos
+        axios.get('http://localhost:4000/apiVideos/videos')
+            .then(response => {
+                setVideosData(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching videos:', error);
+            });
+    }, []);
 
+    const filteredVideos = videosData.filter(video => video.language === language);
 
-    const videosByChapter = videosData.reduce((acc, video) => {
-        acc[video.chapter] = acc[video.chapter] || [];
-        acc[video.chapter].push(video);
+    // Extraer los capítulos de los datos de los videos
+    const chaptersVideos = Array.from(new Set(filteredVideos.map(video => video.chapter_id))).map(chapter => ({
+        id: chapter,
+        name: `Chapter ${chapter}`
+    }));
+
+    const videosByChapter = filteredVideos.reduce((acc, video) => {
+        acc[video.chapter_id] = acc[video.chapter_id] || [];
+        acc[video.chapter_id].push(video);
         return acc;
     }, {});
 
+    const selectedChapterVideos = videosByChapter[selectedChapter] || [];
+
     return (
         <div className='px-40'>
-            {/* Renderizar videos por capítulo */}
-            {chaptersVideos.map((chapter) => (
-                <div key={chapter.id}>
-                    <h1 className="text-4xl font-bold text-white mb-8 text-left pt-16">{chapter.name}</h1>
+            {/* Botones de selección de idioma */}
+            <div className="mb-4">
+                <button 
+                    className={`mr-4 ${language ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'} px-4 py-2 rounded`}
+                    onClick={() => handleLanguageChange(true)}
+                >
+                    English
+                </button>
+                <button 
+                    className={`mr-4 ${!language ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'} px-4 py-2 rounded`}
+                    onClick={() => handleLanguageChange(false)}
+                >
+                    Arabic
+                </button>
+            </div>
+
+            {/* Botones de selección de capítulo */}
+            <div className="mb-4">
+                {chaptersVideos.map(chapter => (
+                    <button
+                        key={chapter.id}
+                        className={`mr-4 ${selectedChapter === chapter.id ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'} px-4 py-2 rounded`}
+                        onClick={() => handleChapterChange(chapter.id)}
+                    >
+                        {chapter.name}
+                    </button>
+                ))}
+            </div>
+
+            {/* Renderizar videos del capítulo seleccionado */}
+            {selectedChapter && (
+                <div>
+                    <h1 className="text-4xl font-bold text-white mb-8 text-left pt-16">{`Chapter ${selectedChapter}`}</h1>
                     <div className="flex flex-wrap justify-start">
-                        {videosByChapter[chapter.id]?.map((video, index) => (
+                        {selectedChapterVideos.map((video, index) => (
                             <div key={index} className="w-full md:w-1/2 lg:w-1/3 p-4">
                                 <div className="mb-2 font-bold text-blue-400">{video.title}</div>
                                 <div className="flex justify-center">
                                     <ReactPlayer
-                                        url={video.url}
+                                        url={video.videoUrl} // Corregir el nombre de la propiedad para acceder a la URL del video
                                         width="90%"
                                         height="80%"
                                         controls={true}
@@ -94,11 +94,9 @@ const VideosListComponent = () => {
                         ))}
                     </div>
                 </div>
-            ))}
+            )}
         </div>
     );
-
 }
 
-export default VideosListComponent
-
+export default VideosListComponent;

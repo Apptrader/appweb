@@ -203,68 +203,9 @@ const PaidPlansListComponent = () => {
           </div>
         </div>
       </div>
-      <div className='flex flex-col md:flex-row bg-black text-white font-bold xs:pt-[100px] md:pt-20 lg:pt-24 xl:pt-32 pb-16 md:pb-20 lg:pb-24 xl:pb-[250px] px-4 md:px-8 lg:px-16 xl:px-32 xl:pt-[250px]'>
-        <div className='flex-1 m-auto  md:text-left'>
-          <h1 className='text-5xl md:text-7xl text-center'>50% off</h1>
-        </div>
-        <div className='flex-1 mt-6 md:mt-0'>
-          <p className='pb-6 md:pb-10'>AIQ offers 50% off on the BASIC package for clients who live in these countries.</p>
-          <p className='pb-6 md:pb-10'>Algeria, Argentina, Azerbaijan, Bangladesh, Bolivia, Brazil, Chile, China, Colombia, Costa Rica, Cuba, Djibouti, Ecuador, Egypt, Ethiopia, Georgia, India, Indonesia, Iran, Jamaica, Jordan, Lebanon, Libya, Mexico, Morocco, Panama, Pakistan, Palestine, Paraguay, Senegal, Somalia, Sudan, Syria, Thailand, Tunisia, Uruguay, Uzbekistan, Venezuela, Yemen, Zambia.</p>
-          <p>You have to submit proof of address to be eligible for this discount.</p>
-        </div>
-      </div>
+      
       <PartnersComponent />
-      <h1 className='text-center bg-black font-bold text-7xl text-white pt-32'>Choose your package</h1>
-      <div className='flex flex-col bg-black text-white font-bold pt-32 items-stretch justify-center sm:flex-row sm:flex-wrap sm:gap-4 md:gap-8 lg:gap-10'>
-        
-        {Object.keys(initialPackageStates).map((packageName) => (
-          <div
-            key={packageName}
-            className={`flex flex-col items-center justify-between p-4 sm:w-full md:w-[300px] border border-blue-300 hover:border-dashed relative ${packageStates[packageName].selected ? 'selected' : ''}`}
-          >
-            <div>
-              <p className='text-center pb-16'>{packageName}</p>
-            </div>
-
-            <div className='flex-1 flex flex-col items-center'>
-              <button
-                className='mb-2 border border-blue-300 rounded-full px-6 py-1 hover:text-gray-300'
-                onClick={() => handlePaymentConfirm(packageStates[packageName], packageName)} // Change here
-              >
-                Select
-              </button>
-
-              {packageStates[packageName].selected ? (
-                <ChevronUpIcon
-                  onClick={() => toggleDetails(packageName)}
-                  className="mb-2 w-6 h-6 text-gray-500 m-auto mt-2"
-                />
-              ) : (
-                <ChevronDownIcon
-                  onClick={() => toggleDetails(packageName)}
-                  className="mb-2 w-6 h-6 text-gray-500 m-auto mt-2"
-                />
-              )}
-
-              {/* Render details only if the package is selected */}
-            </div>
-            {packageStates[packageName].selected && (
-              <div key={`${packageName}-details`} className='p-2 border-t border-blue-300 font-bold w-full'>
-                {packageStates[packageName].details.map((detail, index) => (
-                  <div key={index} className="flex mt-2 p-2">
-                    <div>
-                      <CheckBadgeIcon className='h-4 w-4 mr-2 text-blue-600' />
-                    </div>
-                    <div>
-                      <p className="text-xs">{detail}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
+      
       <FooterComponent />
       </div>
       {

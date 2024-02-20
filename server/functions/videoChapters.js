@@ -3,9 +3,18 @@ import VideoChapter from "../models/videoChapter.js";
 const createVideoChapters = async () => {
   try {
     const chaptersData = [
-      { name: 'chapter1' },
-      { name: 'chapter2' },
-      { name: 'chapter3' }
+      {
+        "name": "Chapter 1: Introduction to Political Trading"
+      },
+      {
+        "name": "Chapter 2: Understanding Market Dynamics"
+      },
+      {
+        "name": "Chapter 3: Analyzing Political Trends"
+      },
+      {
+        "name": "Chapter 4: Strategies for Political Investment"
+      }
     ];
 
     for (const chapter of chaptersData) {

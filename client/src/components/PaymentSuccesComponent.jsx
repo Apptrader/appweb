@@ -61,7 +61,7 @@ const PaymentSuccessComponent = () => {
             alt="Imagen de éxito"
             className="mb-4 h-14 w-14"
           />
-          <p className="text-4xl font-bold mb-4">El pago fue exitoso</p>
+          <p className="text-4xl font-bold mb-4">The payment was successful.</p>
         </div>
       </div>
     </div>

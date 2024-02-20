@@ -12,6 +12,8 @@ const LogInUserComponent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const [isLoading, setLoading] = useState(false);
+
   const [formData, setFormData] = useState({
     Email: '',
     Password: '',
@@ -49,6 +51,7 @@ const LogInUserComponent = () => {
 
     if (validateForm()) {
       try {
+        setLoading(true); // Mostrar el loader
         // Realizar la solicitud a tu servidor Node.js
         console.log('Datos del formulario:', formData);
         const response = await axios.post(
@@ -61,7 +64,7 @@ const LogInUserComponent = () => {
             },
           }
         );
-
+        setLoading(false); // Ocultar el loader
         dispatch(setUser(response.data));
         navigate(VITE_HOME);
 
@@ -150,14 +153,18 @@ const LogInUserComponent = () => {
               )}
             </div>
           </div>
-          <div>
-            <button
-              type="submit"
-              className="flex w-full justify-center py-2 px-4 border border-transparent rounded-md bg-indigo-600 text-sm font-bold text-white hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-            >
-              Sign in
-            </button>
-          </div>
+          <div className="flex justify-center items-center mt-6 flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 font-bold leading-6 text-white shadow-sm hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            {isLoading ? (
+                <span className="loader"></span>
+            ) : (
+                <button
+                    type="submit"
+                    className="flex justify-center rounded-md bg-blue-600 px-3 py-1.5 font-bold leading-6 text-white shadow-sm hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                    Log In
+                </button>
+            )}
+            </div>
         </form>
 
         <p className="mt-8 text-center text-sm text-gray-400">
