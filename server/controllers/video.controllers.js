@@ -13,11 +13,13 @@ export const allVideos = async (req,res) =>{
 };
 
 export const createVideo = async (req, res) => {
+ 
+  console.log(req.body, "body")
   const {
     videoUrl,
     title,
     chapter_id,
-    lenguaje
+    language
   } = req.body;
 
   try {
@@ -25,10 +27,10 @@ export const createVideo = async (req, res) => {
       videoUrl,
       title,
       chapter_id,
-      lenguaje
+      language
     });
 
-    res.status(201).json({ message: 'New video created', video: newVideo });
+    res.status(201).json({ message: 'New video created', video: newVideo, created: "ok" });
 
   } catch (error) {
     console.error('Error creating new video:', error);
@@ -57,3 +59,11 @@ export const createChapter = async (req, res) => {
   }
 };
 
+export const getAllChapters = async (req,res) => {
+  try {
+    const response = await VideoChapter.findAll()
+    res.status(200).json(response)
+  } catch (error) {
+    res.json(error)
+  }
+}

@@ -6,16 +6,19 @@ import getParamsEnv from "../functions/getParamsEnv";
 import { IoIosAddCircle } from "react-icons/io";
 import { MdDeleteForever } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
+import CreateVideoModal from "./modals/CreateVideosModal";
 
 
 const { API_URL_BASE } = getParamsEnv();
 
 const VideosTable = () => {
-  const [showCreateServiceModal, setShowCreateServiceModal] = useState(false);
+  const [showCreateVideoModal, setShowCreateVideoModal] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [showEditServiceModal, setShowEditServiceModal] = useState(false);
   const [filaService, setFilaService] = useState(null);
   const [serviceId, setServiceId] = useState(null);
+
+
 
   const token = useSelector((state) => state?.token);
   const dispatch = useDispatch();
@@ -48,7 +51,11 @@ const VideosTable = () => {
 
     getVideos();
 
-  }, []);
+  }, [aux]);
+
+  const addVideo = async () => {
+    showCreateVideoModal(true)
+  }
 
 
   /*   useEffect(() => {
@@ -96,14 +103,15 @@ const VideosTable = () => {
       }
     };
   
-    const handleShowCreateModal = () => {
-      setShowCreateServiceModal(true);
-    };
   
     const handleEditServiceModal = (filaService) => {
       setShowEditServiceModal(true);
       setFilaService(filaService);
     }; */
+
+    const handleShowCreateModal = () => {
+      setShowCreateVideoModal(true);
+    };
 
   console.log(videos)
 
@@ -127,16 +135,17 @@ const VideosTable = () => {
                   <th scope="col" className="px-4 py-3">
                     <button
                       className="flex flex-row gap-1 p-2 rounded-full hover:bg-primaryPink hover:text-gray-500"
+                      onClick={handleShowCreateModal}
                     >
                       <IoIosAddCircle size={20} /> Agregar
                     </button>
-                  </th>                  
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {videos && videos
                   .slice()
-                  .sort((a, b) => a.id.localeCompare(b.id))
+                  .sort((a, b) => a.id - b.id) // Cambia la función de comparación aquí
                   .map((video, index) => (
                     <tr
                       key={index}
@@ -145,7 +154,7 @@ const VideosTable = () => {
                       <td className="px-4 py-4">{video.videoChapter.name}</td>
                       <td className="px-4 py-4">{video.title}</td>
                       <td className="px-4 py-4">{video.videoUrl}</td>
-                      
+
                       <td className="px-4 py-4">
                         <button
                           className="hover:bg-blue-700 text-black px-2 py-1 rounded mr-2"
@@ -166,12 +175,12 @@ const VideosTable = () => {
             </table>
           </div>
         </div>
-        {/* {showCreateServiceModal && (
-          <CreateServiceModal
+        {/* {showCreateVideoModal && (
+          <CreateVideoModal
             aux={aux}
             setAux={setAux}
             token={token}
-            setShowCreateServiceModal={setShowCreateServiceModal}
+            setShowCreateVideoModal={setShowCreateVideoModal}
      
           />
         )}
@@ -213,6 +222,15 @@ const VideosTable = () => {
           </div>
         )}
         <ToasterConfig /> */}
+        {showCreateVideoModal && (
+          <CreateVideoModal
+            aux={aux}
+            setAux={setAux}
+            token={token}
+            setShowCreateVideoModal={setShowCreateVideoModal}
+     
+          />
+        )}
       </>
     );
   } else {
