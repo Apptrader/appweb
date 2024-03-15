@@ -4,8 +4,9 @@ import multer from "multer";
 
 import multerS3 from 'multer-s3';
 import {config} from 'dotenv';
-import { S3 } from "@aws-sdk/client-s3";
-import { S3Client } from "@aws-sdk/client-s3";
+import { S3, S3Client } from "@aws-sdk/client-s3";
+import {  GetObjectCommand } from "@aws-sdk/client-s3";
+
 import { CreateMultipartUploadCommand, UploadPartCommand, CompleteMultipartUploadCommand } from "@aws-sdk/client-s3";
 import dotenv from 'dotenv';
 dotenv.config();
@@ -62,6 +63,7 @@ export const createVideo = async (req, res) => {
 
   try {
     const newVideo = await Video.create({
+      
       videoUrl: req.file.location, // La URL del archivo en S3
       title,
       chapter_id,
@@ -75,15 +77,47 @@ export const createVideo = async (req, res) => {
   }
 };
 
-export const allVideos = async (req,res) =>{
+export const allVideos = async (req, res) => {
+  try {
+    // Consulta para obtener los datos de los videos desde tu base de datos
+    const videos = await Video.findAll({
+      include: [{ model: VideoChapter, attributes: ['name'] }]
+    });
+    console.log("ESTOS SON LOS VIDEOS: ",videos)
 
-  const video = await Video.findAll({
-    include:[
-      { model: VideoChapter, attributes: ['name']}
-    ]
-  });
-  res.json(video)
+    // Construir las URLs de los videos en tu bucket de S3
+    const s3 = new S3Client({ 
+      region: process.env.AWS_BUCKET_REGION, 
+      credentials: {
+        accessKeyId: process.env.AWS_PUBLIC_KEY, 
+        secretAccessKey: process.env.AWS_SECRET_KEY,
+      }
+    });
+
+    const bucket = process.env.AWS_BUCKET_NAME;
+
+    const videosWithS3Urls = await Promise.all(
+      videos.map(async video => {
+        const s3Params = {
+          Bucket: bucket,
+          Key: video.videoUrl // Utiliza la propiedad correcta que almacena la ubicación del video en S3
+        };
+
+        const command = new GetObjectCommand(s3Params); // Usamos GetObjectCommand para obtener el objeto
+
+        //const signedUrl = await s3.getSignedUrl(command, { expiresIn: 3600 }); // Obtenemos la URL firmada para el objeto
+
+        return { ...video.toJSON(), s3Url: command };
+      })
+    );
+
+    res.json(videosWithS3Urls);
+  } catch (error) {
+    console.error('Error fetching videos:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 };
+
 
 export const createChapter = async (req, res) => {
   const { name } = req.body;
