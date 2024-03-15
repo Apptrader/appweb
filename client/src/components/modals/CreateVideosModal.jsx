@@ -15,7 +15,7 @@ const CreateVideoModal = ({
     const [video, setVideo] = useState({
         chapter_id: "",
         title: "",
-        videoUrl: "",
+        video: null,
         language: false,
     });
 
@@ -57,18 +57,23 @@ const CreateVideoModal = ({
     };
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setVideo(prevState => ({
-            ...prevState,
-            [name]: name === "language" ? value === 'true' : value // Convert string to boolean for language
-        }));
-
-        // Validations on change
-        const validationErrors = {
-            ...errors,
-            [name]: value.trim() === "" ? `This field is required` : ""
-        };
-        setErrors(validationErrors);
+        if(e.target.name === "video"){
+            setVideo(prevState => ({
+                ...prevState,
+                video: e.target.files[0]
+            }))
+        } else {
+            const { name, value } = e.target;
+            setVideo(prevState => ({
+                ...prevState,
+                [name]: name === "language" ? value === 'true' : value // Convert string to boolean for language
+            }));
+            const validationErrors = {
+                ...errors,
+                [name]: value.trim() === "" ? "This field is required" : ""
+            };
+            setErrors(validationErrors);
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -77,7 +82,7 @@ const CreateVideoModal = ({
         // Validations on submit
         const validationErrors = {
             title: video.title.trim() === "" ? "This field is required" : "",
-            videoUrl: video.videoUrl.trim() === "" ? "This field is required" : "",
+            video: !video.video ? "This field is required" : "",
             language: video.language === "" ? "Please select a language" : "",
             chapter_id: video.chapter_id === "" ? "Please select a chapter" : "",
         };
@@ -89,19 +94,22 @@ const CreateVideoModal = ({
             try {
                 setDisableSubmit(true);
                 setSubmitLoader(true);
+                // creating a new form data
+                const formData = new FormData();
+                formData.append('video', video.video);
+                formData.append('title', video.title);
+                formData.append('language', video.language);
+                formData.append('chapter_id', video.chapter_id);
 
-                const data = {
-                    chapter_id: video.chapter_id,
-                    title: video.title,
-                    videoUrl: video.videoUrl,
-                    language: video.language,
-                };
-
-                const response = await axios.post(`${API_URL_BASE}/apiVideos/createVideo`, data, {
+                const options = {
                     headers: {
+                        'content-type': 'multipart/form-data',
                         Authorization: `Bearer ${token}`
                     }
-                });
+                };
+
+                const response = await axios.post(`${API_URL_BASE}/apiVideos/createVideo`, formData, options);
+
 
                 console.log(response)
 
@@ -148,17 +156,15 @@ const CreateVideoModal = ({
                                     )}
                                 </div>
                                 <div>
-                                    <label className="pl-1 font-bold dark:text-darkText">Video URL</label>
+                                    <label className="pl-1 font-bold dark:text-darkText">Video File</label>
                                     <input
                                         onChange={handleChange}
-                                        type="text"
-                                        name="videoUrl"
-                                        value={video.videoUrl}
-                                        placeholder="Video URL"
-                                        className={`border border-black p-2 text-black font-bold bg-gray-300  rounded w-full dark:text-darkText dark:bg-darkPrimary`}
+                                        type="file"
+                                        name="video"
+                                        className="border border-black p-2 text-black font-bold bg-gray-300 rounded w-full dark:text-darkText dark:bg-darkPrimary"
                                     />
-                                    {errors.videoUrl && (
-                                        <p className="text-red-500 font-bold">{errors.videoUrl}</p>
+                                    {errors.video && (
+                                        <p className="text-red-500 font-bold">{errors.video}</p>
                                     )}
                                 </div>
                                 <div>
