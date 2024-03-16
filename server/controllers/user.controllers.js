@@ -68,7 +68,7 @@ export const sendEmailRegister = async (email, code, name) => {
     port: 587,
     secure: false,
       auth: {
-          user: 'ramiro.alet@hotmail.com',
+          user: 'ramiro.alessst@hotmail.com',
           pass: 'luciana.11'
       }
   });

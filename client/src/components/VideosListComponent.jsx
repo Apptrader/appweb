@@ -26,6 +26,8 @@ const VideosListComponent = () => {
             });
     }, []);
 
+    console.log(videosData)
+
     const filteredVideos = videosData.filter(video => video.language === language);
 
     // Extraer los capítulos de los datos de los videos
