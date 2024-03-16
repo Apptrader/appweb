@@ -92,6 +92,8 @@ const CreateVideoModal = ({
         const hasErrors = Object.values(validationErrors).some((error) => error !== "");
         if (!hasErrors) {
             try {
+
+                console.log(video.video)
                 setDisableSubmit(true);
                 setSubmitLoader(true);
                 // creating a new form data

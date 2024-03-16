@@ -4,7 +4,7 @@ import multer from "multer";
 
 import multerS3 from 'multer-s3';
 import {config} from 'dotenv';
-import { S3, S3Client } from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3"; // Asegúrate de que la importación sea correcta
 import {  GetObjectCommand } from "@aws-sdk/client-s3";
 
 import { CreateMultipartUploadCommand, UploadPartCommand, CompleteMultipartUploadCommand } from "@aws-sdk/client-s3";
@@ -33,24 +33,22 @@ const s3Client = new S3Client({
   }
 });
 
+
+
 const upload = multer({
-  storage: multerS3({
-      s3: s3Client,
-      bucket: process.env.AWS_BUCKET_NAME,
-      
-      metadata: function (req, file, cb) {
-          cb(null, {fieldName: file.fieldname});
-      },
-      key: function (req, file, cb) {
-          cb(null, Date.now().toString())
-      }
-  })
+  storage: multer.memoryStorage(), // Almacenamos el archivo en memoria para acceder a su contenido
+  fileFilter: function (req, file, cb) {
+    // Verificar que el archivo tenga un tipo de contenido válido
+    if (!file.mimetype) {
+      return cb(new Error('El tipo de contenido del archivo no está definido.'));
+    }
+    cb(null, true);
+  }
 });
 
 export const uploadVideo = upload.single('video');
 
 export const createVideo = async (req, res) => {
-  console.log(req.body, "body")
   const {
     title,
     chapter_id,
@@ -62,9 +60,24 @@ export const createVideo = async (req, res) => {
   }
 
   try {
-    const newVideo = await Video.create({
-      
-      videoUrl: req.file.location, // La URL del archivo en S3
+    const uploadParams = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: req.file.originalname, // Nombre del archivo en S3
+      Body: req.file.buffer, // Contenido del archivo
+      ContentType: 'video/mp4' // Tipo de contenido
+    };
+
+    // Subir el archivo al bucket de S3
+    const data = await s3Client.send(new PutObjectCommand(uploadParams));
+
+    // Construir la URL del video en S3
+    const videoUrl = `https://${AWS_BUCKET_NAME}.s3.${AWS_BUCKET_REGION}.amazonaws.com/${req.file.originalname}`;
+
+    console.log(data, "la info del video")
+
+
+     const newVideo = await Video.create({
+      videoUrl: videoUrl,
       title,
       chapter_id,
       language
@@ -76,14 +89,13 @@ export const createVideo = async (req, res) => {
     res.status(500).json({ error: 'Error creating new video' });
   }
 };
-
 export const allVideos = async (req, res) => {
   try {
     // Consulta para obtener los datos de los videos desde tu base de datos
     const videos = await Video.findAll({
       include: [{ model: VideoChapter, attributes: ['name'] }]
     });
-    console.log("ESTOS SON LOS VIDEOS: ",videos)
+   /*  console.log("ESTOS SON LOS VIDEOS: ",videos) */
 
     // Construir las URLs de los videos en tu bucket de S3
     const s3 = new S3Client({ 

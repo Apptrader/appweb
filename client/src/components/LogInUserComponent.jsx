@@ -5,6 +5,8 @@ import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/actions';
 import NavbarComponent from './NavbarComponent';
 import getParamsEnv from '../functions/getParamsEnv';
+import toast from 'react-hot-toast';
+import ToasterConfig from './Toaster';
 
 const {API_URL_BASE, VITE_HOME, VITE_REGISTER } = getParamsEnv()
 
@@ -70,7 +72,9 @@ const LogInUserComponent = () => {
 
         console.log('Respuesta del servidor:', response.data);
       } catch (error) {
+        setLoading(false); // Ocultar el loader
         console.error('Error al enviar datos al servidor:', error);
+        toast.error(`${error.response.data.message ? error.response.data.message : "Log in Error, please try again"}`)
       }
     }
   };
@@ -178,6 +182,7 @@ const LogInUserComponent = () => {
         </p>
       </div>
     </div>
+    <ToasterConfig />
     </>
   );
 };

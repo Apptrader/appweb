@@ -39,7 +39,7 @@ const VideosTable = () => {
             },
           }
         );
-        console.log(response.data, "espuestas")
+        console.log(response.data, "respuestas")
         setVideos(response.data)
       }
 
@@ -52,6 +52,7 @@ const VideosTable = () => {
     getVideos();
 
   }, [aux]);
+
 
   const addVideo = async () => {
     showCreateVideoModal(true)

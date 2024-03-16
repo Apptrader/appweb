@@ -50,7 +50,7 @@ const ConfirmPayModal = ({ prod, setShowConfirmPayModal }) => {
   
 
   return (
-    <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black" style={{ background: "rgba(0, 0, 0, 0.70)" }}>
+    <div className="fixed z-20 top-0 left-0 flex items-center justify-center w-full h-full bg-black" style={{ background: "rgba(0, 0, 0, 0.70)" }}>
       <div className="modal-content bg-gray-800 text-white font-bold p-6 rounded-md shadow-md max-w-md w-full">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl">Selected Plan: {name}</h2>

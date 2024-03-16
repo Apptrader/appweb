@@ -37,7 +37,12 @@ const PaymentSuccessComponent = () => {
 
           if (response.data.updated === "ok") {
             console.log("okey")
-            dispatch(setUser(response.data.user[0]))
+            const updateUser = {
+                token: token,
+                userFound: response.data.userFound
+              
+            }
+            dispatch(setUser(updateUser))
             
           } else {
             console.log("Not okay");

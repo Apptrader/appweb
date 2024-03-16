@@ -6,6 +6,8 @@ import { setUser } from '../redux/actions';
 import NavbarComponent from './NavbarComponent';
 import getParamsEnv from '../functions/getParamsEnv';
 import './styles/loader.css';
+import toast from 'react-hot-toast';
+import ToasterConfig from './Toaster';
 
 
 const {API_URL_BASE} = getParamsEnv()
@@ -31,9 +33,27 @@ const RegisterUserComponent = () => {
     const [errors, setErrors] = useState({});
 
     const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        let error = '';
+    
+        if (name === 'UserName' && !value.trim()) {
+            error = 'User Name is required';
+        } else if (name === 'Email' && (!value.trim() || !/\S+@\S+\.\S+/.test(value))) {
+            error = 'Email is invalid';
+        } else if (name === 'Password' && !value.trim()) {
+            error = 'Password is required';
+        } else if (name === 'Phone' && (!value.trim() || !/^\d+$/.test(value))) {
+            error = 'Phone must contain only numbers';
+        }
+    
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value,
+            [name]: value,
+        });
+    
+        setErrors({
+            ...errors,
+            [name]: error,
         });
     };
 
@@ -97,9 +117,20 @@ const RegisterUserComponent = () => {
                     navigate('/home');
                 }
             } catch (error) {
+                setLoading(false); // Ocultar el loader
+                if (error.response.data.message === 'llave duplicada viola restricción de unicidad «users_Email_key»') {
+                    toast.error("Email already in use");
+                  } else if (error.response.data.message === 'llave duplicada viola restricción de unicidad «users_UserName_key»') {
+                    toast.error("UserName already in use");
+                } else if (error.response.data.message === 'llave duplicada viola restricción de unicidad «users_Phone_key»') {
+                    toast.error("Phone already in use");
+                  } else {
+                    toast.error(`There was an error in the registration, please check the fields and try again.`);
+                  }
                 console.error('Error al enviar datos al servidor:', error);
             }
         }
+        setLoading(false); // Ocultar el loader
     };
 
     return (
@@ -231,6 +262,7 @@ const RegisterUserComponent = () => {
                 </div>
             </div>
         </div>
+        <ToasterConfig />
         </>
     )
 }
