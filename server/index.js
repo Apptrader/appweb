@@ -141,7 +141,7 @@ sequelize.sync({ force: true })
     await createVideoChapters()
     await createVideos()
 
-    const port = 4000;
+    const port = 80;
     app.listen(port, () => {
       console.log(`Servidor escuchando en http://localhost:${port}`);
     });
