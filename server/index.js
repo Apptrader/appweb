@@ -6,6 +6,10 @@ import bcrypt from 'bcryptjs'
 import createRanks from './functions/ranks.js';
 import createVideoChapters from './functions/videoChapters.js';
 import createVideos from './functions/videos.js';
+import dotenv from 'dotenv';
+dotenv.config();
+
+config();
 
 const createDefaultUser = async () => {
   try {
