@@ -148,9 +148,9 @@ sequelize.sync({ force: true })
     const port = 80;
     app.listen(port, () => {
       console.log(`Servidor escuchando en http://localhost:${port}`);
-      console.log(`${process.env.process.env.AWS_BUCKET_REGION}`)
-      console.log(`${process.env.process.env.AWS_BUCKET_NAME}`)
-      console.log(`${process.env.process.env.AWS_SECRET_KEY}`)
+      console.log(`${process.env.AWS_BUCKET_REGION}`);
+      console.log(`${process.env.AWS_BUCKET_NAME}`);
+      console.log(`${process.env.AWS_SECRET_KEY}`);
     });
   })
   .catch((error) => {
