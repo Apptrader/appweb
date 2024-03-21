@@ -5,6 +5,8 @@ import getParamsEnv from '../functions/getParamsEnv';
 
 const {API_URL_BASE, VITE_HOME, VITE_REGISTER } = getParamsEnv()
 
+
+
 const VideosListComponent = () => {
     const [language, setLanguage] = useState(true); // Estado para almacenar el idioma seleccionado (true para inglés, false para árabe)
     const [selectedChapter, setSelectedChapter] = useState(null); // Estado para almacenar el capítulo seleccionado
