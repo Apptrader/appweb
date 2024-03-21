@@ -107,15 +107,16 @@ sequelize.sync({ force: true })
         status: 1,
         role: '0' // '1' for admin, '0' for regular user
       });
-    await createPaidPlan({
-      planName: 'Sonic',
-      planCost: 600,
-      description: '',
-      feature: '',
-      planImage: '',
-      bonus: 150,
-      renewal: 90
-    });
+    
+      await createPaidPlan({
+        planName: 'Basic',
+        planCost: 150,
+        description: '',
+        feature: '',
+        planImage: '',
+        bonus: 35,
+        renewal: 60
+      });
 
     await createPaidPlan({
       planName: 'Pro',
@@ -128,14 +129,15 @@ sequelize.sync({ force: true })
     });
 
     await createPaidPlan({
-      planName: 'Basic',
-      planCost: 150,
+      planName: 'Sonic',
+      planCost: 600,
       description: '',
       feature: '',
       planImage: '',
-      bonus: 35,
-      renewal: 60
+      bonus: 150,
+      renewal: 90
     });
+
 
     await createRanks()
     await createVideoChapters()

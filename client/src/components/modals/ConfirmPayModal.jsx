@@ -13,7 +13,8 @@ const ConfirmPayModal = ({ prod, setShowConfirmPayModal }) => {
       id: prod.details.id,
       name: prod.name,
       price: prod.details.price,
-      renewal: prod.details.renewal
+      renewal: prod.details.renewal,
+      bonus: prod.details.bonus
   });
   
   const dispatch = useDispatch()
@@ -47,7 +48,7 @@ const ConfirmPayModal = ({ prod, setShowConfirmPayModal }) => {
     }));
   };
 
-  
+  console.log(newPlan)
 
   return (
     <div className="fixed z-20 top-0 left-0 flex items-center justify-center w-full h-full bg-black" style={{ background: "rgba(0, 0, 0, 0.70)" }}>

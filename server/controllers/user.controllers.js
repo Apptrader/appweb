@@ -69,7 +69,7 @@ export const sendEmailRegister = async (email, code, name) => {
     secure: false,
       auth: {
           user: 'ramiro.alessst@hotmail.com',
-          pass: 'luciana.11'
+          pass: '5'
       }
   });
   
@@ -251,15 +251,6 @@ export const updateUserPlan = async (req, res) => {
   const {id} = req.user
   console.log(plan, "plandetails")
 
-  let bonus
-
-  if(plan.id === 3){
-    bonus = 150
-  } else if (plan.id === 2) {
-    bonus = 60
-  } else {
-    bonus = 35
-  }
 
 
  try { 
@@ -301,7 +292,7 @@ export const updateUserPlan = async (req, res) => {
     
     const newReferralCount = referencedUser.referralsCount + 1;
 
-    const newPv =  plan.price / 2
+    const newPv =  plan.bonus
 
     let position = '';
 
@@ -311,7 +302,8 @@ export const updateUserPlan = async (req, res) => {
       position = 'left';
     }
 
-    const newPoints = referencedUser.pointsLeft + newPv;
+    const newPointsLeft = referencedUser.pointsLeft + newPv;
+    const newPointsRight = referencedUser.pointsRight + newPv
 
     let enrollmentVolume
       if(referencedUser.enrollmentVolume === null) {
@@ -331,7 +323,7 @@ export const updateUserPlan = async (req, res) => {
       
      
        await User.update(
-        {pointsRight: newPoints,
+        {pointsRight: newPointsRight,
           payAmount: newPayAmount,
           enrollmentVolume: enrollmentVolume,
           directRight: referencedUser.directRight + 1,
@@ -343,7 +335,7 @@ export const updateUserPlan = async (req, res) => {
     }else{
      
       await User.update(
-        {pointsLeft: newPoints,
+        {pointsLeft: newPointsLeft,
           payAmount: newPayAmount,
           enrollmentVolume: enrollmentVolume,
           directLeft: referencedUser.directLeft + 1,
@@ -355,11 +347,24 @@ export const updateUserPlan = async (req, res) => {
 
     }
 
+    let amount;
+
+if (plan.id === 1) {
+  amount = 15;
+} else if (plan.id === 2) {
+  amount = 35;
+} else if (plan.id === 3) {
+  amount = 120;
+} else {
+  // Valor predeterminado en caso de que plan.id no coincida con ninguno de los casos anteriores
+  amount = 0; // O cualquier otro valor predeterminado que desees
+}
+
     const newFlush = await Flush.create({ 
       user_id: referencedUser.idUser,
       plan_id: plan.id,
       date: new Date(),
-      amount: bonus
+      amount: amount
   });
 
     
@@ -375,13 +380,13 @@ export const updateUserPlan = async (req, res) => {
       }
 
       if (user.position === 'right'){
-        const newPoints = parentUser.pointsRight + 1000;
+        const newPoints = parentUser.pointsRight + plan.bonus;
         await User.update(
           { pointsRight: newPoints },
           { where: { idUser: parentUser.idUser } }
         );
       }else{
-        const newPoints = parentUser.pointsLeft + 1000;
+        const newPoints = parentUser.pointsLeft + plan.bonus;
         await User.update(
           { pointsLeft: newPoints },
           { where: { idUser: parentUser.idUser } }
@@ -582,7 +587,7 @@ export const sendEmailPaidPlan = async (email, name, plan) => {
   
   try {
     let info = await transporter.sendMail({
-      from: 'ramiro.alet@hotmail.com',
+      from: 'ramiro.alet@hotmail.sssscom',
       to: email,
       subject: 'This is your new Plan!',
       html: contentHTML

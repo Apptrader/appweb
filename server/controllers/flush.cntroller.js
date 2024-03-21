@@ -12,13 +12,15 @@ export const getNextWeekFlush = async (req,res) =>{
      }
     });
 
+    console.log(flush)
+
     let sumaMontos = 0;
 
     flush.forEach((elemento) => {
       sumaMontos += elemento.dataValues.amount;
     });
     
-    const promedio = sumaMontos / 2;
+    const promedio = sumaMontos
 
 
    res.json(promedio)
