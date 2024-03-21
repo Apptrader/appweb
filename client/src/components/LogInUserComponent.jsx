@@ -7,7 +7,9 @@ import NavbarComponent from './NavbarComponent';
 
 import toast from 'react-hot-toast';
 import ToasterConfig from './Toaster';
+
 import getParamsEnv from '../functions/getParamsEnv';
+
 const {API_URL_BASE, VITE_HOME, VITE_REGISTER } = getParamsEnv()
 
 const LogInUserComponent = () => {
