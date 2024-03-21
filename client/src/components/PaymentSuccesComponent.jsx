@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NavbarComponent from './NavbarComponent';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,55 +6,56 @@ import axios from 'axios';
 import { setUser } from '../redux/actions';
 import getParamsEnv from '../functions/getParamsEnv';
 
-const {API_URL_BASE} = getParamsEnv()
+const { API_URL_BASE } = getParamsEnv();
 
 const PaymentSuccessComponent = () => {
   const navigate = useNavigate();
   const plan = useSelector((state) => state?.plan);
   const token = useSelector((state) => state?.user.token);
-  const [isEffectExecuted, setIsEffectExecuted] = useState(false);
+  const dispatch = useDispatch();
 
-  const dispatch = useDispatch()
-
+  // UseRef para almacenar el estado de la bandera
+  const updateUserPlanRequested = useRef(false);
 
   useEffect(() => {
     console.log("PaymentSuccessComponent renderizado");
 
-   
-      const updateUser = async () => {
-        try {
-          const response = await axios.post(
-            `${API_URL_BASE}/apiUser/updateUserPlan`,
-            { plan },
-            {
-              headers: {
-                'Authorization': `Bearer ${token}`
-              },
-            }
-          );
-
-          console.log(response.data, "en paid")
-
-          if (response.data.updated === "ok") {
-            console.log("okey")
-            const updateUser = {
-                token: token,
-                userFound: response.data.userFound
-              
-            }
-            dispatch(setUser(updateUser))
-            
-          } else {
-            console.log("Not okay");
+    const updateUserPlan = async () => {
+      try {
+        const response = await axios.post(
+          `${API_URL_BASE}/apiUser/updateUserPlan`,
+          { plan },
+          {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            },
           }
-        } catch (error) {
-          console.error("Error updating user plan:", error);
-        }
-      }
+        );
 
-      updateUser();
-    
-  }, []);
+        console.log(response.data, "en paid")
+
+        if (response.data.updated === "ok") {
+          console.log("okey")
+          const updateUser = {
+            token: token,
+            userFound: response.data.userFound
+          }
+          dispatch(setUser(updateUser))
+        } else {
+          console.log("Not okay");
+        }
+      } catch (error) {
+        console.error("Error updating user plan:", error);
+      }
+    }
+
+    // Realizar la llamada solo si aún no se ha realizado
+    if (!updateUserPlanRequested.current) {
+      updateUserPlanRequested.current = true;
+      updateUserPlan();
+    }
+
+  }, [token])
 
   return (
     <div>

@@ -129,7 +129,7 @@ const ProfileDetail = ({ rankNames, userInfo, token }) => {
             </li>
             <li className='flex flex-col p-2 items-center py-2 border-b-8 border-t-8 border-black'>
               <span>Proyected QEV On Friday:</span>
-              <span>-</span>
+              <span>{flush ? totalGV - flush : totalGV}</span>
             </li>
           </ul>
         </div>

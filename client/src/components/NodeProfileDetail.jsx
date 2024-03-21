@@ -8,6 +8,8 @@ const {API_URL_BASE} = getParamsEnv()
 const NodeProfileDetail = ({ rankNames, userInfo }) => {
   const [nextRank, setNextRank] = useState(null);
   const [rank, setRank] = useState(null);
+  const [flush, setFlush] = useState(null)
+
 
 
   console.log(userInfo)
@@ -44,6 +46,20 @@ const NodeProfileDetail = ({ rankNames, userInfo }) => {
     }
    
   }, []);
+
+  useEffect(() => {
+    const getNextFlush = async () => {
+      try {
+        const response = await axios.post(`${API_URL_BASE}/api/flush/nextFlush`, { id: userInfo.idUser });
+        setFlush(response.data)
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+    getNextFlush();
+  }, []);
+
 
   const totalGV = userInfo.pointsLeft + userInfo.pointsRight;
 
@@ -107,11 +123,11 @@ const NodeProfileDetail = ({ rankNames, userInfo }) => {
             </li>
             <li className='flex flex-col p-2 items-center py-2 border-b-8 border-t-8 border-black'>
               <span>QEV Flushing this week:</span>
-              <span>texto</span>
+              <span>{flush ? flush : 0 }</span>
             </li>
             <li className='flex flex-col p-2 items-center py-2 border-b-8 border-t-8 border-black'>
               <span>Proyected QEV On Friday:</span>
-              <span>texto</span>
+              <span></span>
             </li>
           </ul>
         </div>
