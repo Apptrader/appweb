@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import ReactPlayer from 'react-player';
 import axios from 'axios';
+import getParamsEnv from '../functions/getParamsEnv';
+
+const {API_URL_BASE, VITE_HOME, VITE_REGISTER } = getParamsEnv()
 
 const VideosListComponent = () => {
     const [language, setLanguage] = useState(true); // Estado para almacenar el idioma seleccionado (true para inglés, false para árabe)
@@ -17,7 +20,7 @@ const VideosListComponent = () => {
 
     useEffect(() => {
         // Realizar la solicitud HTTP para obtener los datos de los videos
-        axios.get('http://localhost:4000/apiVideos/videos')
+        axios.get(`${API_URL_BASE}/apiVideos/videos`)
             .then(response => {
                 setVideosData(response.data);
             })
