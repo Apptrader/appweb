@@ -6,10 +6,6 @@ import bcrypt from 'bcryptjs'
 import createRanks from './functions/ranks.js';
 import createVideoChapters from './functions/videoChapters.js';
 import createVideos from './functions/videos.js';
-import dotenv from 'dotenv';
-dotenv.config();
-
-config();
 
 const createDefaultUser = async () => {
   try {
@@ -148,9 +144,6 @@ sequelize.sync({ force: true })
     const port = 80;
     app.listen(port, () => {
       console.log(`Servidor escuchando en http://localhost:${port}`);
-      console.log(`${process.env.AWS_BUCKET_REGION}`);
-      console.log(`${process.env.AWS_BUCKET_NAME}`);
-      console.log(`${process.env.AWS_SECRET_KEY}`);
     });
   })
   .catch((error) => {
