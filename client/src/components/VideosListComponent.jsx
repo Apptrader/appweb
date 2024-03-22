@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react';
 import ReactPlayer from 'react-player';
 import axios from 'axios';
 import getParamsEnv from '../functions/getParamsEnv';
+
 const {API_URL_BASE, VITE_HOME, VITE_REGISTER } = getParamsEnv()
+
 
 
 const VideosListComponent = () => {
