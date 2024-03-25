@@ -14,6 +14,12 @@ const createVideoChapters = async () => {
       },
       {
         "name": "Chapter 4: Strategies for Political Investment"
+      },
+      {
+        "name": "Introduccion Data Analytics"
+      },
+      {
+        "name": "Arabic trade tecnis"
       }
     ];
 
