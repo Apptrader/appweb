@@ -1,0 +1,32 @@
+roja- arabe en vez de capitulos va a haber secciones con videos directamente.
+roja- subir videos panel nahyan
+roja- responsive web
+roja- flush tiene que ir para toda la piramide.
+
+roja- monitoreo ec2
+roja- monitoreo s3 videos
+roja- monitoreo s3 frontend
+roja- monitoreo rds
+
+media- agregar español igual que el ingles.
+media- interfaz para crear capitulos.
+
+baja- aiqacademy.net 11 usd dolares.
+baja- mapa con ubicacion
+baja- envio de mails en form
+
+
+
+
+-----------------------------------------------------------
+
+roja- arabe en vez de capitulos va a haber secciones con videos directamente.
+media- agregar español igual que el ingles.
+media- interfaz para crear capitulos.
+
+formulario para crear capitulos
+	listar lenguajes
+	input para nombres
+
+formulario para crear planes
+	despues
