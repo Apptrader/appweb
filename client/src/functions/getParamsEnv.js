@@ -18,6 +18,7 @@ export default function getParamsEnv() {
     const VITE_VIDEOS_PANEL = import.meta.env.VITE_VIDEOS_PANEL || "/videosPanel"
     const VITE_PLANS_PANEL = import.meta.env.VITE_PLANS_PANEL || "/plansPanel"
     const VITE_NEO_TECH_AI_ROBOT = import.meta.env.VITE_NEO_TECH_AI_ROBOT || "/neoTech"
+    const VITE_CHAPTERS_PANEL = import.meta.env.VITE_CHAPTERS_PANEL || "/"
     
     return {
         API_URL_BASE, VITE_LOGIN_USER, VITE_HOME, VITE_PAID_PLANS_REGISTER,VITE_PAID_PLAN_LIST,
