@@ -17,10 +17,13 @@ import UsersView from './views/UsersView.jsx';
 import VideosPanelView from './views/VideoPanelView.jsx';
 import PlansPanelView from './views/PlansPanelView.jsx';
 import NeoTechAIRobot from './views/NeoTechAIRobot.jsx';
+import ChaptersPanelView from './views/ChapterPanelView.jsx';
+import PaidPlansPanelView from './views/PaidPlansPanelView.jsx'
+
 
 const {API_URL_BASE, VITE_LOGIN_USER, VITE_HOME, VITE_PAID_PLANS_REGISTER, VITE_PAID_PLAN_LIST,
   VITE_REGISTER_USER, VITE_PROFILE, VITE_PAYMENT_SUCCES, VITE_ALL_VIDEOS,
-  VITE_AIQ_BONUS_PLAN, VITE_ABOUT, VITE_CONTACT, VITE_NODE_PROFILE, VITE_ROOT, VITE_REGISTER, VITE_USERS, VITE_VIDEOS_PANEL, VITE_PLANS_PANEL, VITE_NEO_TECH_AI_ROBOT} = getParamsEnv()
+  VITE_AIQ_BONUS_PLAN, VITE_ABOUT, VITE_CONTACT, VITE_NODE_PROFILE, VITE_ROOT, VITE_REGISTER, VITE_USERS, VITE_VIDEOS_PANEL, VITE_PLANS_PANEL, VITE_NEO_TECH_AI_ROBOT, VITE_CHAPTERS_PANEL} = getParamsEnv()
 
 
 
@@ -48,6 +51,8 @@ function App() {
         <Route path={VITE_USERS} element={<UsersView/>}></Route>
         <Route path={VITE_VIDEOS_PANEL} element={<VideosPanelView/>}></Route>
         <Route path={VITE_PLANS_PANEL} element={<PlansPanelView/>}></Route>
+        <Route path={VITE_CHAPTERS_PANEL} element={<ChaptersPanelView/>}></Route>
+        <Route path={VITE_PLANS_PANEL} element={<PaidPlansPanelView/>}></Route>
         <Route path={VITE_NEO_TECH_AI_ROBOT} element={<NeoTechAIRobot/>}></Route>
         
       </Routes>

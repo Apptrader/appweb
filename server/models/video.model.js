@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../dbconnection.js';
-import VideoChapter from './videoChapter.js';
+import VideoChapter from './videoChapter.model.js';
+
 const Video = sequelize.define('video', {
   id: {
     type: DataTypes.INTEGER,

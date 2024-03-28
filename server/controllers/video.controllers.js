@@ -1,5 +1,5 @@
 import Video from "../models/video.model.js";
-import VideoChapter from "../models/videoChapter.js";
+import VideoChapter from "../models/videoChapter.model.js";
 import multer from "multer";
 
 import multerS3 from 'multer-s3';

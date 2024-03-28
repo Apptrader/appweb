@@ -1,4 +1,4 @@
-import VideoChapter from "../models/videoChapter.js";
+import VideoChapter from "../models/videoChapter.model.js";
 
 const createVideoChapters = async () => {
   try {

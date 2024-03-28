@@ -154,6 +154,9 @@ const renderIcon = (iconName) => {
       return <HiMiniUserGroup className="w-6 h-6 text-white hover:text-gray-500" />;
     case "plans":
       return <IoIosListBox className="w-6 h-6 text-white hover:text-gray-500" />;
+    case "chapters":
+      return <IoIosListBox className="w-6 h-6 text-white hover:text-gray-500" />;
+          
     default:
       return null;
   }

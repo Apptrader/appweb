@@ -14,9 +14,10 @@ const CreateChapterModal = ({
 }) => {
     const [chapter, setChapter] = useState({
         name: "",
-        language_id: ""
+        language_id: undefined // Deja language_id como undefined
     });
-
+    
+    
     const [errors, setErrors] = useState({});
     const [submitLoader, setSubmitLoader] = useState(false);
     const [disableSubmit, setDisableSubmit] = useState(false);
