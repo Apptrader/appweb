@@ -112,7 +112,7 @@ import { AiFillTool } from "react-icons/ai";
 
 // Variables de entorno
 import getParamsEnv from "../functions/getParamsEnv";
-const { VITE_USERS, VITE_VIDEOS_PANEL,VITE_PLANS_PANEL } = getParamsEnv();
+const { VITE_USERS, VITE_VIDEOS_PANEL,VITE_PLANS_PANEL, VITE_CHAPTERS_PANEL } = getParamsEnv();
 
 const IconWithTooltip = ({ to, iconName, tooltipText }) => {
   const [tooltipVisible, setTooltipVisible] = useState(false);
@@ -154,6 +154,9 @@ const renderIcon = (iconName) => {
       return <HiMiniUserGroup className="w-6 h-6 text-white hover:text-gray-500" />;
     case "plans":
       return <IoIosListBox className="w-6 h-6 text-white hover:text-gray-500" />;
+    case "chapters":
+      return <IoIosListBox className="w-6 h-6 text-white hover:text-gray-500" />;
+          
     default:
       return null;
   }
@@ -173,6 +176,7 @@ const SideBar = () => {
       <IconWithTooltip to={VITE_USERS} iconName="users" tooltipText="Users" />
       <IconWithTooltip to={VITE_VIDEOS_PANEL} iconName="videos" tooltipText="Videos" />
       <IconWithTooltip to={VITE_PLANS_PANEL} iconName="plans" tooltipText="Plans" />
+      <IconWithTooltip to={VITE_CHAPTERS_PANEL} iconName="chapters" tooltipText="Chapters" />
        
       <hr className="w-14 h-[1px] bg-blue-500 border-0" />
 

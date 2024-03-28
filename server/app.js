@@ -6,11 +6,13 @@ import routerPaidPlans from './routes/paidplans.routes.js';
 import routerVideos from './routes/video.routes.js';
 import routerPayment from './routes/payment.routes.js';
 import routerFlush from './routes/flush.router.js';
+import routerLanguages from './routes/languages.routes.js';
 import morgan from 'morgan';
 import routerRank from './routes/rank.routes.js';
 import routerContact from './routes/contact.routes.js';
 import { FRONTEND_URL } from './config.js';
 import http from 'http'; // Importa el módulo http de Node.js
+import routerChapters from './routes/chapters.routes.js';
 
 const app = express();
 
@@ -35,6 +37,8 @@ app.use('/api/payment', routerPayment);
 app.use('/api/rank', routerRank);
 app.use('/apiContact', routerContact);
 app.use('/api/flush', routerFlush);
+app.use('/apiLanguages', routerLanguages)
+app.use('/apiChapters', routerChapters)
 
 // Configura el tiempo de espera del servidor HTTP
 const server = http.createServer(app);

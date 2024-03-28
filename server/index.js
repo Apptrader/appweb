@@ -6,6 +6,7 @@ import bcrypt from 'bcryptjs'
 import createRanks from './functions/ranks.js';
 import createVideoChapters from './functions/videoChapters.js';
 import createVideos from './functions/videos.js';
+import videoLanguage from './functions/languageVideo.js';
 
 const createDefaultUser = async () => {
   try {
@@ -142,6 +143,7 @@ sequelize.sync({ force: true })
     await createRanks()
     await createVideoChapters()
     await createVideos()
+    await videoLanguage()
 
     const port = 80;
     app.listen(port, () => {

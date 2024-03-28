@@ -1,5 +1,5 @@
 import Video from "../models/video.model.js";
-import VideoChapter from "../models/videoChapter.js";
+import VideoChapter from "../models/videoChapter.model.js";
 import multer from "multer";
 
 import multerS3 from 'multer-s3';
@@ -132,17 +132,17 @@ export const allVideos = async (req, res) => {
 
 
 export const createChapter = async (req, res) => {
-  const { name } = req.body;
+  const { name, language_id } = req.body;
 
   try {
     // Verificar si el capítulo ya existe
-    const existingChapter = await VideoChapter.findOne({ where: { name } });
+    const existingChapter = await VideoChapter.findOne({ where: { name, language_id } });
     if (existingChapter) {
       return res.status(400).json({ error: 'Chapter already exists' });
     }
 
     // Crear un nuevo capítulo
-    const newChapter = await VideoChapter.create({ name });
+    const newChapter = await VideoChapter.create({ name, language_id });
 
     res.status(201).json({ message: 'New chapter created', chapter: newChapter });
 

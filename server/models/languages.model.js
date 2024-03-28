@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../dbconnection.js';
 
-const VideoChapter = sequelize.define('videoChapter', {
+const VideoLanguage = sequelize.define('videoLanguage', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -12,7 +12,7 @@ const VideoChapter = sequelize.define('videoChapter', {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
-    },
+    }
 });
 
-export default VideoChapter;
+export default VideoLanguage;
