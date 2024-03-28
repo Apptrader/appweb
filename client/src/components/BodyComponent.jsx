@@ -21,18 +21,19 @@ const BodyComponent = () => {
             <div className="">
                 <div className="p-4  rounded-lg dark:border-gray-700">
 
-                    <div className="relative h-4096 mb-4 rounded bg-gray-50 dark:">
+                    <div className="relative h-4096 mb-4 rounded dark:">
                         <video className="w-full h-full object-cover" autoPlay loop muted playsInline>
                             <source src="https://video.wixstatic.com/video/a1316e_ea5ee04ee5aa4185ad0a6b2d17d04e64/480p/mp4/file.mp4" type="video/mp4" />
                             Tu navegador no soporta el elemento de video.
                         </video>
-                        <div className="mt-36 absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
-                            <h1 className="text-8xl font-bold text-white mb-8">Welcome to AIQ Learning!</h1>
-                            <p className="text-4xl text-gray-300 mb-8">Empowering you with valuable knowledge.</p>
-                            <p className="text-2xl text-gray-400 dark:text-gray-500 mt-12">
+                        <div className="mt-36 pt-2 absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
+                            <h1 className="text-2xl font-bold md:text-8xl text-white mb-8">Welcome to AIQ Learning!</h1>
+                            <p className="text-sm font-bold md:text-4xl text-gray-300 mb-8">Empowering you with valuable knowledge.</p>
+                            <p className="text-sm font-bold md:text-2xl text-white md:text-gray-400 dark:text-gray-500 mt-12">
                                 Join a trading community where you can be part of a club of like-minded traders, a team of players navigating the markets, or a global community of artists in finance. Spend time with fellow traders, discuss daily market movements, and make learning and having fun a seamless experience.
                             </p>
                         </div>
+
                     </div>
                     <div className='flex flex-col md:flex-row gap-10 mx-auto max-w-7xl justify-center pt-64'>
                         {/* Package 1 */}
@@ -147,18 +148,18 @@ const BodyComponent = () => {
 
 
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 py-64 px-40 font-bold rounded dark:">
-                        <div className="bg-black flex flex-col items-center justify-center h-full p-6  rounded dark:">
-                            <h1 className="text-5xl text-white dark:text-gray-500 mb-4 ">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 sm:py-20 px-4 md:px-12 lg:px-20 font-bold rounded dark:">
+                        <div className="bg-black flex flex-col items-center justify-center p-6 rounded dark:text-gray-500">
+                            <h1 className="text-3xl sm:text-5xl text-white mb-4">
                                 About AIQ Learning
                             </h1>
-                            <h4 className=" text-white">
+                            <h4 className="text-white">
                                 AIQ is committed to providing valuable and insightful information. Our mission is to empower individuals with knowledge, serving as a trusted publisher in various domains. We prioritize accuracy and aim to foster a learning environment. While we offer information, it's important to note that we do not provide specific advice, especially in financial matters. Our focus is on contributing to your understanding, and we encourage users to exercise their own judgment and seek professional advice when needed.
                             </h4>
                         </div>
 
-                        <div className=" flex items-center justify-center h-68 bg-black rounded dark:">
-                            <img className="w-[500px] h-[500px] rounded" src="https://media.gettyimages.com/id/1401171512/es/foto/rising-stock-market-trading-chart.jpg?s=2048x2048&w=gi&k=20&c=TrxzuWG_PrPjJHdks1nUy88h91bTu9rNxVnpcUAlKJc=" alt="Descripción de la imagen" />
+                        <div className="flex items-center justify-center bg-black rounded">
+                            <img className="w-full max-w-full h-auto object-cover rounded" src="https://media.gettyimages.com/id/1401171512/es/foto/rising-stock-market-trading-chart.jpg?s=2048x2048&w=gi&k=20&c=TrxzuWG_PrPjJHdks1nUy88h91bTu9rNxVnpcUAlKJc=" alt="Descripción de la imagen" />
                         </div>
                     </div>
 

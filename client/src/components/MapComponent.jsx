@@ -7,9 +7,11 @@ const MapComponent = () => {
     googleMapsApiKey: "AIzaSyCM8hPXnCcO_wGR9bR3ZvkHBBoHi99lhpU",
   });
 
-  const mapStyles = {
+  const mapContainerStyle = {
+    width: '100%',
     height: '400px',
-    width: '400px'    
+    maxWidth: '1000px', // Ajusta el ancho máximo del mapa
+    margin: '0 auto', // Centra horizontalmente el mapa
   };
 
   const defaultCenter = {
@@ -20,13 +22,13 @@ const MapComponent = () => {
   if (loadError) return <div>Error loading map</div>;
 
   return (
-    <div className='w-[1200px] m-auto h-[600px] bg-red-500'>
+    <div className='w-full'>
       {isLoaded ? (
         <GoogleMap
-        mapContainerClassName='w-full h-full'
-          zoom={8}
+          mapContainerStyle={mapContainerStyle}
           center={defaultCenter}
-
+          zoom={8}
+          options={{ gestureHandling: 'greedy' }} // Opciones adicionales para mejorar la experiencia de usuario
         >
           <Marker position={defaultCenter} />
         </GoogleMap>

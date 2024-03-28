@@ -13,6 +13,11 @@ const VideoChapter = sequelize.define('videoChapter', {
         allowNull: false,
         unique: true
     },
+    language_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        unique: true
+    }
 });
 
 export default VideoChapter;

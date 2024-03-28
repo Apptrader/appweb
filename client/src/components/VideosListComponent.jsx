@@ -3,14 +3,12 @@ import ReactPlayer from 'react-player';
 import axios from 'axios';
 import getParamsEnv from '../functions/getParamsEnv';
 
-const {API_URL_BASE, VITE_HOME, VITE_REGISTER } = getParamsEnv()
-
-
+const { API_URL_BASE } = getParamsEnv();
 
 const VideosListComponent = () => {
-    const [language, setLanguage] = useState(true); // Estado para almacenar el idioma seleccionado (true para inglés, false para árabe)
-    const [selectedChapter, setSelectedChapter] = useState(null); // Estado para almacenar el capítulo seleccionado
-    const [videosData, setVideosData] = useState([]); // Estado para almacenar los datos de los videos
+    const [language, setLanguage] = useState(true);
+    const [selectedChapter, setSelectedChapter] = useState(null);
+    const [videosData, setVideosData] = useState([]);
 
     const handleLanguageChange = (selectedLanguage) => {
         setLanguage(selectedLanguage);
@@ -21,7 +19,6 @@ const VideosListComponent = () => {
     };
 
     useEffect(() => {
-        // Realizar la solicitud HTTP para obtener los datos de los videos
         axios.get(`${API_URL_BASE}/apiVideos/videos`)
             .then(response => {
                 setVideosData(response.data);
@@ -31,11 +28,8 @@ const VideosListComponent = () => {
             });
     }, []);
 
-    console.log(videosData)
-
     const filteredVideos = videosData.filter(video => video.language === language);
 
-    // Extraer los capítulos de los datos de los videos
     const chaptersVideos = Array.from(new Set(filteredVideos.map(video => video.chapter_id))).map(chapter => ({
         id: chapter,
         name: `Chapter ${chapter}`
@@ -50,8 +44,7 @@ const VideosListComponent = () => {
     const selectedChapterVideos = videosByChapter[selectedChapter] || [];
 
     return (
-        <div className='px-40'>
-            {/* Botones de selección de idioma */}
+        <div className="px-4">
             <div className="mb-4">
                 <button 
                     className={`mr-4 ${language ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'} px-4 py-2 rounded`}
@@ -67,12 +60,11 @@ const VideosListComponent = () => {
                 </button>
             </div>
 
-            {/* Botones de selección de capítulo */}
-            <div className="mb-4">
+            <div className="mb-4 flex flex-wrap">
                 {chaptersVideos.map(chapter => (
                     <button
                         key={chapter.id}
-                        className={`mr-4 ${selectedChapter === chapter.id ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'} px-4 py-2 rounded`}
+                        className={`mr-2 mb-2 ${selectedChapter === chapter.id ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'} px-4 py-2 rounded`}
                         onClick={() => handleChapterChange(chapter.id)}
                     >
                         {chapter.name}
@@ -80,19 +72,19 @@ const VideosListComponent = () => {
                 ))}
             </div>
 
-            {/* Renderizar videos del capítulo seleccionado */}
             {selectedChapter && (
                 <div>
-                    <h1 className="text-4xl font-bold text-white mb-8 text-left pt-16">{`Chapter ${selectedChapter}`}</h1>
-                    <div className="flex flex-wrap justify-start">
+                    <h1 className="text-4xl font-bold text-white mb-8 pt-8">{`Chapter ${selectedChapter}`}</h1>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         {selectedChapterVideos.map((video, index) => (
-                            <div key={index} className="w-full md:w-1/2 lg:w-1/3 p-4">
+                            <div key={index} className="p-2">
                                 <div className="mb-2 font-bold text-blue-400">{video.title}</div>
-                                <div className="flex justify-center">
+                                <div className="aspect-w-16 aspect-h-9">
                                     <ReactPlayer
-                                        url={video.videoUrl} // Corregir el nombre de la propiedad para acceder a la URL del video
-                                        width="90%"
-                                        height="80%"
+                                        url={video.videoUrl}
+                                        className="react-player"
+                                        width="100%"
+                                        height="100%"
                                         controls={true}
                                         playsinline={true}
                                     />

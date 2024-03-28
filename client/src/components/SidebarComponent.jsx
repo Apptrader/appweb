@@ -95,87 +95,42 @@ const SidebarComponent = () => {
 export default SidebarComponent */
 
 //hooks, components, reducer
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
 import { Link } from "react-router-dom";
 
-//icons
-import { FaCalendar } from "react-icons/fa";
-import { FaLocationPin } from "react-icons/fa6";
-import { IoMdAnalytics, IoIosFilm, IoIosListBox  } from "react-icons/io";
+import { IoIosFilm, IoIosListBox } from "react-icons/io";
 import { HiMiniUserGroup } from "react-icons/hi2";
-import { GiFingernail } from "react-icons/gi";
-import { ImProfile } from "react-icons/im";
-import { TfiMenu } from "react-icons/tfi";
-import { MdWorkHistory } from "react-icons/md";
-import { AiFillTool } from "react-icons/ai";
 
-// Variables de entorno
 import getParamsEnv from "../functions/getParamsEnv";
-const { VITE_USERS, VITE_VIDEOS_PANEL,VITE_PLANS_PANEL } = getParamsEnv();
+const { VITE_USERS, VITE_VIDEOS_PANEL, VITE_PLANS_PANEL } = getParamsEnv();
 
-const IconWithTooltip = ({ to, iconName, tooltipText }) => {
-  const [tooltipVisible, setTooltipVisible] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleMouseEnter = () => {
-    setTooltipVisible(true);
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setTooltipVisible(false);
-    setIsHovered(false);
-  };
-
-  return (
-    <Link
-      to={to}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      <div className={`relative ${isHovered ? "text-gray" : ""}`}>
-        {renderIcon(iconName)}
-        {tooltipVisible && (
-          <span className="tooltip absolute bg-gray-700 font-bold text-white rounded p-2 opacity-100 transition-opacity ml-[50px] mt-[-30px] dark:bg-darkPrimary dark:text-darkText">
-            {tooltipText}
-          </span>
-        )}
-      </div>
-    </Link>
-  );
-};
-
-const renderIcon = (iconName) => {
+const renderIcon = (iconName, size) => {
   switch (iconName) {
     case "videos":
-      return <IoIosFilm className="w-6 h-6 text-white hover:text-gray-500" />;
+      return <IoIosFilm className={`text-white hover:text-gray-500 ${size}`} />;
     case "users":
-      return <HiMiniUserGroup className="w-6 h-6 text-white hover:text-gray-500" />;
+      return <HiMiniUserGroup className={`text-white hover:text-gray-500 ${size}`} />;
     case "plans":
-      return <IoIosListBox className="w-6 h-6 text-white hover:text-gray-500" />;
+      return <IoIosListBox className={`text-white hover:text-gray-500 ${size}`} />;
     default:
       return null;
   }
 };
 
-const SideBar = () => {
+const SideBar = ({ isMobile }) => {
   const dynamicMinHeight = `calc(100vh - 80px)`;
-
+  const iconSize = isMobile ? "w-10 h-10" : "w-6 h-6";
 
   return (
     <div
-      style={{ minHeight: dynamicMinHeight }}
-      className="bg-black w-14 flex flex-col items-center gap-8 pointer-events-auto shadow-md shadow-gray dark:shadow-gray-100 dark:bg-darkPrimary dark:text-gray relative"
+      style={isMobile ? { bottom: 0, position: "fixed", width: "100%", zIndex: 1000 } : { minHeight: dynamicMinHeight }}
+      className={`bg-black ${isMobile ? "flex justify-around items-center p-3" : "w-full md:w-14 md:flex md:flex-col md:items-center md:gap-8"} pointer-events-auto shadow-md shadow-gray dark:shadow-gray-100 dark:bg-darkPrimary dark:text-gray relative`}
     >
-      <hr className="w-14 h-[1px] bg-blue-500 border-0" />
-    
-      <IconWithTooltip to={VITE_USERS} iconName="users" tooltipText="Users" />
-      <IconWithTooltip to={VITE_VIDEOS_PANEL} iconName="videos" tooltipText="Videos" />
-      <IconWithTooltip to={VITE_PLANS_PANEL} iconName="plans" tooltipText="Plans" />
-       
-      <hr className="w-14 h-[1px] bg-blue-500 border-0" />
-
+      {!isMobile && <hr className="w-full md:w-14 h-[1px] bg-blue-500 border-0" />}
+      <Link to={VITE_USERS}>{renderIcon("users", iconSize)}</Link>
+      <Link to={VITE_VIDEOS_PANEL}>{renderIcon("videos", iconSize)}</Link>
+      <Link to={VITE_PLANS_PANEL}>{renderIcon("plans", iconSize)}</Link>
+      {!isMobile && <hr className="w-full md:w-14 h-[1px] bg-blue-500 border-0" />}
     </div>
   );
 };
