@@ -3,10 +3,10 @@ import {deletePaidPlan, createPaidPlan, updatePaidPlan, getPaidPlan, allPaidPlan
 
 const routerPaidPlans = Router();
 
-routerPaidPlans.delete("/delete/:id", deletePaidPlan)
-routerPaidPlans.post("/create", createPaidPlan)
-routerPaidPlans.get("/get/:id", getPaidPlan)
-routerPaidPlans.put("/update/:id", updatePaidPlan)
+routerPaidPlans.delete("/deletePaidPlan/:id", deletePaidPlan)
+routerPaidPlans.post("/createPaidPlan", createPaidPlan)
+routerPaidPlans.get("/getPaidPlan/:id", getPaidPlan)
+routerPaidPlans.put("/updatePaidPlan/:id", updatePaidPlan)
 routerPaidPlans.get("/paidplans", allPaidPlans)
 
 export default routerPaidPlans
