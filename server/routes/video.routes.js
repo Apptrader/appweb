@@ -8,7 +8,8 @@ const routerVideos = Router();
 
 
 routerVideos.get("/videos", allVideos)
-routerVideos.post("/createVideo", uploadVideo, createVideo)
+/* routerVideos.post("/createVideo", uploadVideo, createVideo) */
+routerVideos.post("/createVideo", createVideo)
 routerVideos.post('/createChapter', createChapter);
 routerVideos.get('/chapterVideos', getAllChapters)
 

@@ -48,7 +48,7 @@ const upload = multer({
 
 export const uploadVideo = upload.single('video');
 
-export const createVideo = async (req, res) => {
+/* export const createVideo = async (req, res) => {
   const {
     title,
     chapter_id,
@@ -88,7 +88,41 @@ export const createVideo = async (req, res) => {
     console.error('Error creating new video:', error);
     res.status(500).json({ error: 'Error creating new video' });
   }
+}; */
+
+
+
+export const createVideo = async (req, res) => {
+  const {
+    title,
+    chapter_id,
+    videoUrl, // Modificado para aceptar el enlace de video
+    language
+  } = req.body;
+  
+  if (!videoUrl) {
+    return res.status(400).json({ error: 'No video URL was provided.' });
+  }
+
+  try {
+    // Construir la URL del video en S3 (en este caso, el enlace de video proporcionado)
+    const videoS3Url = videoUrl;
+
+    // Crear un nuevo video con la URL proporcionada
+    const newVideo = await Video.create({
+      videoUrl: videoS3Url,
+      title,
+      chapter_id,
+      language
+    });
+
+    res.status(201).json({ message: 'New video created', video: newVideo, created: "ok" });
+  } catch (error) {
+    console.error('Error creating new video:', error);
+    res.status(500).json({ error: 'Error creating new video' });
+  }
 };
+
 export const allVideos = async (req, res) => {
   try {
     // Consulta para obtener los datos de los videos desde tu base de datos
