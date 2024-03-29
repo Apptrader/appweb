@@ -62,7 +62,12 @@ const PaidPlansTable = () => {
                   </th>
                   {/* Agrega más encabezados según necesites */}
                   <th scope="col" className="px-4 py-3">
-                    Actions
+                    <button
+                      className="flex flex-row gap-1 p-2 rounded-full hover:bg-primaryPink hover:text-gray-500"
+                      onClick={handleShowCreateModal}
+                    >
+                      <IoIosAddCircle size={20} /> Agregar
+                    </button>
                   </th>
                 </tr>
               </thead>
@@ -77,8 +82,19 @@ const PaidPlansTable = () => {
                     <td className="px-4 py-4">{plan.description}</td>
                     {/* Agrega más celdas según necesites */}
                     <td className="px-4 py-4">
-                      {/* Aquí van los botones de editar y eliminar */}
-                    </td>
+                        <button
+                          className="hover:bg-blue-700 text-black px-2 py-1 rounded mr-2"
+                          onClick={() => handleEditServiceModal(fila)}
+                        >
+                          <MdEdit size={25} className="dark:text-darkText group-hover:text-black dark:group-hover:text-black" />
+                        </button>
+                        <button
+                          className="hover:bg-red-700 text-black px-2 py-1 rounded"
+                          onClick={() => handleDeleteModal(fila.id)}
+                        >
+                          <MdDeleteForever size={25} className="dark:text-darkText group-hover:text-black dark:group-hover:text-black" />
+                        </button>
+                      </td>
                   </tr>
                 ))}
               </tbody>

@@ -7,39 +7,40 @@ export const allPaidPlans = async (req,res) =>{
     res.json(paidPlans)
 };
 
-export const createPaidPlan = async (req,res) =>{
+export const createPaidPlan = async (req, res) => {
     const {
-        planName, 
+        planName,
         planCost,
         description,
         feature,
-        planImage
+        planImage,
+        bonus,
+        renewal
     } = req.body;
-    
-    try {
 
+    try {
         const newPlan = await PaidPlan.create({
             planName,
             planCost,
             description,
             feature,
             planImage,
-            bonus, 
+            bonus,
             renewal
         });
 
-        const allPaidPlan = await PaidPlan.findAll();
         res.send("New plan created...");
 
         // Guarda los cambios en la base de datos
-        await newPlan.save();  
-          
+        await newPlan.save();
+
     } catch (error) {
         console.log("Este es el error: ", error);
         res.status(500).send("Error creating new plan");
     }
-    
+
 };
+
 
 export const getPaidPlan  = async (req,res) =>{
     const paidPlan = await PaidPlan.findByPk(req.params.id)

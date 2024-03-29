@@ -41,6 +41,10 @@ const ChaptersTable = () => {
     setShowCreateChapterModal(true);
   };
 
+  const handleCloseModal = () => {
+    setShowCreateChapterModal(false);
+  };
+
   if (!isLoading) {
     return (
       <>
@@ -56,7 +60,12 @@ const ChaptersTable = () => {
                     Language ID
                   </th>
                   <th scope="col" className="px-4 py-3">
-                    Actions
+                    <button
+                      className="flex flex-row gap-1 p-2 rounded-full hover:bg-primaryPink hover:text-gray-500"
+                      onClick={handleShowCreateModal}
+                    >
+                      <IoIosAddCircle size={20} /> Agregar
+                    </button>
                   </th>
                 </tr>
               </thead>
@@ -69,8 +78,19 @@ const ChaptersTable = () => {
                     <td className="px-4 py-4">{chapter.name}</td>
                     <td className="px-4 py-4">{chapter.language_id}</td>
                     <td className="px-4 py-4">
-                      {/* Aquí van los botones de editar y eliminar */}
-                    </td>
+                        <button
+                          className="hover:bg-blue-700 text-black px-2 py-1 rounded mr-2"
+                          onClick={() => handleEditServiceModal(fila)}
+                        >
+                          <MdEdit size={25} className="dark:text-darkText group-hover:text-black dark:group-hover:text-black" />
+                        </button>
+                        <button
+                          className="hover:bg-red-700 text-black px-2 py-1 rounded"
+                          onClick={() => handleDeleteModal(fila.id)}
+                        >
+                          <MdDeleteForever size={25} className="dark:text-darkText group-hover:text-black dark:group-hover:text-black" />
+                        </button>
+                      </td>
                   </tr>
                 ))}
               </tbody>
@@ -79,7 +99,8 @@ const ChaptersTable = () => {
         </div>
         {showCreateChapterModal && (
           <CreateChapterModal
-            // Pasar las props necesarias al componente CreateChapterModal
+            setShowCreateChapterModal={setShowCreateChapterModal}
+            token={token}
           />
         )}
       </>

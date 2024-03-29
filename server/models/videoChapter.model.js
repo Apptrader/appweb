@@ -23,7 +23,7 @@ const VideoChapter = sequelize.define('videoChapter', {
 
 // Definir la asociación
 VideoChapter.belongsTo(VideoLanguage, {
-    foreignKey: 'languaje_id'
+    foreignKey: 'language_id'
   });
 
 export default VideoChapter;

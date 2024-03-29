@@ -18,7 +18,7 @@ import VideosPanelView from './views/VideoPanelView.jsx';
 import PlansPanelView from './views/PlansPanelView.jsx';
 import NeoTechAIRobot from './views/NeoTechAIRobot.jsx';
 import ChaptersPanelView from './views/ChapterPanelView.jsx';
-import PaidPlansPanelView from './views/PaidPlansPanelView.jsx'
+import PaidPlanPanelView from './views/PaidPlansPanelView.jsx'
 
 
 const {API_URL_BASE, VITE_LOGIN_USER, VITE_HOME, VITE_PAID_PLANS_REGISTER, VITE_PAID_PLAN_LIST,
@@ -50,9 +50,9 @@ function App() {
         <Route path={VITE_REGISTER} element={<RegisterUser/>}></Route>
         <Route path={VITE_USERS} element={<UsersView/>}></Route>
         <Route path={VITE_VIDEOS_PANEL} element={<VideosPanelView/>}></Route>
-        <Route path={VITE_PLANS_PANEL} element={<PlansPanelView/>}></Route>
+        
         <Route path={VITE_CHAPTERS_PANEL} element={<ChaptersPanelView/>}></Route>
-        <Route path={VITE_PLANS_PANEL} element={<PaidPlansPanelView/>}></Route>
+        <Route path={VITE_PLANS_PANEL} element={<PaidPlanPanelView/>}></Route>
         <Route path={VITE_NEO_TECH_AI_ROBOT} element={<NeoTechAIRobot/>}></Route>
         
       </Routes>
