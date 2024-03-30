@@ -27,7 +27,14 @@ const ChaptersTable = () => {
             },
           }
         );
-        setChapters(response.data);
+        
+        // Asignar language_id según el nombre del capítulo
+        const chaptersWithLanguageId = response.data.map(chapter => {
+          const languageId = chapter.name.startsWith("Chapter") ? "English" : "Arabic";
+          return { ...chapter, language_id: languageId };
+        });
+
+        setChapters(chaptersWithLanguageId);
       } catch (error) {
         console.log(error);
       }
@@ -44,6 +51,8 @@ const ChaptersTable = () => {
   const handleCloseModal = () => {
     setShowCreateChapterModal(false);
   };
+
+  console.log(chapters, "capitulos")
 
   if (!isLoading) {
     return (

@@ -38,7 +38,7 @@ const ProfileCard = ({ userInfo, rankNames, referred }) => {
             </li>
             <li className="flex p-2 py-4 justify-between items-center py-2 border-b border-gray-300">
               <span>Commission Week:</span>
-              <span>texto</span>
+              <span>22/03 - 29/03</span>
             </li>
             <li className="flex p-2 py-4 justify-between items-center py-2 border-b border-gray-300">
               <span>Status:</span>

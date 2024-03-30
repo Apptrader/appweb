@@ -141,9 +141,10 @@ sequelize.sync({ force: true })
 
 
     await createRanks()
+    await videoLanguage()
     await createVideoChapters()
     await createVideos()
-    await videoLanguage()
+   
 
     const port = 80;
     app.listen(port, () => {
