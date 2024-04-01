@@ -64,18 +64,18 @@ export const sendEmailRegister = async (email, code, name) => {
   `;
 
   let transporter = nodemailer.createTransport({
-    host: 'smtp-mail.outlook.com',
-    port: 587,
-    secure: false,
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
       auth: {
-          user: 'ramiro.alessst@hotmail.com',
-          pass: '5'
+          user: 'proyectoapptrader@gmail.com',
+          pass: 'alddcdxowxoptvmc'
       }
   });
   
   try {
     let info = await transporter.sendMail({
-      from: 'aiqacount19921@outlook.es',
+      from: 'proyectoapptrader@gmail.com',
       to: email,
       subject: 'Welcome to Our Website!',
       html: contentHTML
@@ -576,18 +576,18 @@ export const sendEmailPaidPlan = async (email, name, plan) => {
   `;
 
   let transporter = nodemailer.createTransport({
-    host: 'smtp-mail.outlook.com',
-    port: 587,
-    secure: false,
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
       auth: {
-          user: 'ramiro.alet@hotmail.com',
-          pass: 'luciana.11'
+          user: 'proyectoapptrader@gmail.com',
+          pass: 'alddcdxowxoptvmc'
       }
   });
   
   try {
     let info = await transporter.sendMail({
-      from: 'ramiro.alet@hotmail.sssscom',
+      from: 'proyectoapptrader@gmail.com',
       to: email,
       subject: 'This is your new Plan!',
       html: contentHTML
