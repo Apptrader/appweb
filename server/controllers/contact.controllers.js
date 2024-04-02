@@ -3,30 +3,34 @@ import nodemailer from 'nodemailer';
 
 
 export const sendEmail = async (req, res) =>{
-    const { name, email, phone, message } = req.body;
+    const { firstName, lastName, email, message } = req.body;
 
     const contentHTML = `
-    <h1>User Information</h1>
+    <h1>This</h1>
     <ul>
-        <li>Username: ${name}</li>
+        <li>Name: ${firstName}</li>
+        <li>Lastname: ${lastName}</li>
         <li>User Email: ${email}</li>
-        <li>PhoneNumber: ${phone}</li>
+        
     </ul>
     <p>${message}</p>
     `;
 
-    let transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: 'email@gmail.com',
-            pass: 'xxx'
-        }
-    });
+    
+  let transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+      auth: {
+          user: 'proyectoapptrader@gmail.com',
+          pass: 'alddcdxowxoptvmc'
+      }
+  });
     
 
     let info = await transporter.sendMail({
-        from: '"xxx Server" <email@gmail.com>', // sender address,
-        to: 'email@gmail.com',
+        from: email, // sender address,
+        to: 'proyectoapptrader@gmail.com',
         subject: 'Website Contact Form',
         // text: 'Hello World'
         html: contentHTML
