@@ -484,7 +484,7 @@ const assignRank = async (userId) => {
 };
 
 export const getUserByUserCode = async (req, res) => {
-
+  console.log("hola")
   const {userCode} = req.body
 
   try {

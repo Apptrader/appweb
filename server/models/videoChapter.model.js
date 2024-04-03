@@ -17,7 +17,6 @@ const VideoChapter = sequelize.define('videoChapter', {
     language_id: {
         type: DataTypes.INTEGER,
         allowNull: true,
-        unique: true
     }
 });
 

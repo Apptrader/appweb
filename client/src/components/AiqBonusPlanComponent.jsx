@@ -7,78 +7,78 @@ const AiqBonusPlanComponent = () => {
     <div className="bg-black text-white font-bold">
       <img className='w-2/3 m-auto pb-16 rounded-lg' src='https://res.cloudinary.com/doqyrz0sg/image/upload/v1706404426/banner2Aiq_t0ctud.webp' alt="bannerBonus" />
       <div>
-        <p className='text-blue-400 text-center text-2xl md:text-5xl font-bold'>AIQ BONUS PLAN</p>
-        <div className='p-1 md:p-4 w-2/3 m-auto'>
-          <h2 className='pt-1 text-blue-400 text-xl md:text-2xl'>ACTIVE:</h2>
+        <p className='text-blue-400 text-center text-2xl md:text-5xl font-bold mt-5'>AIQ BONUS PLAN</p>
+        <div className='p-1 md:p-4 md:w-1/3 w-2/3 m-auto'>
+          <h2 className='pt-1 text-blue-400 text-xl md:text-center text-center md:text-2xl'>ACTIVE:</h2>
           <p className='md:py-2 md:px-3'>A distributor is considered active for a commission period wherein they have generated personal volume during any of the previous four (4) consecutive calendar weeks.</p>
         </div>
-        <div className='p-1 md:p-4 w-2/3 m-auto'>
+        <div className='p-1 md:p-4 md:w-1/3 w-2/3 m-auto'>
           <h2 className='text-blue-400 text-2xl text-center py-2'>BINARY STRUCTURE:</h2>
           <p className='py-2 px-3'>Binary structure consists of a left leg and a right leg.
             The leg with the greater volume is referred to as the strong leg, and leg with lesser volume is considered the pay leg.</p>
         </div>
-        <div className='p-1 md:p-4 w-2/3 m-auto'>
+        <div className='p-1 md:p-4 md:w-1/3 w-2/3 m-auto'>
           <h2 className='text-blue-400 text-2xl text-center py-2'>BINARY PLACEMENT TREE:</h2>
           <p className='py-2 px-3'>The binary placement tree tracks the placement relationships within your organization.
             The binary placement tree is used to calculate the Binary TeamCommissions.</p>
         </div>
-        <div className='p-1 md:p-4 w-2/3 m-auto'>
+        <div className='p-1 md:p-4 md:w-1/3 w-2/3 m-auto'>
           <h2 className='text-blue-400 text-2xl text-center py-2'>BINARY COMMISSION PERIOD:</h2>
           <p className='py-2 px-3'>The Bonus Plan is based on weekly commission periods.
             A binary commission period runs from Saturday at 12:00 am - Friday at 11:59 pm EST.</p>
         </div>
-        <div className='p-1 md:p-4 w-2/3 m-auto'>
+        <div className='p-1 md:p-4 md:w-1/3 w-2/3 m-auto'>
           <h2 className='text-blue-400 text-2xl text-center py-2'>BASIC PACK COMMISSIONS:</h2>
           <p className='py-2 px-3'>Distributors on a Basic pack subscription can only receive the following bonuses: Fast Start, Loyalty bonus, and Binary Team commissions.</p>
         </div>
-        <div className='p-1 md:p-4 w-2/3 m-auto'>
+        <div className='p-1 md:p-4 md:w-1/3 w-2/3 m-auto'>
           <h2 className='text-blue-400 text-2xl text-center py-2'>CUSTOMER:</h2>
           <p className='py-2 px-3'>A customer is someone who only purchases products. Customers
             do not actively build a team.</p>
         </div>
-        <div className='p-1 md:p-4 w-2/3 m-auto'>
+        <div className='p-1 md:p-4 md:w-1/3 w-2/3 m-auto'>
           <h2 className='text-blue-400 text-2xl text-center py-2'>ENROLLER:</h2>
           <p className='py-2 px-3'>An enroller is a distributor who introduces and signs up another distributor customer. An enroller is the first (direct) upline distributor in the enrollment tree.</p>
         </div>
-        <div className='p-1 md:p-4 w-2/3 m-auto'>
+        <div className='p-1 md:p-4 md:w-1/3 w-2/3 m-auto'>
           <h2 className='text-blue-400 text-2xl text-center py-2'>ENROLLMENT TREE:</h2>
           <p className='py-2 px-3'>The enrollment tree tracks the direct enrollment relationships within your organization.</p>
         </div>
-        <div className='p-1 md:p-4 w-2/3 m-auto'>
+        <div className='p-1 md:p-4 md:w-1/3 w-2/3 m-auto'>
           <h2 className='text-blue-400 text-2xl text-center py-2'>ENROLLMENT LEG RANK REQUIREMENT:</h2>
           <p className='py-2 px-3'>A distributor will have enrollment leg rank requirements as they advance in the Bonus Plan. This requirement is calculated by the highest rank achieved(during a commission period) by any distributor in each of your enrollment legs. For example, if one of your enrollment legs is considered an InternationalExecutive leg, this means your personal enrollment, or someone in that enrollment leg, has reached the rank of Global Executive.</p>
         </div>
-        <div className='p-1 md:p-4 w-2/3 m-auto'>
+        <div className='p-1 md:p-4 md:w-1/3 w-2/3 m-auto'>
           <h2 className='text-blue-400 text-2xl text-center py-2'>ENROLLMENT LEG CAP:</h2>
           <p className='py-2 px-3'>No more than 50% of the enrollment leg rank qualification volume can be produced by any single enrollment leg.</p>
         </div>
-        <div className='p-1 md:p-4 w-2/3 m-auto'>
+        <div className='p-1 md:p-4 md:w-1/3 w-2/3 m-auto'>
           <h2 className='text-blue-400 text-2xl text-center py-2'>RANKS:</h2>
           <p className='py-2 px-3'>Advancement in rank is usually tied to both personal sales performance and the ability to recruit and mentor a team of distributors. Each rank often comes with certain privileges, increased earning potential, and additional responsibilities.</p>
         </div>
-        <div className='p-1 md:p-4 w-2/3 m-auto'>
+        <div className='p-1 md:p-4 md:w-1/3 w-2/3 m-auto'>
           <h2 className='text-blue-400 text-2xl text-center py-2'>GROUP VOLUME (GV):</h2>
           <p className='py-2 px-3'>GV is the sum of a distributor’s own personal volume (PV) and the PV of all downline distributors.</p>
         </div>
-        <div className='p-1 md:p-4 w-2/3 m-auto'>
+        <div className='p-1 md:p-4 md:w-1/3 w-2/3 m-auto'>
           <h2 className='text-blue-400 text-2xl text-center py-2'>HOLDING VOLUME:</h2>
           <p className='py-2 px-3'>Holding volume is volume not included in commission calculation on the strong leg AFTER team commissions are calculated for a given commission period. This volume “holds”, or is accumulated for use in future commissionperiods. Holding volume always remains on the leg it originates from. For all future commission periods, the holding volume is added to the total volume generated on that side during that commission period. *Please note, the holding volume will be removed 60 days after a distributor falls inactive.</p>
         </div>
-        <div className='p-1 md:p-4 w-2/3 m-auto'>
+        <div className='p-1 md:p-4 md:w-1/3 w-2/3 m-auto'>
           <h2 className='text-blue-400 text-2xl text-center py-2'>PAY LEG:</h2>
           <p className='py-2 px-3'>The pay leg is the leg of your binary structure with less than 50% of your entire organizational volume.</p>
         </div>
-        <div className='p-1 md:p-4 w-2/3 m-auto'>
+        <div className='p-1 md:p-4 md:w-1/3 w-2/3 m-auto'>
           <h2 className='text-blue-400 text-2xl text-center py-2'>PAY LOCK:</h2>
           <p className='py-2 px-3'>Pay lock is the maximum amount of money a distributor can receive on volume earned during any one-week pay period. Any volume that is unpaid because earnings exceed the pay lock will roll into holding volume and will be paid out in a later commission period in which the pay lock is not met.</p>
         </div>
-        <div className='p-1 md:p-4 w-2/3 m-auto'>
+        <div className='p-1 md:p-4 md:w-1/3 w-2/3 m-auto'>
           <h2 className='text-blue-400 text-2xl text-center py-2'>STRONG LEG:</h2>
           <p className='py-2 px-3'>The strong leg is the leg of your binary structure with more than 50% of your entire organizational volume.</p>
         </div>
       </div>
       <div>
-        <p className='text-blue-400 w-2/3 md:w-1/3 m-auto py-16 text-center text-2xl md:text-5xl font-bold'>FAST START
+        <p className='text-blue-400 md:w-1/3 w-2/3 md:w-1/3 m-auto py-16 text-center text-2xl md:text-5xl font-bold'>FAST START
           &
           UPGRADE BONUSES</p>
         <p className='w-2/3 md:w-1/3 m-auto'>Active distributors who are in good standing, and are eligible to receive Fast Start Bonuses on new enrollment orders and upgrade orders of personally enrolled distributors or customers. The bonus is paid one time on sales of packages to customers and distributors as follows:</p>

@@ -8,41 +8,26 @@ import CreateChapterModal from "./modals/CreateChapterModal";
 
 const { API_URL_BASE } = getParamsEnv();
 
+
 const ChaptersTable = () => {
   const [showCreateChapterModal, setShowCreateChapterModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [chapters, setChapters] = useState([]);
-  const token = useSelector((state) => state?.token);
-  const dispatch = useDispatch();
+  const [filteredChapters, setFilteredChapters] = useState([]);
+  const [filters, setFilters] = useState({ name: "", language: "" });
+  const [languages, setLanguages] = useState([]);
 
   useEffect(() => {
-    const getChapters = async () => {
-      setIsLoading(true);
+    const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${API_URL_BASE}/apiChapters/chapters`,
-          {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            },
-          }
-        );
-        
-        // Asignar language_id según el nombre del capítulo
-        const chaptersWithLanguageId = response.data.map(chapter => {
-          const languageId = chapter.name.startsWith("Chapter") ? "English" : "Arabic";
-          return { ...chapter, language_id: languageId };
-        });
-
-        setChapters(chaptersWithLanguageId);
+        const response = await axios.get(`${API_URL_BASE}/apiChapters/chapters`);
+        setChapters(response.data);
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching chapters:", error);
       }
-      setIsLoading(false);
     };
 
-    getChapters();
-  }, [token]);
+    fetchData();
+  }, []);
 
   const handleShowCreateModal = () => {
     setShowCreateChapterModal(true);
@@ -52,71 +37,118 @@ const ChaptersTable = () => {
     setShowCreateChapterModal(false);
   };
 
-  console.log(chapters, "capitulos")
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters({ ...filters, [name.toLowerCase()]: value });
+  };
 
-  if (!isLoading) {
-    return (
-      <>
-        <div className="mx-auto">
-          <div className="overflow-auto max-h-[700px] relative overflow-x-auto shadow-md sm:rounded-lg ">
-            <table className="w-full text-left rtl:text-right text-white dark:text-beige dark:border-beige dark:border">
-              <thead className="bg-gray-900 text-white text-left dark:bg-darkPrimary dark:text-darkText dark:border-secondaryColor">
-                <tr>
-                  <th scope="col" className="px-4 py-3">
-                    Name
-                  </th>
-                  <th scope="col" className="px-4 py-3">
-                    Language ID
-                  </th>
-                  <th scope="col" className="px-4 py-3">
-                    <button
-                      className="flex flex-row gap-1 p-2 rounded-full hover:bg-primaryPink hover:text-gray-500"
-                      onClick={handleShowCreateModal}
-                    >
-                      <IoIosAddCircle size={20} /> Agregar
-                    </button>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {chapters.map((chapter, index) => (
-                  <tr
-                    key={index}
-                    className="border text-center font-bold border-secondaryColor hover:bg-gray-200 hover:text-black hover:font-bold transition-colors duration-700 dark:hover:bg-gray-200 dark:hover:text-black"
-                  >
-                    <td className="px-4 py-4">{chapter.name}</td>
-                    <td className="px-4 py-4">{chapter.language_id}</td>
-                    <td className="px-4 py-4">
-                        <button
-                          className="hover:bg-blue-700 text-black px-2 py-1 rounded mr-2"
-                          onClick={() => handleEditServiceModal(fila)}
-                        >
-                          <MdEdit size={25} className="dark:text-darkText group-hover:text-black dark:group-hover:text-black" />
-                        </button>
-                        <button
-                          className="hover:bg-red-700 text-black px-2 py-1 rounded"
-                          onClick={() => handleDeleteModal(fila.id)}
-                        >
-                          <MdDeleteForever size={25} className="dark:text-darkText group-hover:text-black dark:group-hover:text-black" />
-                        </button>
-                      </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-        {showCreateChapterModal && (
-          <CreateChapterModal
-            setShowCreateChapterModal={setShowCreateChapterModal}
-            token={token}
+  useEffect(() => {
+    const getAllLanguages = async () => {
+      try {
+        const response = await axios.get(`${API_URL_BASE}/apiLanguages/languages`);
+        setLanguages(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getAllLanguages();
+  }, []);
+
+  useEffect(() => {
+    const filtered = chapters.filter(chapter => {
+      const nameMatch = chapter.name.toLowerCase().includes(filters.name.toLowerCase());
+      const languageMatch = filters.language ? chapter.videoLanguage.id === parseInt(filters.language) : true;
+      return nameMatch && languageMatch;
+    });
+    setFilteredChapters(filtered);
+  }, [chapters, filters]);
+
+  return (
+    <>
+      <div className="mx-auto">
+        <div className="mb-4 flex items-center">
+          <input
+            type="text"
+            placeholder="Nombre"
+            name="name"
+            value={filters.name}
+            onChange={handleFilterChange}
+            className="p-2 text-black font-extrabold border border-gray-300 rounded mr-2"
           />
-        )}
-      </>
-    );
-  } else {
-    return <p>Cargando...</p>;
-  }
+          <select
+            name="language"
+            value={filters.language}
+            onChange={handleFilterChange}
+            className="p-2 border text-black font-extrabold border-gray-300 rounded mr-2"
+          >
+            <option value="">Seleccione un idioma</option>
+            {languages.map(language => (
+              <option className="text-black font-bold" key={language.id} value={language.id}>{language.name}</option>
+            ))}
+          </select>
+          <button
+            className="p-2 bg-gray-800 text-white font-bold rounded hover:bg-gray-700"
+            onClick={() => setFilteredChapters(chapters)}
+          >
+            Limpiar Filtros
+          </button>
+        </div>
+        <div className="overflow-auto max-h-[700px] relative overflow-x-auto shadow-md sm:rounded-lg">
+          <table className="w-full text-left rtl:text-right text-white dark:text-beige dark:border-beige dark:border">
+            <thead className="bg-gray-900 text-white text-left dark:bg-darkPrimary dark:text-darkText dark:border-secondaryColor">
+              <tr>
+                <th scope="col" className="px-4 py-3">
+                  Name
+                </th>
+                <th scope="col" className="px-4 py-3">
+                  Language ID
+                </th>
+                <th scope="col" className="px-4 py-3">
+                  <button
+                    className="flex flex-row gap-1 p-2 rounded-full bg-gray-800 hover:bg-primaryPink hover:text-gray-500"
+                    onClick={handleShowCreateModal}
+                  >
+                    <IoIosAddCircle size={20} /> Agregar
+                  </button>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredChapters.map((chapter, index) => (
+                <tr
+                  key={index}
+                  className="border text-center font-bold border-secondaryColor hover:bg-gray-200 hover:text-black hover:font-bold transition-colors duration-700 dark:hover:bg-gray-200 dark:hover:text-black"
+                >
+                  <td className="px-4 py-4">{chapter.name}</td>
+                  <td className="px-4 py-4">{chapter.videoLanguage.name}</td>
+                  <td className="px-4 py-4">
+                    <button
+                      className="hover:bg-blue-700 text-black px-2 py-1 rounded mr-2"
+                      onClick={() => handleEditServiceModal(fila)}
+                    >
+                      <MdEdit size={25} className="dark:text-darkText group-hover:text-black dark:group-hover:text-black" />
+                    </button>
+                    <button
+                      className="hover:bg-red-700 text-black px-2 py-1 rounded"
+                      onClick={() => handleDeleteModal(fila.id)}
+                    >
+                      <MdDeleteForever size={25} className="dark:text-darkText group-hover:text-black dark:group-hover:text-black" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {showCreateChapterModal && (
+        <CreateChapterModal
+          setShowCreateChapterModal={setShowCreateChapterModal}
+          languages={languages}
+        />
+      )}
+    </>
+  );
 };
 
 export default ChaptersTable;

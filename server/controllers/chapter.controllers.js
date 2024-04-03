@@ -1,19 +1,26 @@
 import VideoChapter from "../models/videoChapter.model.js";
+import VideoLanguage from "../models/languages.model.js";
 
 export const allChapters = async (req, res) => {
     try {
-        // Consulta para obtener todos los datos de los idiomas desde tu base de datos
-        const chapters = await VideoChapter.findAll();
+        // Consulta para obtener todos los capítulos de vídeo con la relación a videoLanguage
+        const chapters = await VideoChapter.findAll({
+            include: [{
+                model: VideoLanguage,
+                attributes: ['name', 'id'], // Especificar los atributos que deseas obtener de VideoLanguage
+            }]
+        });
+        console.log(chapters, "capitulos");
         res.status(200).json(chapters);
     } catch (error) {
-        console.error('Error fetching chapters:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        console.error('Error al obtener los capítulos:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
     }
 };
 
 export const createChapter = async (req, res) => {
     const { name, language_id } = req.body; // Extraer los datos necesarios del cuerpo de la solicitud
-    
+    console.log(language_id, "idioma")
     try {
         // Crear un nuevo capítulo con los datos proporcionados
         const newChapter = await VideoChapter.create({
@@ -22,8 +29,8 @@ export const createChapter = async (req, res) => {
         });
 
         // Si necesitas guardar explícitamente el capítulo, Sequelize ya lo hace automáticamente al crearlo
-
-        res.status(201).json(newChapter); // Respondemos con el nuevo capítulo creado
+        console.log(newChapter)
+        res.status(201).json({newChapter, created: "ok"}); // Respondemos con el nuevo capítulo creado
     } catch (error) {
         console.log("Este es el error: ", error);
         res.status(500).send("Error creating new chapter");
