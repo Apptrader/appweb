@@ -4,17 +4,17 @@ import { API_KEY } from './maps/API_KEYS';
 
 const MapComponent = () => {
   const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyCM8hPXnCcO_wGR9bR3ZvkHBBoHi99lhpU",
+    googleMapsApiKey: "AIzaSyAfN8bzcreJthGqm_3BaeNC8GYiCAduQgU",
   });
 
   const mapStyles = {
     height: '400px',
     width: '400px'    
   };
-
+  
   const defaultCenter = {
-    lat: -34.397,
-    lng: 10.644,
+    lat: 25.798747601988982,
+    lng: -80.12857779265352,
   };
 
   if (loadError) return <div>Error loading map</div>;
@@ -24,7 +24,7 @@ const MapComponent = () => {
       {isLoaded ? (
         <GoogleMap
         mapContainerClassName='w-full h-full'
-          zoom={8}
+          zoom={19}
           center={defaultCenter}
 
         >
