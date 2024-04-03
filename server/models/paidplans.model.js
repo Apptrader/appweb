@@ -30,7 +30,7 @@ const PaidPlan = sequelize.define('paidPlan', {
   },
   // Nuevo campo para imágenes (BLOB)
   planImage: {
-    type: DataTypes.BLOB,
+    type: DataTypes.STRING,
     allowNull: true // Puedes cambiar a false si las imágenes son obligatorias
   },
   bonus: {

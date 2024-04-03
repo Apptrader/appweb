@@ -3,14 +3,44 @@ import FooterComponent from './FooterComponent';
 import PartnersComponent from './PartnersComponent';
 import { useNavigate } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
+import ConfirmPayModal from '../components/modals/ConfirmPayModal'
+import { useState } from 'react';
 
 const BodyComponent = () => {
 
     const [ref, inView] = useInView({
         triggerOnce: true, // La animación se activará solo una vez
     });
+    const [showConfirmPayModal, setShowConfirmPayModal] = useState(false)
+    const [product, setProduct] = useState({
+        name: "",
+        details: ""
+      })
 
-    const navigate = useNavigate()
+
+    const handlePaymentConfirm1 = (product, name) => {
+        setProduct({
+          name: "Basic",
+          details: { price: 150, id: 1, bonus: 35, renewal: 60 }
+        })
+        setShowConfirmPayModal(true)
+      }
+    
+      const handlePaymentConfirm2 = (product, name) => {
+        setProduct({
+          name: "Pro",
+          details: { price: 250, id: 2, bonus: 60, renewal: 85 }
+        })
+        setShowConfirmPayModal(true)
+      }
+    
+      const handlePaymentConfirm3 = (product, name) => {
+        setProduct({
+          name: "Sonic",
+          details: { price: 600, id: 3, bonus: 150, renewal: 90 }
+        })
+        setShowConfirmPayModal(true)
+      }
 
 
     return (
@@ -51,7 +81,7 @@ const BodyComponent = () => {
                                     <p className="text-white mb-2">
                                         <span className="bullet">&#8226;</span> Forex Daily Alerts
                                     </p>
-                                    <button className='relative ml-auto bg-[#8c8Ac1] p-2 px-6 md:px-10 text-white overflow-hidden group'>
+                                    <button onClick={handlePaymentConfirm1} className='relative ml-auto bg-[#8c8Ac1] p-2 px-6 md:px-10 text-white overflow-hidden group'>
                                         <span className='relative z-10'>BUY $150</span>
                                         <span className='absolute inset-0 bg-cover bg-center bg-no-repeat opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
                                             <img src='https://i.pinimg.com/originals/31/fb/7b/31fb7b6c808cb6d714a0e303c5a4119b.jpg' alt='Fondo al hacer hover' className='w-full h-full' />
@@ -88,7 +118,7 @@ const BodyComponent = () => {
                                     <p className="text-white mb-2">
                                         <span className="bullet">&#8226;</span> Funded Account Challenges
                                     </p>
-                                    <button className='relative ml-auto bg-[#0088a3] p-2 px-6 md:px-10 text-white overflow-hidden group'>
+                                    <button onClick={handlePaymentConfirm2} className='relative ml-auto bg-[#0088a3] p-2 px-6 md:px-10 text-white overflow-hidden group'>
                                         <span className='relative z-10'>BUY $250</span>
                                         <span className='absolute inset-0 bg-cover bg-center bg-no-repeat opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
                                             <img src='https://i.pinimg.com/originals/31/fb/7b/31fb7b6c808cb6d714a0e303c5a4119b.jpg' alt='Fondo al hacer hover' className='w-full h-full' />
@@ -134,7 +164,7 @@ const BodyComponent = () => {
                                     <p className="text-white mb-2">
                                         <span className="bullet">&#8226;</span> NeoTech Robot (is an Artificial intelligence robot that trades on your behalf)
                                     </p>
-                                    <button className='relative ml-auto bg-[#013366] p-2 px-6 md:px-10 text-white overflow-hidden group'>
+                                    <button onClick={handlePaymentConfirm3} className='relative ml-auto bg-[#013366] p-2 px-6 md:px-10 text-white overflow-hidden group'>
                                         <span className='relative z-10'>BUY $600</span>
                                         <span className='absolute inset-0 bg-cover bg-center bg-no-repeat opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
                                             <img src='https://i.pinimg.com/originals/31/fb/7b/31fb7b6c808cb6d714a0e303c5a4119b.jpg' alt='Fondo al hacer hover' className='w-full h-full' />
@@ -190,7 +220,11 @@ const BodyComponent = () => {
 
                 </div>
             </div>
-
+            {
+                showConfirmPayModal && product && (
+                    <ConfirmPayModal prod={product} setShowConfirmPayModal={setShowConfirmPayModal} />
+                )
+            }
         </div>
     )
 

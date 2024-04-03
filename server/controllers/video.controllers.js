@@ -1,5 +1,6 @@
 import Video from "../models/video.model.js";
 import VideoChapter from "../models/videoChapter.model.js";
+import VideoLanguage from "../models/languages.model.js";
 import multer from "multer";
 
 import multerS3 from 'multer-s3';
@@ -127,7 +128,16 @@ export const allVideos = async (req, res) => {
   try {
     // Consulta para obtener los datos de los videos desde tu base de datos
     const videos = await Video.findAll({
-      include: [{ model: VideoChapter, attributes: ['name'] }]
+      include: [
+        {
+          model: VideoChapter,
+          attributes: ['name', "id"] // Include original
+        },
+        {
+          model: VideoLanguage,
+          attributes: ['name', "id"], // Nuevo include para VideoLanguage
+        }
+      ]
     });
    /*  console.log("ESTOS SON LOS VIDEOS: ",videos) */
 
@@ -194,3 +204,65 @@ export const getAllChapters = async (req,res) => {
     res.json(error)
   }
 }
+
+export const deleteVideos = async (req, res) => {
+  const { id } = req.body;
+  try {
+    const deletedRows = await Video.destroy({
+      where: {
+        id: id
+      }
+    });
+
+   
+    if (deletedRows > 0) {
+      return res.status(200).json({ message: 'Elemento eliminado correctamente.', deleted: "ok" });
+    } else {
+      return res.status(404).json({ message: 'No se encontró ningún elemento con el ID proporcionado.' });
+    }
+  } catch (error) {
+    console.error('Error al intentar eliminar el elemento:', error);
+    return res.status(500).json({ message: 'Hubo un error al intentar eliminar el elemento.' });
+  }
+};
+
+export const editVideo = async (req, res) => {
+  const { title, chapter_id, videoUrl, language, id } = req.body;
+
+  console.log(id)
+
+  if (!videoUrl) {
+    return res.status(400).json({ error: 'No video URL was provided.' });
+  }
+
+  try {
+    // Verificar si el video existe
+    const existingVideo = await Video.findOne({
+      where: {
+        id: id
+      }
+    });
+
+    if (!existingVideo) {
+      return res.status(404).json({ error: 'Video not found.' });
+    }
+
+    // Construir la URL del video en S3 (en este caso, el enlace de video proporcionado)
+    const videoS3Url = videoUrl;
+
+    // Actualizar el video con los datos proporcionados
+    await existingVideo.update({
+      videoUrl: videoS3Url,
+      title,
+      chapter_id,
+      language
+    });
+
+    console.log(existingVideo, "existen")
+
+    res.json({ message: 'Video updated successfully', updated: 'ok' });
+  } catch (error) {
+    console.error('Error updating video:', error);
+    res.status(500).json({ error: 'Error updating video' });
+  }
+};

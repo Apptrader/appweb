@@ -1,54 +1,72 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setPlan } from '../../redux/actions';
 import getParamsEnv from '../../functions/getParamsEnv';
 
-const {API_URL_BASE} = getParamsEnv()
+const { API_URL_BASE } = getParamsEnv();
 
 const ConfirmPayModal = ({ prod, setShowConfirmPayModal }) => {
   const { name, details } = prod;
   const [newPlan, setNewPlan] = useState({
-      referred: "",
-      id: prod.details.id,
-      name: prod.name,
-      price: prod.details.price,
-      renewal: prod.details.renewal,
-      bonus: prod.details.bonus
+    referred: "",
+    id: prod.details.id,
+    name: prod.name,
+    price: prod.details.price,
+    renewal: prod.details.renewal,
+    bonus: prod.details.bonus,
+    referredUserName: "" // Nuevo estado para almacenar el nombre del usuario referido
   });
-  
-  const dispatch = useDispatch()
+  const [referredName, setReferredName] = useState("")
+
+  const dispatch = useDispatch();
 
   const fetchSessionUrl = async () => {
-
-    dispatch(setPlan(newPlan))
+    dispatch(setPlan(newPlan));
 
     try {
-      
       const response = await axios.post(`${API_URL_BASE}/api/payment/checkout`, {
         product: details,
         name,
       });
 
-      console.log(response.data)
+      console.log(response.data);
 
-      window.location.href = response.data.url;
     } catch (error) {
       console.error('Error fetching payment session URL', error.message);
-      
     }
   };
 
-  const handleReferralCodeChange = (event) => {
-    const { value } = event.target;
-  
-    setNewPlan((prevPlan) => ({
-      ...prevPlan,
-      referred: value,
-    }));
+  const fetchReferredUserName = async (userCode) => {
+
+    try {
+      const data = {
+        userCode: userCode
+      }
+      const response = await axios.post(`${API_URL_BASE}/apiUser/getUserByUserCode`, data);
+      console.log(response.data, "referreds")
+      setReferredName(response.data.UserName)
+    } catch (error) {
+      console.error('Error fetching referred user name:', error.message);
+      // Limpiar el nombre del usuario referido si ocurre un error
+      setNewPlan(prevPlan => ({
+        ...prevPlan,
+        referredUserName: ""
+      }));
+    }
   };
 
-  console.log(newPlan)
+  const handleReferralCodeChange = async event => {
+    const { value } = event.target;
+
+     await fetchReferredUserName(value)
+
+    setNewPlan(prevPlan => ({
+      ...prevPlan,
+      referred: value,
+      referredUserName: "" // Limpiar el nombre del usuario referido cuando el código de referencia cambia
+    }));
+  };
 
   return (
     <div className="fixed z-20 top-0 left-0 flex items-center justify-center w-full h-full bg-black" style={{ background: "rgba(0, 0, 0, 0.70)" }}>
@@ -73,6 +91,10 @@ const ConfirmPayModal = ({ prod, setShowConfirmPayModal }) => {
             className="p-2 border rounded-md w-full bg-gray-700 text-white focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200"
           />
         </div>
+        {/* Mostrar el nombre del usuario referido si está disponible */}
+        {referredName && (
+          <p className="text-sm text-gray-300 mt-2">Referred User: {referredName}</p>
+        )}
         <div className="mt-6 flex justify-end">
           <button
             onClick={() => fetchSessionUrl()}

@@ -7,7 +7,7 @@ import { useMediaQuery } from 'react-responsive';
 
 const UsersView = () => {
   const user = useSelector((state) => state?.user);
-  const isDesktopOrLaptop = useMediaQuery({ minDeviceWidth: 1224 });
+  const isDesktopOrLaptop = useMediaQuery({ minDeviceWidth: 800 });
 
   const role = user?.userFound?.role;
 

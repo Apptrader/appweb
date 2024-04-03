@@ -10,18 +10,17 @@ const CreateChapterModal = ({
     aux,
     setAux,
     setShowCreateChapterModal,
-    token,
+    languages,
 }) => {
     const [chapter, setChapter] = useState({
         name: "",
-        language_id: undefined // Deja language_id como undefined
+        language_id: ""
     });
     
     
     const [errors, setErrors] = useState({});
     const [submitLoader, setSubmitLoader] = useState(false);
     const [disableSubmit, setDisableSubmit] = useState(false);
-    const [languages, setLanguages] = useState([]);
 
     useEffect(() => {
         const close = (e) => {
@@ -31,18 +30,6 @@ const CreateChapterModal = ({
         };
         window.addEventListener("keydown", close);
         return () => window.removeEventListener("keydown", close);
-    }, []);
-
-    useEffect(() => {
-        const getAllLanguages = async () => {
-            try {
-                const response = await axios.get(`${API_URL_BASE}/apiVideos/languages`);
-                setLanguages(response.data);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        getAllLanguages();
     }, []);
 
     const closeModal = () => {
@@ -83,23 +70,18 @@ const CreateChapterModal = ({
                 setDisableSubmit(true);
                 setSubmitLoader(true);
 
-                const formData = new FormData();
-                formData.append('chapter', chapter.name)
-                formData.append('language', chapter.language_id);
+                const data = {
+                    name: chapter.name,
+                    language_id: chapter.language_id
+                }
 
-                const options = {
-                    headers: {
-                        'content-type': 'multipart/form-data',
-                        Authorization: `Bearer ${token}`
-                    }
-                };
-
-                const response = await axios.post(`${API_URL_BASE}/apiVideos/createVideo`, formData, options);
-
+                const response = await axios.post(`${API_URL_BASE}/apiChapters/createChapter`, data);
+                console.log(response.data.created)
                 if (response.data.created === "ok") {
+                    closeModal()
+                    console.log("created")
                     setSubmitLoader(false);
                     setAux(!aux);
-                    closeModal();
                 } else {
                     setDisableSubmit(false);
                     setSubmitLoader(false);
@@ -112,6 +94,8 @@ const CreateChapterModal = ({
             }
         }
     };
+
+    console.log(chapter)
 
     return (
         <>
@@ -148,7 +132,7 @@ const CreateChapterModal = ({
                                     >
                                         <option className="text-black font-bold" value="">Select Language</option>
                                         {languages.map(language => (
-                                            <option key={language.id} value={language.id}>{language.name}</option>
+                                            <option  className="text-black font-bold" key={language.id} value={language.id}>{language.name}</option>
                                         ))}
                                     </select>
                                     {errors.language_id && (

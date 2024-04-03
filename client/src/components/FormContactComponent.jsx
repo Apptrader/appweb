@@ -6,7 +6,7 @@ import getParamsEnv from '../functions/getParamsEnv';
 const { API_URL_BASE } = getParamsEnv();
 
 const ContactForm = () => {
-  const isDesktopOrLaptop = useMediaQuery({ minDeviceWidth: 1224 });
+  const isDesktopOrLaptop = useMediaQuery({ minDeviceWidth: 800 });
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',

@@ -12,7 +12,7 @@ const NavbarComponent = () => {
     const navigate = useNavigate();
     const user = useSelector((state) => state?.user);
     const dispatch = useDispatch();
-    const isDesktopOrLaptop = useMediaQuery({ minDeviceWidth: 1224 });
+    const isDesktopOrLaptop = useMediaQuery({ minDeviceWidth: 800 });
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     const logOut = () => {

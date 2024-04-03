@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import NavbarComponent from '../components/NavbarComponent'
 import BodyComponent from '../components/BodyComponent'
 
 
-const Home = () => {
 
+const Home = () => {
+    
 
     return (
     <div>
@@ -14,7 +15,7 @@ const Home = () => {
         
        
 
-        {/*  <FooterComponent /> */}
+        
     </div>
     )
 }

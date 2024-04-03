@@ -54,17 +54,11 @@ const NodeProfileHome = ({user}) => {
   },[])
 
 
-  const calculate = async () => {
-   
-    const response = await axios.post(`${API_URL_BASE}/apiUser/calculate`)
-  
-  }
 
 
 if (!isLoading) {
   return (
     <div className='container m-auto w-full px-[200px]'>
-      <button onClick={calculate} className="text-white font-bold p-5 rounded-full">Calculate</button>
       <div className='flex flex-row gap-5'>
         <div className='bg-gray-900 w-1/5' style={{ flex: '1', padding: '20px' }}>
          

@@ -11,25 +11,21 @@ export const createPaidPlan = async (req, res) => {
     const {
         planName,
         planCost,
-        description,
-        feature,
-        planImage,
         bonus,
-        renewal
+        renewal,
+        planImage
     } = req.body;
 
     try {
         const newPlan = await PaidPlan.create({
             planName,
             planCost,
-            description,
-            feature,
-            planImage,
             bonus,
-            renewal
+            renewal,
+            planImage
         });
 
-        res.send("New plan created...");
+        res.send({created: "ok"});
 
         // Guarda los cambios en la base de datos
         await newPlan.save();
@@ -60,7 +56,7 @@ export const deletePaidPlan = async (req, res) => {
         // Eliminar el PaidPlan de la base de datos
         await paidPlan.destroy();
 
-        res.json({ message: 'PaidPlan deleted successfully' });
+        res.json({ message: 'PaidPlan deleted successfully', deleted: "ok" });
     } catch (error) {
         console.error('Error deleting PaidPlan:', error);
         res.status(500).json({ error: 'Error deleting PaidPlan' });
@@ -68,26 +64,31 @@ export const deletePaidPlan = async (req, res) => {
 };
 
 export const updatePaidPlan = async (req, res) => {
+    console.log(req.params)
     try {
-        const { planName, planCost } = req.body;
+        const { planName, planCost, bonus, renewal, planImage} = req.body;
 
         // Encuentra el PaidPlan por su clave primaria (id)
         const paidPlan = await PaidPlan.findByPk(req.params.id);
 
         // Verifica si el PaidPlan existe
         if (!paidPlan) {
-            return res.status(404).json({ message: 'PaidPlan not found' });
+            return res.status(404).json({ message: 'PaidPlan not found'});
         }
 
         // Actualiza los campos necesarios
         paidPlan.planName = planName;
         paidPlan.planCost = planCost;
+        paidPlan.bonus = bonus;
+        paidPlan.renewal = renewal;
+        paidPlan.planImage = planImage
+
 
         // Guarda los cambios en la base de datos
         await paidPlan.save();
 
         // Responde con el PaidPlan actualizado
-        res.json(paidPlan);
+        res.json({paidPlan, updated: "ok"});
     } catch (error) {
         console.error('Error updating PaidPlan:', error);
         res.status(500).json({ error: 'Error updating PaidPlan' });

@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../dbconnection.js';
 import VideoChapter from './videoChapter.model.js';
+import VideoLanguage from './languages.model.js';
 
 const Video = sequelize.define('video', {
   id: {
@@ -24,7 +25,7 @@ const Video = sequelize.define('video', {
     allowNull: true,
   },
   language: {
-    type: DataTypes.BOOLEAN,
+    type: DataTypes.INTEGER,
     allowNull: false
   }
 });
@@ -32,6 +33,10 @@ const Video = sequelize.define('video', {
 // Definir la asociación
 Video.belongsTo(VideoChapter, {
   foreignKey: 'chapter_id'
+});
+
+Video.belongsTo(VideoLanguage, {
+  foreignKey: 'language'
 });
 
 export default Video;

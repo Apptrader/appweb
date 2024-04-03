@@ -79,7 +79,7 @@ const createVideos = async () => {
         "videoUrl": "https://www.youtube.com/watch?v=bo9Z_pgByQY&ab_channel=EdgarCrampton",
         "title": "Political Factors in Trading",
         "chapter_id": "3",
-        "language": 0
+        "language": 2
       }
     ]
     ;
