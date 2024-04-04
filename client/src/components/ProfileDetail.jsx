@@ -125,6 +125,10 @@ const ProfileDetail = ({ rankNames, userInfo, token }) => {
             </li>
             <li className='flex flex-col p-2 items-center py-2 border-b-8 border-t-8 border-black'>
               <span>QEV Flushing this week:</span>
+              <span> 0 </span>
+            </li>
+            <li className='flex flex-col p-2 items-center py-2 border-b-8 border-t-8 border-black'>
+              <span>Total Flush:</span>
               <span>{flush ? flush : 0 }</span>
             </li>
             <li className='flex flex-col p-2 items-center py-2 border-b-8 border-t-8 border-black'>

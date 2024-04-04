@@ -100,6 +100,8 @@ export const createVideo = async (req, res) => {
     videoUrl, // Modificado para aceptar el enlace de video
     language
   } = req.body;
+
+  console.log(language, "chapter")
   
   if (!videoUrl) {
     return res.status(400).json({ error: 'No video URL was provided.' });

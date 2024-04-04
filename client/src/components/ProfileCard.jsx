@@ -21,6 +21,29 @@ const ProfileCard = ({ userInfo, rankNames, referred }) => {
     amount
   }
 
+  const today = new Date();
+  const day = today.getDay();
+
+  // Si hoy es viernes, el viernes pasado es hoy
+  const previousFriday = day === 5 ? new Date(today) : getPreviousFriday(today);
+  const nextFriday = getNextFriday(previousFriday);
+
+  const formatDate = (date) => {
+    const options = { day: "numeric", month: "numeric" };
+    return date.toLocaleDateString(undefined, options);
+  };
+
+  function getPreviousFriday(date) {
+    const previousFriday = new Date(date);
+    previousFriday.setDate(date.getDate() - (date.getDay() + 2) % 7); // Previous Friday
+    return previousFriday;
+  }
+
+  function getNextFriday(date) {
+    const nextFriday = new Date(date);
+    nextFriday.setDate(nextFriday.getDate() + 7); // Next Friday
+    return nextFriday;
+  }
   if (totalNodos) {
     return (
       <div className='card bg-gradient-to-br from-gray-700 to-black text-white p-4 shadow-md rounded-lg'>
@@ -38,7 +61,7 @@ const ProfileCard = ({ userInfo, rankNames, referred }) => {
             </li>
             <li className="flex p-2 py-4 justify-between items-center py-2 border-b border-gray-300">
               <span>Commission Week:</span>
-              <span>22/03 - 29/03</span>
+              <span>{formatDate(previousFriday)} - {formatDate(nextFriday)}</span>
             </li>
             <li className="flex p-2 py-4 justify-between items-center py-2 border-b border-gray-300">
               <span>Status:</span>

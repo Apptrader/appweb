@@ -7,7 +7,7 @@ const ContactComponent = () => {
             {/* Sección de encabezado */}
             <section className="text-center text-white py-12 md:py-24">
                 <h2 className="text-4xl md:text-6xl font-semibold">Contact Us</h2>
-                <p className="text-lg md:text-xl mt-4 md:mt-8">We value your feedback, inquiries, and suggestions. Whether you have a question about our products, need assistance with an order, or just want to drop us a message, we're here to help.</p>
+                <p className="text-lg md:p-10 md:text-xl mt-4 md:mt-8">We value your feedback, inquiries, and suggestions. Whether you have a question about our products, need assistance with an order, or just want to drop us a message, we're here to help.</p>
             </section>
 
             {/* Sección de dirección y contacto */}

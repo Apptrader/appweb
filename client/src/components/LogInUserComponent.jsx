@@ -110,7 +110,7 @@ const LogInUserComponent = () => {
                 id="email"
                 name="Email"
                 type="email"
-                autoComplete="email"
+                autoComplete="off"
                 required
                 value={formData.Email}
                 onChange={handleInputChange}

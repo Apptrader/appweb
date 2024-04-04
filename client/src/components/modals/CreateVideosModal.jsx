@@ -17,7 +17,7 @@ const CreateVideoModal = ({
         chapter_id: "",
         title: "",
         videoUrl: "", // Cambio de video a videoUrl
-        language: false,
+        language: "",
     });
 
     const [errors, setErrors] = useState({});
@@ -39,14 +39,15 @@ const CreateVideoModal = ({
         const getAllChapters = async () => {
             try {
                 const response = await axios.get(`${API_URL_BASE}/apiVideos/chapterVideos`);
-                setChapters(response.data);
+                // Filtrar los capítulos según el language_id seleccionado
+                const filteredChapters = response.data.filter(chapter => chapter.language_id === parseInt(video.language));
+                setChapters(filteredChapters);
             } catch (error) {
                 console.log(error);
             }
         };
         getAllChapters();
-    }, []);
-
+    }, [video.language])
     const closeModal = () => {
         setShowCreateVideoModal(false);
         setVideo({
@@ -59,6 +60,8 @@ const CreateVideoModal = ({
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+
+        console.log(e.target.value)
         setVideo(prevState => ({
             ...prevState,
             [name]: value,
@@ -112,6 +115,7 @@ const CreateVideoModal = ({
         }
     };
 
+    console.log(chapters)
     return (
         <>
             <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full" style={{ background: "rgba(0, 0, 0, 0.70)" }}>
@@ -156,26 +160,26 @@ const CreateVideoModal = ({
                                     <select
                                         onChange={handleChange}
                                         name="language"
-                                        value={video.language.toString()} // Convert boolean to string
                                         className={`border border-black p-2 rounded text-black font-bold bg-gray-300  w-full dark:text-darkText dark:bg-darkPrimary`}
                                     >
                                         <option className="text-black font-bold" value="">Select Language</option>
-                                        <option className="text-black font-bold" value="true">English</option>
-                                        <option className="text-black font-bold" value="false">Arabic</option>
+                                        <option className="text-black font-bold" value="1">English</option>
+                                        <option className="text-black font-bold" value="2">Arabic</option>
+                                        <option className="text-black font-bold" value="3">Spanish</option>
                                     </select>
                                     {errors.language && (
                                         <p className="text-red-500 font-bold">{errors.language}</p>
                                     )}
                                 </div>
                                 <div>
-                                    <label className="pl-1 font-bold dark:text-darkText">Chapter</label>
+                                    <label className="pl-1 font-bold dark:text-darkText">Section/chapter</label>
                                     <select
                                         onChange={handleChange}
                                         name="chapter_id"
                                         value={video.chapter_id}
                                         className={`border border-black p-2 rounded text-black font-bold bg-gray-300  w-full dark:text-darkText dark:bg-darkPrimary`}
                                     >
-                                        <option value="">Select Chapter</option>
+                                        <option value="">Select Section or Chapter</option>
                                         {chapters.map(chapter => (
                                             <option className="text-black font-bold" key={chapter.id} value={chapter.id}>{chapter.name}</option>
                                         ))}

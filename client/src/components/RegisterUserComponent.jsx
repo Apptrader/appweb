@@ -142,7 +142,7 @@ const RegisterUserComponent = () => {
                     <img className="mx-auto h-10 w-auto" src="https://static.wixstatic.com/media/39c6da_c313300b528e4aa284d37b4c31f951a8~mv2.png/v1/crop/x_83,y_128,w_336,h_226/fill/w_154,h_104,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/Untitled%20design.png" alt="Your Company" />
                     <h1 className="mt-10 mb-10 text-center text-2xl font-bold leading-9 tracking-tight text-white">Sign up</h1>
                    
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} autoComplete="off">
                         <div className="mb-4">
                             <label
                                 htmlFor="UserName"
@@ -167,11 +167,14 @@ const RegisterUserComponent = () => {
                         <div>
                         <label htmlFor="email" className="block  font-bold leading-6 text-white mt-4">Email</label>
                         <input
-                            onChange={handleInputChange}
+                            
                             type="text"
+                            
                             className=" pl-2 block w-full rounded-md border-0 py-1.5 text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 mt-2 bg-gray-700"
                             name="Email"
+                            onChange={handleInputChange}
                             placeholder="" />
+                            
                         {errors.Email && (
                                 <p className="text-red-500 text-sm mt-1">
                                     {errors.Email}
