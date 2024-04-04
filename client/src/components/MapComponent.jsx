@@ -11,7 +11,7 @@ const MapComponent = () => {
     height: '400px',
     width: '400px'
   };
-
+  
   const defaultCenter = {
     lat: 25.798747601988982,
     lng: -80.12857779265352,
