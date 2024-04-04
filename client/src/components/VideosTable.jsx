@@ -239,7 +239,7 @@ const VideosTable = () => {
                 window.innerWidth < 340 ? "max-w-sm" : "max-w-md"
               }`}
             >
-              <p className="mb-4  sm:text-base">
+              <p className="mb-4 text-black font-bold sm:text-base">
                 Are you sure you want to delete this video?
               </p>
               <div className="flex justify-center space-x-4">

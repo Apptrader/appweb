@@ -533,7 +533,7 @@ export const calculate = async (req, res) => {
       }
     }
 
-    res.json({ success: true, message: 'Cálculos realizados con éxito.' });
+    res.json({ calculated: "ok", message: 'Cálculos realizados con éxito.',  });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: 'Error en el servidor.' });

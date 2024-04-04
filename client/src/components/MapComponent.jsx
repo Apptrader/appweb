@@ -9,7 +9,7 @@ const MapComponent = () => {
 
   const mapStyles = {
     height: '400px',
-    width: '400px'    
+    width: '400px'
   };
   
   const defaultCenter = {

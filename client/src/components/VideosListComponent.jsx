@@ -9,17 +9,23 @@ import { FaTableList } from "react-icons/fa6";
 const { API_URL_BASE } = getParamsEnv();
 
 const VideosListComponent = () => {
-    const [language, setLanguage] = useState(true);
-    const [selectedChapter, setSelectedChapter] = useState(null);
+    const [language, setLanguage] = useState(1);
+    const [selectedChapter, setSelectedChapter] = useState(1);
+    const [selectedChapterName, setSelectedChapterName] = useState('');
     const [videosData, setVideosData] = useState([]);
     const [chaptersData, setChaptersData] = useState([]);
 
     const handleLanguageChange = (selectedLanguage) => {
         setLanguage(selectedLanguage);
+        setSelectedChapterName(''); // Resetear el nombre del capítulo
     };
 
     const handleChapterChange = (chapterId) => {
-        setSelectedChapter(chapterId);
+        const selectedChapterData = chaptersData.find(chapter => chapter.id === chapterId);
+        if (selectedChapterData) {
+            setSelectedChapter(chapterId);
+            setSelectedChapterName(selectedChapterData.name);
+        }
     };
 
     useEffect(() => {
@@ -30,7 +36,8 @@ const VideosListComponent = () => {
             .catch(error => {
                 console.error('Error fetching videos:', error);
         });
-        axios.get(`${API_URL_BASE}/apiChapters/allChapters`)
+        axios.get(`${API_URL_BASE}/apiChapters/chapters`)
+
             .then(response => {
                 setChaptersData(response.data);
             })
@@ -39,7 +46,7 @@ const VideosListComponent = () => {
         });
     }, []);
 
-    const filteredVideos = videosData.filter(video => video.language === language);
+    const filteredVideos = videosData.filter(video => video.videoLanguage.id === language);
 
     const chaptersVideos = Array.from(new Set(filteredVideos.map(video => video.chapter_id))).map(chapter => ({
         id: chapter,
@@ -56,32 +63,22 @@ const VideosListComponent = () => {
 
     return (
         <div className="px-4">
-            {chaptersData.length > 0 && (
-    <div className="mb-4">
-        <h2 className="text-2xl font-bold text-white mb-2">Chapters:</h2>
-        <ul className="text-white">
-            {chaptersData.map(chapter => (
-                <li key={chapter.id}>{`Chapter ${chapter.id}: ${chapter.name}`}</li>
-            ))}
-        </ul>
-    </div>
-)}
 
-            
-            <div className="mb-4 flex flex-wrap">
-                
-                <div className="mr-2 mb-2 px-12 py-0,5 font-bold text-blue-400"><IoLanguage color="white" size={24} /></div>
+            <div className="mb-8 flex flex-wrap justify-center items-center">
+                <div className="mr-4 mb-2 px-4 py-2 font-bold text-blue-400">
+                    <IoLanguage color="white" size={24} />
+                </div>
                 <button 
-                    className={`mr-4 ${language ? 'bg-blue-500 text-white' : ' text-white bold'} px-4 py-1,5 rounded font-bold`}
-                    onClick={() => handleLanguageChange(true)}
-                    style={{ fontFamily: 'Arial, sans-serif' }}
+                    className={`mr-4 ${language === 1 ? 'bg-blue-500 text-white' : ' text-white bold'} px-4 py-2 rounded font-bold`}
+                    onClick={() => handleLanguageChange(1)}
+
                 >
                     English
                 </button>
                 <button 
-                    className={`mr-4 ${!language ? 'bg-blue-500 text-white' : 'text-white bold'} px-4 py-1,5 rounded font-bold`}
-                    onClick={() => handleLanguageChange(false)}
-                    style={{ fontFamily: 'Arial, sans-serif' }}
+
+                    className={`mr-4 ${language === 2 ? 'bg-blue-500 text-white' : 'text-white bold'} px-4 py-2 rounded font-bold`}
+                    onClick={() => handleLanguageChange(2)}
                 >
                     Arabic
                 </button>
@@ -89,12 +86,15 @@ const VideosListComponent = () => {
                 
             </div>
 
-            <div className="mb-4 flex flex-wrap">
-                <div className="mr-2 mb-2 px-12 py-0,5 font-bold text-blue-400"><FaTableList color="white" size={24} /></div>
+            <div className="mb-8 flex flex-wrap justify-center items-center">
+                <div className="mr-4 mb-2 px-4 py-2 font-bold text-blue-400">
+                    <FaTableList color="white" size={24} />
+                </div>
                 {chaptersVideos.map(chapter => (
                     <button
                         key={chapter.id}
-                        className={`mr-2 mb-2 ${selectedChapter === chapter.id ? 'bg-blue-500 text-white' : ' text-white bold'} px-2 py-0,5 rounded font-bold`}
+                        className={`mr-4 mb-2 ${selectedChapter === chapter.id ? 'bg-blue-500 text-white' : ' text-white bold'} px-4 py-2 rounded font-bold`}
+
                         onClick={() => handleChapterChange(chapter.id)}
                         style={{ fontFamily: 'Arial, sans-serif' }}
                     >
@@ -105,24 +105,23 @@ const VideosListComponent = () => {
 
             {selectedChapter && (
                 <div>
-                    <h1 className="text-4xl font-bold text-white mb-8 pt-8">{`Chapter ${chaptersVideos.find(chapter => chapter.id === selectedChapter)?.name}`}</h1>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <h1 className="text-4xl font-bold text-white mb-8 pt-8 text-center">{selectedChapterName}</h1>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         {selectedChapterVideos.map((video, index) => (
-                            <div key={index} className="p-2">
-                                
-                                <div className="aspect-w-16 aspect-h-9">
-                                    <ReactPlayer
-                                        url={video.videoUrl}
-                                        className="react-player"
-                                        width="100%"
-                                        height="100%"
-                                        controls={true}
-                                        playsinline={true}
-                                    />
-                                </div>
-                                <div className="mt-2 font-bold text-white">{video.title}</div>
-                                <div className="mb-2 font-bold text-blue-400">{video.description}</div>
+                            <div key={index} className="p-4 bg-gray-800 rounded-lg">
+                                <ReactPlayer
+                                    url={video.videoUrl}
+                                    className="react-player"
+                                    width="100%"
+                                    height="100%"
+                                    controls={true}
+                                    playsinline={true}
+                                />
+                                <h2 className="mt-4 mb-2 text-xl font-bold text-white">{video.title}</h2>
+                                <p className="text-gray-300">{video.description}</p>
+
                             </div>
                         ))}
                     </div>
