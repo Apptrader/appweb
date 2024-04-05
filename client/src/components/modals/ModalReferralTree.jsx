@@ -8,7 +8,7 @@ import getParamsEnv from '../functions/getParamsEnv';
 
 const {API_URL_BASE} = getParamsEnv()
 
-const ReferralTree = () => {
+const ModalReferralTree = () => {
   const [treeData, setTreeData] = useState()
   const user = useSelector((state)=> state?.user);
   const dispatch = useDispatch()
@@ -129,6 +129,11 @@ const ReferralTree = () => {
             links: 'stroke-red-500 stroke-width-2',
           }}
         />
+        {showModal && (
+          <div className='w-[300px] h-[300px] bg-red-500'> 
+            <p>Holaaaaaa</p>
+          </div>
+        )}
       </div>
     );
   }
@@ -136,4 +141,4 @@ const ReferralTree = () => {
   return null;
 };
 
-export default ReferralTree;
+export default ModalReferralTree;

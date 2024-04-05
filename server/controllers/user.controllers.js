@@ -6,6 +6,7 @@ import Rank from '../models/rank.model.js';
 import PaidPlan from '../models/paidplans.model.js';
 import nodemailer from 'nodemailer';
 import Flush from '../models/flush.model.js';
+import { where } from 'sequelize';
 
 export const allUsers = async (req,res) =>{
   console.log("hola")
@@ -91,6 +92,7 @@ export const sendEmailRegister = async (email, code, name) => {
 export const register = async (req, res) => {
   const {
     UserName,
+    UserLastName,
     Email,
     Password,
     Phone,
@@ -102,6 +104,7 @@ export const register = async (req, res) => {
 
       const newUser = await User.create({
         UserName,
+        UserLastName,
         Email,
         Password: passwordHash,
         Phone,
@@ -127,6 +130,33 @@ export const register = async (req, res) => {
   }
 };
 
+
+export const updateUser = async (req, res) => {
+  const userId = req.user.id; // Obtén el ID del usuario de los parámetros de la solicitud
+  const updateData = req.body; // Obtén los datos de actualización del cuerpo de la solicitud
+  const {token} = req.body
+
+  try {
+    // Verifica si el usuario existe
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Actualiza los campos del usuario en la base de datos
+    await user.update(updateData);
+
+    // Devuelve la respuesta con los datos actualizados
+    res.json({
+      userFound: user,
+      updated: 'ok',
+      token
+    });
+  } catch (error) {
+    console.log("Error:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
 
 export const login = async (req, res) => {
   const {
@@ -454,6 +484,8 @@ const assignRank = async (userId) => {
       order: [['points', 'DESC']]
     });
 
+    console.log(ranks, "ranks")
+
     let assignedRank = null;
 
     for (const rank of ranks) {
@@ -464,7 +496,7 @@ const assignRank = async (userId) => {
           { rank_id: rank.id },
           { where: { idUser: userId } }
         );
-        console.log(`User ${userId} assigned rank ${rank.rankName}`);
+        console.log(`User ${userId} assigned rank ${rank.name}`);
         break;
       }
     }

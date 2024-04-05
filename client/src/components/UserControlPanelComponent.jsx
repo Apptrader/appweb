@@ -1,14 +1,30 @@
+import axios from "axios";
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import toast from 'react-hot-toast';
+import ToasterConfig from './Toaster';
+
+import getParamsEnv from '../functions/getParamsEnv';
+import { setUser } from '../redux/actions';
+
+const { API_URL_BASE } = getParamsEnv()
 
 const UserControlPanelComponent = () => {
+  const dispatch = useDispatch()
+  const user = useSelector((state) => state?.user);
+  const userInfo = user.userFound;
+
   const [userData, setUserData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    password: '',
-    walletLink: ''
+    firstName: userInfo.UserName || '',
+    lastName: userInfo.UserLastName || '',
+    email: userInfo.Email || '',
+    phone: userInfo.Phone || '',
+    walletLink: userInfo.walletLink || '',
+    walletType: userInfo.walletType || ''
   });
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [fieldToEdit, setFieldToEdit] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,46 +34,98 @@ const UserControlPanelComponent = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aquí puedes enviar los datos actualizados del usuario al servidor
-    console.log(userData);
+    try {
+      const data = {
+        UserName: userData.firstName,
+        UserLastName: userData.lastName,
+        Email: userData.email,
+        Phone: userData.Phone,
+        walletLink: userData.walletLink,
+        walletType: userData.walletType
+      }
+      const response = await axios.put(`${API_URL_BASE}/apiUser/update`, data, {
+        headers: {
+          Authorization: `Bearer ${user.token}` // Agrega el token al encabezado de autorización
+        }
+      });
+      if (response.data.updated === "ok") {
+        dispatch(setUser(response.data))
+        toast.success("User updated successfully");
+      }
+    } catch (error) {
+      toast.error(error.message || "An error occurred");
+      console.error(error);
+    }
+  };
+
+  const openModal = (fieldName) => {
+    setFieldToEdit(fieldName);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setFieldToEdit('');
   };
 
   return (
     <div className="container mx-auto mt-10 px-4">
-      <div className="bg-gray-800 rounded-md shadow-md p-6">
-        <h2 className="text-2xl font-bold mb-4 text-white">User Control Panel</h2>
+      <div className="bg-black rounded-md border border-blue-500 p-8 text-white">
+        <h2 className="text-3xl font-semibold mb-6">User Control Panel</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label htmlFor="firstName" className="text-sm font-semibold text-white block mb-1">First Name</label>
-              <input type="text" id="firstName" name="firstName" value={userData.firstName} onChange={handleChange} className="input" />
-            </div>
-            <div>
-              <label htmlFor="lastName" className="text-sm font-semibold text-white block mb-1">Last Name</label>
-              <input type="text" id="lastName" name="lastName" value={userData.lastName} onChange={handleChange} className="input" />
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {Object.entries(userData).map(([key, value]) => (
+              <div key={key}>
+                <label htmlFor={key} className="text-sm font-semibold block mb-1 capitalize">{key}</label>
+                <div className="relative flex items-center">
+                  {key === 'walletType' ? (
+                    <select id={key} name={key} value={value} readOnly={!isModalOpen} className="input text-black font-extrabold p-2 rounded-full mr-2" onChange={handleChange}>
+                      <option className="text-black font-bold" value="">Select Wallet Type</option>
+                      <option className="text-black font-bold" value="Bitcoin">Bitcoin</option>
+                      <option className="text-black font-bold" value="Ethereum">Ethereum</option>
+                      <option className="text-black font-bold" value="Litecoin">Litecoin</option>
+                      {/* Agrega más opciones según sea necesario */}
+                    </select>
+                  ) : (
+                    <>
+                      <input type="text" id={key} name={key} value={value} readOnly={!isModalOpen} className="input text-black font-extrabold p-2 rounded-full mr-2" onChange={handleChange} />
+                      {!isModalOpen && (
+                        <button type="button" className="text-white bg-blue-500 rounded-full px-4 py-2 hover:bg-blue-600 transition-colors duration-300 focus:outline-none" onClick={() => openModal(key)}>Edit</button>
+                      )}
+                    </>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
-          <div>
-            <label htmlFor="email" className="text-sm font-semibold text-white block mb-1">Email</label>
-            <input type="email" id="email" name="email" value={userData.email} onChange={handleChange} className="input" />
+          <div className="flex justify-end">
+            <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors duration-300">Save Changes</button>
           </div>
-          <div>
-            <label htmlFor="phone" className="text-sm font-semibold text-white block mb-1">Phone</label>
-            <input type="text" id="phone" name="phone" value={userData.phone} onChange={handleChange} className="input" />
-          </div>
-          <div>
-            <label htmlFor="password" className="text-sm font-semibold text-white block mb-1">Password</label>
-            <input type="password" id="password" name="password" value={userData.password} onChange={handleChange} className="input" />
-          </div>
-          <div>
-            <label htmlFor="walletLink" className="text-sm font-semibold text-white block mb-1">Wallet Link</label>
-            <input type="text" id="walletLink" name="walletLink" value={userData.walletLink} onChange={handleChange} className="input" />
-          </div>
-          <button type="submit" className="btn">Save Changes</button>
         </form>
       </div>
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-75">
+          <div className="bg-gray-300 p-6 rounded-md">
+            <h3 className="text-lg font-semibold mb-4">Edit {fieldToEdit}</h3>
+            <input
+              type="text"
+              name={fieldToEdit}
+              value={userData[fieldToEdit]}
+              onChange={handleChange}
+              className="input text-black font-extrabold p-2 rounded-full"
+            />
+            <div className="flex justify-end mt-4">
+              <button type="button" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors duration-300 mr-2" onClick={closeModal}>Cancel</button>
+              <button type="button" className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors duration-300" onClick={closeModal}>Save</button>
+            </div>
+          </div>
+        </div>
+      )}
+      <ToasterConfig />
     </div>
   );
 }
