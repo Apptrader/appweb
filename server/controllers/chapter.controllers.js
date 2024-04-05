@@ -76,13 +76,13 @@ export const updateChapter = async (req, res) => {
 
         // Actualizar los datos del capítulo con los nuevos valores
         chapterToUpdate.name = name;
-        chapterToUpdate.language_id = language_id;
+        chapterToUpdate.language_id = language_id.id;
 
         // Guardar los cambios en la base de datos
         await chapterToUpdate.save();
 
         // Responder con el capítulo actualizado
-        res.status(200).json(chapterToUpdate);
+        res.status(200).json({chapterToUpdate, updated: "ok"});
     } catch (error) {
         console.error("Error updating chapter:", error);
         res.status(500).send("Error updating chapter");

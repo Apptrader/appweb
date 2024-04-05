@@ -20,7 +20,7 @@ const MapComponent = () => {
   if (loadError) return <div>Error loading map</div>;
 
   return (
-    <div className='w-[1200px] m-auto h-[600px] bg-red-500'>
+    <div className='w-[1200px] m-auto h-[600px]'>
       {isLoaded ? (
         <GoogleMap
         mapContainerClassName='w-full h-full'

@@ -1,0 +1,20 @@
+.flag-dropdown .arrow {
+    color: white!important; /* Cambia el color del texto a blanco */
+    border: white!important;
+}
+
+/* Estilos para el elemento con la clase "flag-dropdown" */
+.flag-dropdown {
+    background-color: #374151!important; /* Cambia el color de fondo a gris */
+    border: none!important;
+}
+
+/* Estilos para el elemento con la clase "arrow" dentro de un elemento con la clase "flag-dropdown" cuando el elemento tiene también la clase "open" */
+.flag-dropdown.open .arrow {
+    color: blue!important; /* Cambia el color del texto a azul cuando el menú está abierto */
+}
+
+/* Estilos adicionales para el elemento con la clase "flag-dropdown" cuando el menú está abierto */
+.flag-dropdown.open {
+    background-color: lightgray!important; /* Cambia el color de fondo a gris claro cuando el menú está abierto */
+}

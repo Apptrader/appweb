@@ -132,10 +132,19 @@ const createRanks = async () => {
     ];
 
     for (const rank of ranksData) {
-      await Rank.create(rank);
+      // Busca si ya existe un rango con el mismo nombre
+      const existingRank = await Rank.findOne({ where: { name: rank.name } });
+
+      // Si no existe, lo crea
+      if (!existingRank) {
+        await Rank.create(rank);
+        console.log(`Rango "${rank.name}" creado exitosamente.`);
+      } else {
+        console.log(`El rango "${rank.name}" ya existe.`);
+      }
     }
 
-    console.log('Rangos creados exitosamente.');
+    console.log('Proceso de creación de rangos finalizado.');
   } catch (error) {
     console.error('Error al crear los rangos:', error);
   }
