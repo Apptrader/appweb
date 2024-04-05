@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { setPlan } from '../../redux/actions';
 import getParamsEnv from '../../functions/getParamsEnv';
 
-const { API_URL_BASE } = getParamsEnv();
+const { API_URL_BASE, VITE_TERMS_AND_CONDITION } = getParamsEnv();
 
 const ConfirmPayModal = ({ prod, setShowConfirmPayModal }) => {
   const { name, details } = prod;
@@ -15,11 +15,20 @@ const ConfirmPayModal = ({ prod, setShowConfirmPayModal }) => {
     price: prod.details.price,
     renewal: prod.details.renewal,
     bonus: prod.details.bonus,
-    referredUserName: "" // Nuevo estado para almacenar el nombre del usuario referido
+    referredUserName: ""
   });
-  const [referredName, setReferredName] = useState("")
+  const [referredName, setReferredName] = useState("");
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Enable or disable the buy button based on the agreedToTerms state
+    const buyButton = document.getElementById('buyButton');
+    if (buyButton) {
+      buyButton.disabled = !agreedToTerms;
+    }
+  }, [agreedToTerms]);
 
   const fetchSessionUrl = async () => {
     dispatch(setPlan(newPlan));
@@ -40,7 +49,6 @@ const ConfirmPayModal = ({ prod, setShowConfirmPayModal }) => {
   };
 
   const fetchReferredUserName = async (userCode) => {
-
     try {
       const data = {
         userCode: userCode
@@ -50,7 +58,6 @@ const ConfirmPayModal = ({ prod, setShowConfirmPayModal }) => {
       setReferredName(response.data.UserName)
     } catch (error) {
       console.error('Error fetching referred user name:', error.message);
-      // Limpiar el nombre del usuario referido si ocurre un error
       setNewPlan(prevPlan => ({
         ...prevPlan,
         referredUserName: ""
@@ -61,13 +68,17 @@ const ConfirmPayModal = ({ prod, setShowConfirmPayModal }) => {
   const handleReferralCodeChange = async event => {
     const { value } = event.target;
 
-     await fetchReferredUserName(value)
+    await fetchReferredUserName(value);
 
     setNewPlan(prevPlan => ({
       ...prevPlan,
       referred: value,
-      referredUserName: "" // Limpiar el nombre del usuario referido cuando el código de referencia cambia
+      referredUserName: ""
     }));
+  };
+
+  const handleCheckboxChange = () => {
+    setAgreedToTerms(!agreedToTerms);
   };
 
   return (
@@ -93,14 +104,25 @@ const ConfirmPayModal = ({ prod, setShowConfirmPayModal }) => {
             className="p-2 border rounded-md w-full bg-gray-700 text-white focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200"
           />
         </div>
-        {/* Mostrar el nombre del usuario referido si está disponible */}
         {referredName && (
           <p className="text-sm text-gray-300 mt-2">Referred User: {referredName}</p>
         )}
+        <div className="mt-4">
+          <input
+            type="checkbox"
+            id="termsCheckbox"
+            checked={agreedToTerms}
+            onChange={handleCheckboxChange}
+            className="mr-2"
+          />
+          <label htmlFor="termsCheckbox" className="text-sm text-gray-300">By purchasing, you agree to the <a href={VITE_TERMS_AND_CONDITION} className="text-blue-500">Terms and Conditions</a>.</label>
+        </div>
         <div className="mt-6 flex justify-end">
           <button
+            id="buyButton"
             onClick={() => fetchSessionUrl()}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring focus:ring-blue-200"
+            className={`px-4 py-2 rounded-md focus:outline-none focus:border-blue-700 focus:ring focus:ring-blue-200 ${agreedToTerms ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-gray-500 text-gray-300 cursor-not-allowed'}`}
+            disabled={!agreedToTerms}
           >
             Go to pay
           </button>

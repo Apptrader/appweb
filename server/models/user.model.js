@@ -99,7 +99,7 @@ const User = sequelize.define('user', {
 User.beforeCreate((user, options) => {
   return User.max('UserCode')
     .then(max => {
-      user.UserCode = (max || 0) + 1; // Incrementa el valor máximo encontrado o establece 1 si no hay filas
+      user.UserCode = (max || 9120050) + 1; // Incrementa el valor máximo encontrado o establece 1 si no hay filas
     });
 });
 

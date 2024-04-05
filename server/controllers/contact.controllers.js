@@ -3,7 +3,8 @@ import nodemailer from 'nodemailer';
 
 
 export const sendEmail = async (req, res) =>{
-    const { firstName, lastName, email, message } = req.body;
+    try {
+      const { firstName, lastName, email, message } = req.body;
 
     const contentHTML = `
     <h1>This</h1>
@@ -39,7 +40,11 @@ export const sendEmail = async (req, res) =>{
     console.log('Message sent: %s', info.messageId);
     // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 
-    // Preview only available when sending through an Ethereal account
+    res.json({sended: "ok"})
+    } catch (error) {
+      console.log(error)
+      res.json(error)
+    }
     console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
     // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
 

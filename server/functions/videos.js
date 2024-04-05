@@ -85,10 +85,19 @@ const createVideos = async () => {
     ;
 
     for (const video of videosData) {
-      await Video.create(video);
+      // Busca si ya existe un video con la misma URL
+      const existingVideo = await Video.findOne({ videoUrl: video.videoUrl });
+
+      // Si no existe, lo crea
+      if (!existingVideo) {
+        await Video.create(video);
+        console.log(`Video creado exitosamente: ${video.title}`);
+      } else {
+        console.log(`El video "${video.title}" ya existe.`);
+      }
     }
 
-    console.log('Videos creados exitosamente.');
+    console.log('Proceso de creación de videos finalizado.');
   } catch (error) {
     console.error('Error al crear los videos:', error);
   }

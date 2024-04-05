@@ -11,7 +11,7 @@ import videoLanguage from './functions/languageVideo.js';
 const createDefaultUser = async () => {
   try {
     // Verifica si ya existe un usuario por defecto
-    const existingUser = await User.findOne({ where: { UserName: 'default' } });
+    const existingUser = await User.findOne({ where: { Email: 'nahyan@gmail.com' } });
 
     // Si no existe, crea el usuario por defecto
     if (!existingUser) {
@@ -27,6 +27,9 @@ const createDefaultUser = async () => {
       };
 
       await createUser(defaultUserData);
+      console.log('Usuario por defecto creado exitosamente.');
+    } else {
+      console.log('El usuario por defecto ya existe.');
     }
   } catch (error) {
     console.error('Error al crear el usuario por defecto:', error);
@@ -81,69 +84,14 @@ const createPaidPlan = async (planData) => {
   }
 };
 
-sequelize.sync({ force: true })
+sequelize.sync({ force: false })
   .then(async () => {
     console.log('Modelos sincronizados con la base de datos.');
 
     // Crea el usuario por defecto
     await createDefaultUser();
-    await createUser(
-      {
-        UserName: "test2",
-        Email: "test2@gmail.com",
-        Password: 'test2',
-        Phone: "0987654321",
-        referralsCount: 0,
-        idPaidPlan:2,
-        status: 0,
-        role: '0' // '1' for admin, '0' for regular user
-      });
-     await createUser( {
-        UserName: "test3",
-        Email: "test3@gmail.com",
-        Password: 'test3',
-        Phone: "1357924680",
-        referralsCount: 0,
-        idPaidPlan: 2,
-        status: 1,
-        role: '0' // '1' for admin, '0' for regular user
-      });
-    
-      await createPaidPlan({
-        planName: 'Basic',
-        planCost: 150,
-        description: '',
-        feature: '',
-        planImage: '',
-        bonus: 35,
-        renewal: 60
-      });
-
-    await createPaidPlan({
-      planName: 'Pro',
-      planCost: 250,
-      description: '',
-      feature: '',
-      planImage: '',
-      bonus: 60,
-      renewal: 85
-    });
-
-    await createPaidPlan({
-      planName: 'Sonic',
-      planCost: 600,
-      description: '',
-      feature: '',
-      planImage: '',
-      bonus: 150,
-      renewal: 90
-    });
-
-
     await createRanks()
     await videoLanguage()
-    await createVideoChapters()
-    await createVideos()
    
 
     const port = 80;

@@ -5,16 +5,20 @@ import getParamsEnv from "../functions/getParamsEnv";
 import { IoIosAddCircle } from "react-icons/io";
 import { MdDeleteForever, MdEdit } from "react-icons/md";
 import CreateChapterModal from "./modals/CreateChapterModal";
+import EditChapterModal from "./modals/EditChapterModal";
 
 const { API_URL_BASE } = getParamsEnv();
 
 
 const ChaptersTable = () => {
   const [showCreateChapterModal, setShowCreateChapterModal] = useState(false);
+  const [showEditChapterModal, setShowEditChapterModal] = useState(false);
   const [chapters, setChapters] = useState([]);
   const [filteredChapters, setFilteredChapters] = useState([]);
   const [filters, setFilters] = useState({ name: "", language: "" });
   const [languages, setLanguages] = useState([]);
+  const [editChapter, setEditChapter] = useState("")
+  const [aux, setAux] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,7 +31,7 @@ const ChaptersTable = () => {
     };
 
     fetchData();
-  }, []);
+  }, [aux]);
 
   const handleShowCreateModal = () => {
     setShowCreateChapterModal(true);
@@ -62,6 +66,13 @@ const ChaptersTable = () => {
     });
     setFilteredChapters(filtered);
   }, [chapters, filters]);
+
+  const handleEditChapterModal = (chapter) => {
+    setEditChapter(chapter)
+    setShowEditChapterModal(true)
+  }
+
+  console.log(editChapter)
 
   return (
     <>
@@ -124,13 +135,13 @@ const ChaptersTable = () => {
                   <td className="px-4 py-4">
                     <button
                       className="hover:bg-blue-700 text-black px-2 py-1 rounded mr-2"
-                      onClick={() => handleEditServiceModal(fila)}
+                      onClick={() => handleEditChapterModal(chapter)}
                     >
                       <MdEdit size={25} className="dark:text-darkText group-hover:text-black dark:group-hover:text-black" />
                     </button>
                     <button
                       className="hover:bg-red-700 text-black px-2 py-1 rounded"
-                      onClick={() => handleDeleteModal(fila.id)}
+                      onClick={() => handleDeleteModal(chapter.id)}
                     >
                       <MdDeleteForever size={25} className="dark:text-darkText group-hover:text-black dark:group-hover:text-black" />
                     </button>
@@ -145,6 +156,15 @@ const ChaptersTable = () => {
         <CreateChapterModal
           setShowCreateChapterModal={setShowCreateChapterModal}
           languages={languages}
+        />
+      )}
+      {showEditChapterModal && (
+        <EditChapterModal
+          setShowEditChapterModal={setShowEditChapterModal}
+          languages={languages}
+          editChapter={editChapter}
+          setAux={setAux}
+          aux={aux}
         />
       )}
     </>

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useMediaQuery } from 'react-responsive';
 import getParamsEnv from '../functions/getParamsEnv';
+import toast from 'react-hot-toast';
+import ToasterConfig from './Toaster';
 
 const { API_URL_BASE } = getParamsEnv();
 
@@ -41,12 +43,24 @@ const ContactForm = () => {
       console.log('Server response:', response.data);
       // Puedes realizar acciones adicionales después de enviar el formulario
 
+      if(response.data.sended === "ok") {
+        toast.success("The email was sent successfully")
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          message: '',
+        })
+      }
+
     } catch (error) {
+      toast.error(error)
       console.error('Error sending form data to server:', error);
     }
   };
 
   return (
+    <>
     <form className="max-w-4xl mx-auto p-3" onSubmit={handleSubmit}>
       <div className={`grid grid-cols-1 gap-4 ${isDesktopOrLaptop ? 'md:grid-cols-3' : ''}`}>
         <div>
@@ -104,6 +118,8 @@ const ContactForm = () => {
         </button>
       </div>
     </form>
+    <ToasterConfig />
+    </>
   );
 };
 
