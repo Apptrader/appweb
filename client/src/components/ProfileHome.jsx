@@ -50,16 +50,32 @@ const ProfileHome = ({user}) => {
 
   const isMobile = useMediaQuery("(max-width: 768px)"); // Define si es móvil
 
+  const [showReferralTree, setShowReferralTree] = useState(false);
+
+  const toggleReferralTree = () => {
+    setShowReferralTree(!showReferralTree);
+  };
+
   if (!isLoading) {
     return (
       <div className='container m-auto w-full px-10'>
         {/* Cambio de estructura dependiendo del tamaño de la pantalla */}
         {isMobile ? (
-          <>
-            <ReferralTree />
+          <div>
+            <button className="block bg-blue-500 text-white px-4 py-2 mt-4 rounded" onClick={toggleReferralTree}>
+              {showReferralTree ? 'Hide Referral Tree' : 'Show Referral Tree'}
+            </button>
+            {showReferralTree && (
+              <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 flex items-center justify-center">
+                <div className="bg-white rounded-lg p-4 max-w-md w-full relative">
+                  <span className="absolute top-1 right-1 p-3 cursor-pointer text-3xl" onClick={toggleReferralTree}>&times;</span>
+                  <ReferralTree />
+                </div>
+              </div>
+            )}
             <ProfileCard userInfo={userInfo} rankNames={rankNames} referred={referred} />
             <ProfileDetail userInfo={userInfo} rankNames={rankNames} token={user.token} />
-          </>
+          </div>
         ) : (
           <div className='flex flex-row gap-5'>
             <div className='bg-gray-800 w-3/5' style={{ flex: '1', padding: '20px' }}>

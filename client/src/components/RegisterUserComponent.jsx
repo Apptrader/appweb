@@ -21,6 +21,7 @@ const RegisterUserComponent = () => {
     const [isLoading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         UserName: '',
+        UserLastName: "",
         Email: '',
         Password: '',
         ConfirmPassword: '',
@@ -62,6 +63,10 @@ const RegisterUserComponent = () => {
 
         if (!formData.UserName) {
             errors.UserName = 'User Name is required';
+            isValid = false;
+        }
+        if (!formData.UserLastName) {
+            errors.UserLastName = 'User Last Name is required';
             isValid = false;
         }
 
@@ -172,6 +177,22 @@ const RegisterUserComponent = () => {
                                 />
                                 {errors.UserName && (
                                     <p className="text-red-500 text-sm mt-1">{errors.UserName}</p>
+                                )}
+                            </div>
+                            <div className="mb-4">
+                                <label htmlFor="UserName" className="block font-bold leading-6 text-white mt-4">
+                                   User Last Name
+                                </label>
+                                <input
+                                    onChange={handleInputChange}
+                                    type="text"
+                                    className={`pl-2 block w-full rounded-md border-0 py-1.5 text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 mt-2 bg-gray-700 ${errors.UserLastName ? 'border-red-500' : ''
+                                        }`}
+                                    name="UserLastName"
+                                    placeholder=""
+                                />
+                                {errors.UserLastName && (
+                                    <p className="text-red-500 text-sm mt-1">{errors.UserLastName}</p>
                                 )}
                             </div>
                             <div>

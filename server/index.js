@@ -17,6 +17,7 @@ const createDefaultUser = async () => {
     if (!existingUser) {
       const defaultUserData = {
         UserName: 'Nahyan',
+        UserLastName: 'LastName',
         Email: 'nahyan@gmail.com',
         Password: '123456', // Cambia esto por la contraseña deseada
         Phone: '1234567890',
@@ -32,18 +33,22 @@ const createDefaultUser = async () => {
       console.log('El usuario por defecto ya existe.');
     }
   } catch (error) {
+    console.log(error)
     console.error('Error al crear el usuario por defecto:', error);
   }
 };
 
 const createUser = async (userData) => {
   try {
-    const { UserName, Email, Password, Phone, referralsCount, status, role } = userData;
+    const { UserName, UserLastName, Email, Password, Phone, referralsCount, status, role } = userData;
 
     const passwordHash = await bcrypt.hash(Password, 10);
 
+    console.log(userData)
+
     const newUser = await User.create({
       UserName,
+      UserLastName,
       Email,
       Password: passwordHash,
       Phone,

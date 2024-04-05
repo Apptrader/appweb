@@ -2,6 +2,7 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../dbconnection.js';
 import PaidPlan from './paidplans.model.js';
 import Rank from './rank.model.js';
+import WalletType from './walleType.model.js';
 
 const User = sequelize.define('user', {
   idUser: {
@@ -13,7 +14,10 @@ const User = sequelize.define('user', {
   UserName: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true
+  },
+  UserLastName: {
+    type: DataTypes.STRING,
+    allowNull: false,
   },
   Email: {
     type: DataTypes.STRING,
@@ -93,13 +97,21 @@ const User = sequelize.define('user', {
     type: DataTypes.ENUM('0', '1'),
     allowNull: false,
     defaultValue: '0'
+  },
+  walletLink: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  walletTypeId: {
+    type: DataTypes.INTEGER,
+    allowNull: true
   }
 });
 
 User.beforeCreate((user, options) => {
   return User.max('UserCode')
     .then(max => {
-      user.UserCode = (max || 9120050) + 1; // Incrementa el valor máximo encontrado o establece 1 si no hay filas
+      user.UserCode = (max || 9120050) + 1;
     });
 });
 
@@ -107,6 +119,7 @@ User.beforeCreate((user, options) => {
 
 User.belongsTo(PaidPlan, { foreignKey: 'idPaidPlan' });
 User.belongsTo(Rank, { foreignKey: 'rank_id' });
+User.belongsTo(WalletType, { foreignKey: 'walletTypeId' });
 
 
 export default User;
