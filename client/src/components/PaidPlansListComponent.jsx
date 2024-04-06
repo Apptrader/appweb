@@ -98,7 +98,7 @@ const PaidPlansListComponent = () => {
   const handleSubConfirm1 = (product, name) => {
     setSubscription({
       name: "Basic",
-      details: { price: "price_1P2MmeCtqRjqS5chqa9J44wa", price2: 60 }
+      details: { price: "price_1P2OPtIrqUJwwaEOLbuwHhRQ", price2: 60 }
     })
     setShowConfirmSubModal(true)
   }
