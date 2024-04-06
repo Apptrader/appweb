@@ -1,10 +1,12 @@
 import { Router } from "express";
-import { handlePayment } from "../controllers/payment.controller.js";
+import { handlePayment, handleSubscription } from "../controllers/payment.controller.js";
 
 
 const routerPayment = Router();
 
 routerPayment.post("/checkout", handlePayment)
+
+routerPayment.post("/checkoutSub", handleSubscription)
 
 
 export default routerPayment
