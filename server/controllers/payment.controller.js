@@ -38,3 +38,32 @@ export const handlePayment = async (req,res) =>{
 };
 
 
+
+export const handleSubscription = async (req, res) => {
+    const { product, name } = req.body;
+    console.log(product, name);
+
+    const stripe = new Stripe("sk_test_51OJV6vCtqRjqS5chtpxR0cKFJLK8jf3WRVchpsfCFZx3JdiyPV0xcHZgYbaJ70XYsmdkssJpHiwdCmEun6X7mThj00IB3NQI0C");
+
+    try {
+        const session = await stripe.checkout.sessions.create({
+            line_items: [
+                {
+                    price: product.price, // Use the price ID instead of manually specifying price_data
+                    quantity: 1
+                }
+            ],
+            mode: 'subscription',
+            payment_method_types: ['card'],
+            subscription_data: {
+                trial_period_days: 30,
+            },
+            success_url: `${FRONTEND_URL}/payment/success`,
+            cancel_url: `${FRONTEND_URL}/payment/cancel`
+        });
+        res.json(session);
+    } catch (error) {
+        console.log(error);
+        res.json(error);
+    }
+};
