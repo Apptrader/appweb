@@ -8,10 +8,10 @@ import { useMediaQuery } from 'react-responsive';
 
 const UserProfileComponent = () => {
   const user = useSelector((state) => state?.user);
-  const isDesktopOrLaptop = useMediaQuery({ minDeviceWidth: 800 });
-
   const role = user?.userFound?.role;
 
+  const isDesktopOrLaptop = useMediaQuery({ minDeviceWidth: 800 });
+ 
   console.log(role, "usuario en profile");
 
   return (
