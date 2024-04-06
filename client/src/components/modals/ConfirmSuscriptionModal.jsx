@@ -6,16 +6,13 @@ import getParamsEnv from '../../functions/getParamsEnv';
 
 const { API_URL_BASE, VITE_TERMS_AND_CONDITION } = getParamsEnv();
 
-const ConfirmPayModal = ({ prod, setShowConfirmPayModal }) => {
+const ConfirmSubscriptionModal = ({ prod, setShowConfirmPayModal }) => {
   const { name, details } = prod;
+  console.log(details)
   const [newPlan, setNewPlan] = useState({
-    referred: "",
-    id: prod.details.id,
-    name: prod.name,
-    price: prod.details.price,
-    renewal: prod.details.renewal,
-    bonus: prod.details.bonus,
-    referredUserName: ""
+    name: prod.name || "",
+    price: details.price || "",
+    price2: details.price2 || ""
   });
   const [referredName, setReferredName] = useState("");
   const [agreedToTerms, setAgreedToTerms] = useState(false);
@@ -30,11 +27,11 @@ const ConfirmPayModal = ({ prod, setShowConfirmPayModal }) => {
     }
   }, [agreedToTerms]);
 
-  const fetchSessionUrl = async () => {
+  const fetchSessionUrlSub = async () => {
     dispatch(setPlan(newPlan));
 
     try {
-      const response = await axios.post(`${API_URL_BASE}/api/payment/checkout`, {
+      const response = await axios.post(`${API_URL_BASE}/api/payment/checkoutSub`, {
         product: details,
         name,
       });
@@ -92,18 +89,7 @@ const ConfirmPayModal = ({ prod, setShowConfirmPayModal }) => {
             </svg>
           </button>
         </div>
-        <p className="text-lg mb-2">Amount: ${details.price}</p>
-        <div className="mt-4">
-          <label htmlFor="referralCode" className="block text-sm font-medium text-gray-300 mb-1">Referral Code:</label>
-          <input
-            type="text"
-            id="referralCode"
-            name="referralCode"
-            value={newPlan.referred}
-            onChange={handleReferralCodeChange}
-            className="p-2 border rounded-md w-full bg-gray-700 text-white focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200"
-          />
-        </div>
+        <p className="text-lg mb-2">Amount: ${details.price2}</p>
         {referredName && (
           <p className="text-sm text-gray-300 mt-2">Referred User: {referredName}</p>
         )}
@@ -120,7 +106,7 @@ const ConfirmPayModal = ({ prod, setShowConfirmPayModal }) => {
         <div className="mt-6 flex justify-end">
           <button
             id="buyButton"
-            onClick={() => fetchSessionUrl()}
+            onClick={() => fetchSessionUrlSub()}
             className={`px-4 py-2 rounded-md focus:outline-none focus:border-blue-700 focus:ring focus:ring-blue-200 ${agreedToTerms ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-gray-500 text-gray-300 cursor-not-allowed'}`}
             disabled={!agreedToTerms}
           >
@@ -132,4 +118,4 @@ const ConfirmPayModal = ({ prod, setShowConfirmPayModal }) => {
   );
 };
 
-export default ConfirmPayModal;
+export default ConfirmSubscriptionModal;
