@@ -89,7 +89,7 @@ const createPaidPlan = async (planData) => {
   }
 };
 
-sequelize.sync({ force: false })
+sequelize.sync({ force: true })
   .then(async () => {
     console.log('Modelos sincronizados con la base de datos.');
 
