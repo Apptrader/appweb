@@ -8,7 +8,7 @@ export const handlePayment = async (req,res) =>{
     console.log(product, name)
  
 
-  const stripe =  new Stripe("")
+  const stripe =  new Stripe("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")
 
     try {
       const session = await stripe.checkout.sessions.create({
@@ -43,7 +43,7 @@ export const handleSubscription = async (req, res) => {
     const { product, name } = req.body;
     console.log(product, name);
 
-    const stripe = new Stripe("");
+    const stripe = new Stripe("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");
 
     try {
         const session = await stripe.checkout.sessions.create({
