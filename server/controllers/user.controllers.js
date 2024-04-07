@@ -7,7 +7,7 @@ import PaidPlan from '../models/paidplans.model.js';
 import nodemailer from 'nodemailer';
 import Flush from '../models/flush.model.js';
 import { where } from 'sequelize';
-import SubsUser from '../models/SubsUser.js';
+
 
 export const allUsers = async (req,res) =>{
   console.log("hola")
