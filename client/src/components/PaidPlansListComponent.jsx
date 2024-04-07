@@ -51,7 +51,7 @@ const PaidPlansListComponent = () => {
       name: "Basic",
       details: { price: 150, id: 1, bonus: 35, renewal: 60 }
     })
-    setShowConfirmSubModal(true)
+    setShowConfirmPayModal(true)
   }
 
   const handlePaymentConfirm2 = (product, name) => {
@@ -106,7 +106,7 @@ const PaidPlansListComponent = () => {
   const handleSubConfirm2 = (product, name) => {
     setSubscription({
       name: "Pro",
-      details: { price: "price_1P2MPqCtqRjqS5chqiRgs0jA", price2: 85 }
+      details: { price: "price_1P2yuVIrqUJwwaEOWgYCIp1O", price2: 85 }
     })
     setShowConfirmSubModal(true)
   }
@@ -123,11 +123,11 @@ const PaidPlansListComponent = () => {
     <div className='bg-black'>
       <div>
         <NavbarComponent />
-        <div className='bg-black px-4 md:px-8 lg:px-16 xl:px-32 font-bold pt-24'>
+        <div className='bg-black px-4 md:px-8 lg:px-16 xl:px-32 font-bold pt-24 m-auto'>
           <h1 className=' text-center text-white text-3xl md:text-4xl lg:text-5xl xl:text-6xl mb-6'>Packages</h1>
           <div className='flex flex-col md:flex-row gap-10 mx-auto max-w-7xl justify-center pt-16'>
             {/* Package 1 */}
-            <div className="flex items-center flex-col max-w-full md:max-w-[280px] gap-5">
+            <div className="flex items-center flex-col max-w-full md:max-w-[280px] gap-5 md:mx-auto">
               <img className='animate__animated animate__fadeInLeft' src="https://res.cloudinary.com/doqyrz0sg/image/upload/v1706129388/aiqplan1_b5df6y.webp" alt="img 1" />
               <div className="flex flex-col ml-5 text-center">
                 <h2 className="text-white text-2xl md:text-3xl p-3">BASIC Benefits</h2>
@@ -152,8 +152,8 @@ const PaidPlansListComponent = () => {
             </div>
 
             {/* Package 2 */}
-            <div className="flex items-center flex-col max-w-full md:max-w-[280px] font-bold">
-              <img className='animate__animated animate__fadeInLeft' src="https://res.cloudinary.com/doqyrz0sg/image/upload/v1706129395/aiqplan2_nexhqu.webp" alt="img 1" />
+            <div className="flex items-center flex-col max-w-full md:max-w-[280px] font-bold md:mx-auto">
+              <img className='animate__animated animate__fadeInLeft rounded' src="https://res.cloudinary.com/doqyrz0sg/image/upload/v1706129395/aiqplan2_nexhqu.webp" alt="img 1" />
               <div className="flex flex-col ml-5 text-center">
                 <h2 className="text-white text-2xl md:text-3xl p-3">PRO Benefits</h2>
                 <div className='px-4'>
@@ -189,8 +189,8 @@ const PaidPlansListComponent = () => {
             </div>
 
             {/* Package 3 */}
-            <div className="flex items-center flex-col max-w-full md:max-w-[280px]">
-              <img className='animate__animated animate__fadeInLeft' src="https://res.cloudinary.com/doqyrz0sg/image/upload/v1706129401/aiqplan3_k64hky.webp" alt="img 1" />
+            <div className="flex items-center flex-col max-w-full md:max-w-[280px] md:mx-auto">
+              <img className='animate__animated animate__fadeInLeft rounded' src="https://res.cloudinary.com/doqyrz0sg/image/upload/v1706129401/aiqplan3_k64hky.webp" alt="img 1" />
               <div className="flex flex-col ml-5 text-center">
                 <h2 className="text-white text-2xl md:text-3xl font-bold p-3">SONIC Benefits</h2>
                 <div className='px-4 font-bold'>
@@ -239,23 +239,23 @@ const PaidPlansListComponent = () => {
           </div>
 
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-2/3 m-auto pt-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-2/3 m-auto pt-20">
           {/* Tarjeta Subscription Basic */}
-          <div className="bg-gray-800 rounded-lg shadow-lg p-6">
+          <div className="bg-black border border-1px border-blue-600 rounded-lg shadow-lg p-6">
             <h2 className="text-white text-xl font-bold mb-4">Only Subscription Basic</h2>
             <button onClick={handleSubConfirm1} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
               Buy Subscription
             </button>
           </div>
           {/* Tarjeta Subscription Pro */}
-          <div className="bg-gray-800 rounded-lg shadow-lg p-6">
+          <div className="bg-black border border-1px border-blue-600 rounded-lg shadow-lg p-6">
             <h2 className="text-white text-xl font-bold mb-4">Only Subscription Pro</h2>
             <button onClick={handleSubConfirm2} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
               Buy Subscription
             </button>
           </div>
           {/* Tarjeta Subscription Sonic */}
-          <div className="bg-gray-800 rounded-lg shadow-lg p-6">
+          <div className="bg-black border border-1px border-blue-600 shadow-lg p-6">
             <h2 className="text-white text-xl font-bold mb-4">Only Subscription Sonic</h2>
             <button onClick={handleSubConfirm3} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
               Buy Subscription
@@ -273,7 +273,7 @@ const PaidPlansListComponent = () => {
       }
       {
         showConfirmSubModal && subscription && (
-          <ConfirmSubscriptionModal prod={subscription} setShowConfirmPayModal={setShowConfirmPayModal} />
+          <ConfirmSubscriptionModal prod={subscription} setShowConfirmSubModal={setShowConfirmSubModal} />
         )
       }
       ConfirmPayModal

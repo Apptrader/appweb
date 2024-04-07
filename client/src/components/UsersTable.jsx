@@ -4,14 +4,22 @@ import { useSelector } from "react-redux";
 import getParamsEnv from "../functions/getParamsEnv";
 import { MdDeleteForever, MdEdit } from "react-icons/md";
 import ConfirmWeeklyCalculation from "./modals/ConfirmWeeklycalculation";
+import EditUserModal from "./modals/EditUserModal";
+import ToasterConfig from "./Toaster";
+import toast from 'react-hot-toast';
 
 const { API_URL_BASE } = getParamsEnv();
 
 const UsersTable = () => {
   const [users, setUsers] = useState([]);
   const [filters, setFilters] = useState({ name: "", userCode: "" });
-  const token = useSelector((state) => state?.token);
+  const token = useSelector((state) => state?.user.token);
   const [showWeeklyCalculationModal, setShowWeeklyCalculationModal] = useState(false)
+  const [editUserModal, setEditUserModal] = useState(false)
+  const [editUser, setEditUser] = useState(null)
+  const [aux, setAux] = useState(false)
+  const [deleteUser, setDeleteUser] = useState(null)
+  const [showConfirmation, setShowConfirmation] = useState(false)
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -28,7 +36,7 @@ const UsersTable = () => {
     };
 
     fetchUsers();
-  }, [token]);
+  }, [aux]);
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -45,21 +53,75 @@ const UsersTable = () => {
     return nameMatch && userCodeMatch;
   });
 
-  
+
   const calculate = async () => {
-   
+
     const response = await axios.post(`${API_URL_BASE}/apiUser/calculate`)
 
-    if(response.data.calculated === "ok") {
+    if (response.data.calculated === "ok") {
       setShowWeeklyCalculationModal(false)
     }
-  
+
+  }
+
+  const handleDeleteModal = (id) => {
+    setDeleteUser(id)
+    setShowConfirmation(true)
+  };
+
+  const handleEditUserModal = (user) => {
+    console.log("gola")
+    setEditUser(user)
+    setEditUserModal(true)
   }
 
   const handleConfirm = () => {
     console.log("hola")
     calculate()
   }
+
+  const handleDelete = async () => {
+    try {
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      };
+  
+      const response = await axios.post(
+        `${API_URL_BASE}/apiUser/delete`, 
+        { id: deleteUser }, 
+        config
+      );
+
+      console.log(response, "respuesta")
+      if (response.data.deleted === "ok") {
+        setAux(!aux);
+        toast.success("Video deleted successfully");
+        setDeleteUser(null);
+      } else {
+        toast.error("There was a problem deleting the video");
+      }
+    } catch (error) {
+      console.log(error)
+      const errorMessage = error.response
+        ? error.response.data
+        : "An error has occurred";
+      toast.error(`${errorMessage}`);
+    }
+  };
+
+  const deleteConfirmed = (confirmed) => {
+    if (confirmed) {
+      setShowConfirmation(false);
+      handleDelete();
+    } else {
+      setShowConfirmation(false);
+    }
+  };
+
+  console.log(token)
 
   return (
     <>
@@ -142,13 +204,13 @@ const UsersTable = () => {
                   <td className="px-4 py-4">
                     <button
                       className="hover:bg-blue-700 text-black px-2 py-1 rounded mr-2"
-                      onClick={() => handleEditServiceModal(fila)}
+                      onClick={() => handleEditUserModal(user)}
                     >
                       <MdEdit size={25} className="dark:text-darkText group-hover:text-black dark:group-hover:text-black" />
                     </button>
                     <button
                       className="hover:bg-red-700 text-black px-2 py-1 rounded"
-                      onClick={() => handleDeleteModal(fila.id)}
+                      onClick={() => handleDeleteModal(user.idUser)}
                     >
                       <MdDeleteForever size={25} className="dark:text-darkText group-hover:text-black dark:group-hover:text-black" />
                     </button>
@@ -160,11 +222,50 @@ const UsersTable = () => {
         </div>
       </div>
       {showWeeklyCalculationModal && (
-            <ConfirmWeeklyCalculation 
-            onClose={() => setShowWeeklyCalculationModal(false)}
-            onConfirm={handleConfirm}
-             />
-          )}
+        <ConfirmWeeklyCalculation
+          onClose={() => setShowWeeklyCalculationModal(false)}
+          onConfirm={handleConfirm}
+        />
+      )}
+      {editUserModal && (
+        <EditUserModal
+          onClose={() => setShowWeeklyCalculationModal(false)}
+          onConfirm={handleConfirm}
+          editUser={editUser}
+          setEditUserModal={setEditUserModal}
+          userToken={token}
+          aux={aux}
+          setAux={setAux}
+        />
+      )}
+      {showConfirmation && deleteUser && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <div
+              className={`bg-white p-6 rounded-lg shadow-lg text-center sm:flex sm:flex-col ${
+                window.innerWidth < 340 ? "max-w-sm" : "max-w-md"
+              }`}
+            >
+              <p className="mb-4 text-black font-bold sm:text-base">
+                Are you sure you want to delete this User?
+              </p>
+              <div className="flex justify-center space-x-4">
+                <button
+                  onClick={() => deleteConfirmed(true)}
+                  className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600  sm:text-base"
+                >
+                  Accept
+                </button>
+                <button
+                  onClick={() => deleteConfirmed(false)}
+                  className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600  sm:text-base"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        <ToasterConfig />
     </>
   );
 };
