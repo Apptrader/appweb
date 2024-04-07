@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {allUsers, logout, login, register, profile, getReferralTree, updateUserPlan, getUserByUserCode, calculate, updateUser, addSubsUser, updateUserByAdmin, deleteUser } from '../controllers/user.controllers.js'
+import {allUsers, logout, login, register, profile, getReferralTree, updateUserPlan, getUserByUserCode, calculate, updateUser, updateUserByAdmin, deleteUser } from '../controllers/user.controllers.js'
 import {authRequired} from '../middlewares/validateToken.js'
 
 const routerUser = Router();
