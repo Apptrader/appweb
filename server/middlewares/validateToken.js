@@ -2,8 +2,10 @@ import jwt from 'jsonwebtoken';
 import { TOKEN_SECRET } from '../config.js';
 
 export const authRequired = (req, res, next) => {
-
+    console.log("hola")
     const token = req.headers.authorization;
+
+    console.log(token)
 
     if (!token) return res.status(401).json({ message: "No token, authorization denied" });
 

@@ -6,7 +6,7 @@ import getParamsEnv from '../../functions/getParamsEnv';
 
 const { API_URL_BASE, VITE_TERMS_AND_CONDITION } = getParamsEnv();
 
-const ConfirmSubscriptionModal = ({ prod, setShowConfirmPayModal }) => {
+const ConfirmSubscriptionModal = ({ prod, setShowConfirmSubModal }) => {
   const { name, details } = prod;
   console.log(details)
   const [newPlan, setNewPlan] = useState({
@@ -83,7 +83,7 @@ const ConfirmSubscriptionModal = ({ prod, setShowConfirmPayModal }) => {
       <div className="modal-content bg-gray-800 text-white font-bold p-6 rounded-md shadow-md max-w-md w-full">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl">Selected Plan: {name}</h2>
-          <button onClick={() => setShowConfirmPayModal(false)} className="text-gray-300 hover:text-gray-100 focus:outline-none">
+          <button onClick={() => setShowConfirmSubModal(false)} className="text-gray-300 hover:text-gray-100 focus:outline-none">
             <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
             </svg>

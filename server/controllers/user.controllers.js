@@ -7,6 +7,7 @@ import PaidPlan from '../models/paidplans.model.js';
 import nodemailer from 'nodemailer';
 import Flush from '../models/flush.model.js';
 import { where } from 'sequelize';
+import SubsUser from '../models/SubsUser.js';
 
 export const allUsers = async (req,res) =>{
   console.log("hola")
@@ -132,15 +133,24 @@ export const register = async (req, res) => {
 
 
 export const updateUser = async (req, res) => {
-  const userId = req.user.id; // Obtén el ID del usuario de los parámetros de la solicitud
-  const updateData = req.body; // Obtén los datos de actualización del cuerpo de la solicitud
-  const {token} = req.body
+  const userId = req.user.id; 
+  const updateData = req.body;
+  const { token } = req.body;
+  console.log("user")
 
   try {
     // Verifica si el usuario existe
     const user = await User.findByPk(userId);
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Si se va a actualizar el UserCode, verifica que no se repita
+    if ('UserCode' in updateData) {
+      const existingUser = await User.findOne({ where: { UserCode: updateData.UserCode } });
+      if (existingUser && existingUser.id !== userId) {
+        return res.status(400).json({ message: 'UserCode already exists' });
+      }
     }
 
     // Actualiza los campos del usuario en la base de datos
@@ -157,6 +167,44 @@ export const updateUser = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const updateUserByAdmin = async (req, res) => {
+  const userId = req.user.id; 
+  const updateData = req.body;
+  const { token } = req.body;
+  console.log(updateData, "datita")
+
+  try {
+    // Verifica si el usuario existe
+    const user = await User.findByPk(updateData.id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Si se va a actualizar el UserCode, verifica que no se repita
+    if ('UserCode' in updateData) {
+      const existingUser = await User.findOne({ where: { UserCode: updateData.UserCode } });
+      if (existingUser && existingUser.id !== userId) {
+        return res.status(400).json({ message: 'UserCode already exists' });
+      }
+    }
+
+    // Actualiza los campos del usuario en la base de datos
+    await user.update(updateData);
+
+    // Devuelve la respuesta con los datos actualizados
+    res.json({
+      userFound: user,
+      updated: 'ok',
+      token
+    });
+  } catch (error) {
+    console.log("Error:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
 
 export const login = async (req, res) => {
   const {
@@ -631,3 +679,43 @@ export const sendEmailPaidPlan = async (email, name, plan) => {
     console.log("Error sending email:", error);
   }
 }
+export const addSubsUser = async (req, res) => {
+  const { userCode } = req.body;
+
+  try {
+    // Crea un nuevo subsUser con el userCode proporcionado
+    const newSubsUser = new SubsUser({ userCode });
+
+    // Guarda el nuevo subsUser en la base de datos
+    const savedSubsUser = await newSubsUser.save();
+
+    // Si el subsUser se guarda correctamente, devuelve una respuesta 200 OK con el subsUser creado
+    res.status(200).json({savedSubsUser, added: "ok"});
+  } catch (error) {
+    // Si ocurre un error, devuelve una respuesta 500 Internal Server Error con el mensaje de error
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const deleteUser = async (req, res) => {
+  const adminId = req.user.id;
+  const { id } = req.body;
+
+  try {
+
+    // Verifica si el usuario a eliminar existe en la base de datos
+    const userToDelete = await User.findByPk(id);
+    if (!userToDelete) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Elimina el usuario de la base de datos
+    await userToDelete.destroy();
+
+    // Devuelve una respuesta exitosa
+    res.json({ message: 'User deleted successfully', deleted: "ok"});
+  } catch (error) {
+    console.log("Error:", error);
+    res.status(500).json({ message: error.message });
+  }
+};

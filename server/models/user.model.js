@@ -30,7 +30,8 @@ const User = sequelize.define('user', {
   },
   UserCode: {
     type: DataTypes.INTEGER,
-    allowNull: true
+    allowNull: true,
+    unique: true
   },
   Phone: {
     type: DataTypes.STRING,
@@ -104,6 +105,10 @@ const User = sequelize.define('user', {
   },
   walletTypeId: {
     type: DataTypes.INTEGER,
+    allowNull: true
+  },
+  elegibility: {
+    type: DataTypes.BOOLEAN,
     allowNull: true
   }
 });

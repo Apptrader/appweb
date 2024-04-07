@@ -8,7 +8,7 @@ export const handlePayment = async (req,res) =>{
     console.log(product, name)
  
 
-  const stripe =  new Stripe("sk_test_51OJV6vCtqRjqS5chtpxR0cKFJLK8jf3WRVchpsfCFZx3JdiyPV0xcHZgYbaJ70XYsmdkssJpHiwdCmEun6X7mThj00IB3NQI0C")
+  const stripe =  new Stripe("")
 
     try {
       const session = await stripe.checkout.sessions.create({
@@ -43,7 +43,7 @@ export const handleSubscription = async (req, res) => {
     const { product, name } = req.body;
     console.log(product, name);
 
-    const stripe = new Stripe("sk_test_51OJV6vCtqRjqS5chtpxR0cKFJLK8jf3WRVchpsfCFZx3JdiyPV0xcHZgYbaJ70XYsmdkssJpHiwdCmEun6X7mThj00IB3NQI0C");
+    const stripe = new Stripe("");
 
     try {
         const session = await stripe.checkout.sessions.create({
@@ -55,9 +55,6 @@ export const handleSubscription = async (req, res) => {
             ],
             mode: 'subscription',
             payment_method_types: ['card'],
-            subscription_data: {
-                trial_period_days: 30,
-            },
             success_url: `${FRONTEND_URL}/payment/success`,
             cancel_url: `${FRONTEND_URL}/payment/cancel`
         });
