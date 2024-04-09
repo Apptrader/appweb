@@ -19,7 +19,9 @@ import { WEBHOOK_SECRET } from "./config.js";
 
 
 const endpointSecret = WEBHOOK_SECRET
-const stripe = new Stripe("sk_test_51OJV6vCtqRjqS5chtpxR0cKFJLK8jf3WRVchpsfCFZx3JdiyPV0xcHZgYbaJ70XYsmdkssJpHiwdCmEun6X7mThj00IB3NQI0C");
+/* const stripe = new Stripe("sk_test_51OJV6vCtqRjqS5chtpxR0cKFJLK8jf3WRVchpsfCFZx3JdiyPV0xcHZgYbaJ70XYsmdkssJpHiwdCmEun6X7mThj00IB3NQI0C");
+ */
+const stripe = new Stripe("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")
 
 const app = express();
 
@@ -54,33 +56,6 @@ let subPlanId
 let customer
 let payMethod
 
-async function alterarSuscripcion(subId, PrecioId) {
-  let newPrice;
-
-  if (PrecioId === "price_1P34xCCtqRjqS5chW75Ztx3E") {
-    newPrice = "price_1P3M7oCtqRjqS5ch5CLOkhnl";
-  }
-
-  try {
-    // Obtener la suscripción actual desde Stripe
-    const subscription = await stripe.subscriptions.retrieve(subId);
-
-    // Actualizar el precio de la suscripción
-    const updatedSubscription = await stripe.subscriptions.update(subId, {
-      items: [{
-        id: subscription.items.data[0].id,
-        price: newPrice // El ID del nuevo precio que deseas aplicar
-      }],
-      proration_behavior: "none" // Desactivar la prorrateación
-    });
-
-    console.log("Suscripción actualizada:", updatedSubscription);
-    return updatedSubscription;
-  } catch (error) {
-    console.error("Error al actualizar la suscripción:", error);
-    throw error;
-  }
-}
 
 async function crearSuscripcionConMetodoDePago(customerId, priceId, paymentMethodId) {
   try {
@@ -127,7 +102,7 @@ async function crearSuscripcionConMetodoDePago(customerId, priceId, paymentMetho
       event = stripe.webhooks.constructEvent(
         bodyString,
         sig,
-        endpointSecret
+        /* endpointSecret */
       );
     } catch (err) {
       console.log(`Webhook Error: ${err.message}`);
@@ -141,13 +116,21 @@ async function crearSuscripcionConMetodoDePago(customerId, priceId, paymentMetho
         const paymentIntent = event.data.object;
         customer = paymentIntent.customer
         payMethod = paymentIntent.payment_method
-        if (paymentIntent.amount === 60000) {
+        /* if (paymentIntent.amount === 60000) {
           await crearSuscripcionConMetodoDePago(customer, "price_1P2MQQCtqRjqS5chcgCR4WJ2", payMethod)
         } else if(paymentIntent.amount === 25000) {
-          await crearSuscripcionConMetodoDePago(customer, "price_1P2MQQCtqRjqS5chcgCR4WJ2", payMethod)
+          await crearSuscripcionConMetodoDePago(customer, "price_1P2MPqCtqRjqS5chqiRgs0jA", payMethod)
         } else if (paymentIntent.amount === 15000) {
-          await crearSuscripcionConMetodoDePago(customer, "price_1P2MQQCtqRjqS5chcgCR4WJ2", payMethod)
-        }
+          await crearSuscripcionConMetodoDePago(customer, "price_1P2LOSCtqRjqS5ch03lA7nKo", payMethod)
+        } */
+
+        if (paymentIntent.amount === 60000) {
+          await crearSuscripcionConMetodoDePago(customer, "price_1P2yuVIrqUJwwaEOWgYCIp1O", payMethod)
+        } else if(paymentIntent.amount === 25000) {
+          await crearSuscripcionConMetodoDePago(customer, "price_1P2yuVIrqUJwwaEOWgYCIp1O", payMethod)
+        } else if (paymentIntent.amount === 15000) {
+          await crearSuscripcionConMetodoDePago(customer, "price_1P2yuVIrqUJwwaEOWgYCIp1O", payMethod)
+        } 
       
         resData = paymentIntent;
         break;

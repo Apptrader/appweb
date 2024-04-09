@@ -25,6 +25,8 @@ const ConfirmPayModal = ({ prod, setShowConfirmPayModal, elements, setClientSecr
   const [referredName, setReferredName] = useState("");
   const [agreedToTerms, setAgreedToTerms] = useState(false);
 
+  console.log(customerInfo)
+
 
   const dispatch = useDispatch();
 
@@ -36,7 +38,7 @@ const ConfirmPayModal = ({ prod, setShowConfirmPayModal, elements, setClientSecr
     }
   }, [agreedToTerms]);
 
-  const fetchSessionUrl = async () => {
+  /* const fetchSessionUrl = async () => {
     dispatch(setPlan(newPlan));
 
     try {
@@ -54,6 +56,25 @@ const ConfirmPayModal = ({ prod, setShowConfirmPayModal, elements, setClientSecr
   
     } catch (error) {
       console.error('Error during payment:', error.message);
+    }
+  }; */
+
+  const fetchSessionUrl = async () => {
+    dispatch(setPlan(newPlan));
+
+    try {
+      const response = await axios.post(`${API_URL_BASE}/api/payment/checkout`, {
+        product: details,
+        name,
+        customerInfo
+      });
+
+      console.log(response.data);
+
+      window.location.href = response.data.url;
+
+    } catch (error) {
+      console.error('Error fetching payment session URL', error.message);
     }
   };
 
