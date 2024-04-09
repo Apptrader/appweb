@@ -8,13 +8,21 @@ import FooterComponent from './FooterComponent';
 import PartnersComponent from './PartnersComponent';
 import getParamsEnv from '../functions/getParamsEnv';
 import ConfirmSubscriptionModal from './modals/ConfirmSuscriptionModal';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements, ElementsConsumer } from '@stripe/react-stripe-js';
+import CheckOutModal from './modals/CheckOutModal';
+
 
 const { API_URL_BASE } = getParamsEnv()
 
 
-const PaidPlansListComponent = () => {
+const PaidPlansListComponent = ({user}) => {
   const [plans, setPlans] = useState([]);
+  const [clientSecret, setClientSecret] = useState("null")
+  const [showStripeCard, setShowStripeCard] = useState(false)
+  const stripe = loadStripe("pk_test_51OJV6vCtqRjqS5ch2BT38s88U8qgkJeqWLZ8ODgOfB95sfshzLQw8gvkcmu4yplXKbuL8nnO85We2r1Ie7nYQkue00FX8swMRF");
 
+  console.log(user, "suario en plans")
 
   const initialPackageStates = {
     BASIC: { selected: true, details: ['Access to Learning and Training Videos', 'Market BUY&SELL Alerts', 'Forex Daily Alerts'], price: 150, id: 1, bonus: 30, renewal: 60 },
@@ -49,7 +57,11 @@ const PaidPlansListComponent = () => {
   const handlePaymentConfirm1 = (product, name) => {
     setProduct({
       name: "Basic",
-      details: { price: 150, id: 1, bonus: 35, renewal: 60 }
+      details: { price: 600, id: 1, bonus: 35, renewal: 60 },
+      customerInfo: {
+        name: user.UserName,
+        email: user.Email
+      }
     })
     setShowConfirmPayModal(true)
   }
@@ -98,7 +110,7 @@ const PaidPlansListComponent = () => {
   const handleSubConfirm1 = (product, name) => {
     setSubscription({
       name: "Basic",
-      details: { price: "price_1P2OPtIrqUJwwaEOLbuwHhRQ", price2: 60 }
+      details: { price: "price_1P34xCCtqRjqS5chW75Ztx3E", price2: 60 }
     })
     setShowConfirmSubModal(true)
   }
@@ -267,16 +279,20 @@ const PaidPlansListComponent = () => {
         <FooterComponent />
       </div>
       {
-        showConfirmPayModal && product && (
-          <ConfirmPayModal prod={product} setShowConfirmPayModal={setShowConfirmPayModal} />
-        )
-      }
+  showConfirmPayModal && product && (
+      <ConfirmPayModal prod={product} setShowConfirmPayModal={setShowConfirmPayModal} setShowStripeCard={setShowStripeCard} setClientSecret={setClientSecret} />
+  )
+}
       {
         showConfirmSubModal && subscription && (
           <ConfirmSubscriptionModal prod={subscription} setShowConfirmSubModal={setShowConfirmSubModal} />
         )
       }
-      ConfirmPayModal
+      {showStripeCard && clientSecret && (
+  <Elements stripe={stripe} options={{ clientSecret: clientSecret }}>
+    <CheckOutModal setShowStripeCard={setShowStripeCard} clientSecret={clientSecret} />
+  </Elements>
+)}
     </div>
   );
 }

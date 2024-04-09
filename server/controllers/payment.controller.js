@@ -1,41 +1,39 @@
 import Stripe from "stripe";
+import { WEBHOOK_SECRET } from "../config.js";
+
 
 import { FRONTEND_URL } from "../config.js";
 
-export const handlePayment = async (req,res) =>{
+const stripe = new Stripe("sk_test_51OJV6vCtqRjqS5chtpxR0cKFJLK8jf3WRVchpsfCFZx3JdiyPV0xcHZgYbaJ70XYsmdkssJpHiwdCmEun6X7mThj00IB3NQI0C");
 
-    const {product, name} = req.body
-    console.log(product, name)
- 
-
-  const stripe =  new Stripe("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")
+export const handlePayment = async (req, res) => {
+    const { product, name, customerInfo } = req.body;
+    console.log(product, name, customerInfo);
 
     try {
-      const session = await stripe.checkout.sessions.create({
-        line_items: [
-            {
-                price_data: {
-                    product_data: {
-                        name: `${name} plan`,
-                        description: `AIQ Accademy ${name} plan with a $${product.renewal} monthly renewal`
-                    },
-                    currency: "usd",
-                    unit_amount: product.price * 100
-                },
-                quantity: 1
-            }
-        ],
-        mode: "payment",
-        success_url: `${FRONTEND_URL}/payment/success`,
-        cancel_url: `${FRONTEND_URL}/payment/cancel`
-       })
-        res.json(session)
+        const customer = await stripe.customers.create({
+            email: customerInfo.email,
+            name: customerInfo.name
+        });
+        console.log(customer);
+
+        const paymentIntent = await stripe.paymentIntents.create({
+            amount: product.price * 100, // Amount in cents
+            currency: 'usd',
+            customer: customer.id,
+            description: `Payment for ${product.name}`,
+            setup_future_usage: 'off_session' // Ensures that the Payment Intent can be used without a setup session
+        });
+        
+        res.json(paymentIntent);
     } catch (error) {
-        console.log(error)
-        res.json(error)
+        console.log(error);
+        res.json(error);
     }
-    
 };
+
+
+
 
 
 
@@ -43,20 +41,20 @@ export const handleSubscription = async (req, res) => {
     const { product, name } = req.body;
     console.log(product, name);
 
-    const stripe = new Stripe("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");
+    const stripe = new Stripe("sk_test_51OJV6vCtqRjqS5chtpxR0cKFJLK8jf3WRVchpsfCFZx3JdiyPV0xcHZgYbaJ70XYsmdkssJpHiwdCmEun6X7mThj00IB3NQI0C");
 
     try {
         const session = await stripe.checkout.sessions.create({
             line_items: [
                 {
-                    price: product.price, // Use the price ID instead of manually specifying price_data
+                    price: product.price, 
                     quantity: 1
                 }
             ],
             mode: 'subscription',
             payment_method_types: ['card'],
-            success_url: `${FRONTEND_URL}/payment/success`,
-            cancel_url: `${FRONTEND_URL}/payment/cancel`
+            success_url: `${FRONTEND_URL}/payment/success`, 
+            cancel_url: `${FRONTEND_URL}/payment/cancel`,
         });
         res.json(session);
     } catch (error) {
@@ -64,3 +62,6 @@ export const handleSubscription = async (req, res) => {
         res.json(error);
     }
 };
+
+
+

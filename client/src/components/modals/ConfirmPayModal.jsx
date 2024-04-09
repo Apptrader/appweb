@@ -3,11 +3,16 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setPlan } from '../../redux/actions';
 import getParamsEnv from '../../functions/getParamsEnv';
+import { CardElement } from '@stripe/react-stripe-js';
+
+
+
 
 const { API_URL_BASE, VITE_TERMS_AND_CONDITION } = getParamsEnv();
 
-const ConfirmPayModal = ({ prod, setShowConfirmPayModal }) => {
-  const { name, details } = prod;
+
+const ConfirmPayModal = ({ prod, setShowConfirmPayModal, elements, setClientSecret, setShowStripeCard }) => {
+  const { name, details, customerInfo } = prod;
   const [newPlan, setNewPlan] = useState({
     referred: "",
     id: prod.details.id,
@@ -19,6 +24,7 @@ const ConfirmPayModal = ({ prod, setShowConfirmPayModal }) => {
   });
   const [referredName, setReferredName] = useState("");
   const [agreedToTerms, setAgreedToTerms] = useState(false);
+
 
   const dispatch = useDispatch();
 
@@ -37,16 +43,21 @@ const ConfirmPayModal = ({ prod, setShowConfirmPayModal }) => {
       const response = await axios.post(`${API_URL_BASE}/api/payment/checkout`, {
         product: details,
         name,
+        customerInfo
       });
 
-      console.log(response.data);
-
-      window.location.href = response.data.url;
-
+      const { client_secret } = response.data;
+      setClientSecret(client_secret)
+      setShowStripeCard(true)
+      setShowConfirmPayModal(false)
+      
+  
     } catch (error) {
-      console.error('Error fetching payment session URL', error.message);
+      console.error('Error during payment:', error.message);
     }
   };
+
+
 
   const fetchReferredUserName = async (userCode) => {
     try {
@@ -54,14 +65,10 @@ const ConfirmPayModal = ({ prod, setShowConfirmPayModal }) => {
         userCode: userCode
       }
       const response = await axios.post(`${API_URL_BASE}/apiUser/getUserByUserCode`, data);
-      console.log(response.data, "referreds")
-      setReferredName(response.data.UserName)
+      setReferredName(response.data.UserName);
     } catch (error) {
       console.error('Error fetching referred user name:', error.message);
-      setNewPlan(prevPlan => ({
-        ...prevPlan,
-        referredUserName: ""
-      }));
+      setReferredName("");
     }
   };
 
@@ -81,7 +88,9 @@ const ConfirmPayModal = ({ prod, setShowConfirmPayModal }) => {
     setAgreedToTerms(!agreedToTerms);
   };
 
+
   return (
+    <>
     <div className="fixed z-20 top-0 left-0 flex items-center justify-center w-full h-full bg-black" style={{ background: "rgba(0, 0, 0, 0.70)" }}>
       <div className="modal-content bg-gray-800 text-white font-bold p-6 rounded-md shadow-md max-w-md w-full">
         <div className="flex justify-between items-center mb-4">
@@ -129,6 +138,8 @@ const ConfirmPayModal = ({ prod, setShowConfirmPayModal }) => {
         </div>
       </div>
     </div>
+  
+  </>
   );
 };
 
