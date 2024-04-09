@@ -78,6 +78,8 @@ const ConfirmSubscriptionModal = ({ prod, setShowConfirmSubModal }) => {
     setAgreedToTerms(!agreedToTerms);
   };
 
+  console.log(newPlan)
+
   return (
     <div className="fixed z-20 top-0 left-0 flex items-center justify-center w-full h-full bg-black" style={{ background: "rgba(0, 0, 0, 0.70)" }}>
       <div className="modal-content bg-gray-800 text-white font-bold p-6 rounded-md shadow-md max-w-md w-full">
@@ -90,6 +92,17 @@ const ConfirmSubscriptionModal = ({ prod, setShowConfirmSubModal }) => {
           </button>
         </div>
         <p className="text-lg mb-2">Amount: ${details.price2}</p>
+        <div className="mt-4">
+          <label htmlFor="referralCode" className="block text-sm font-medium text-gray-300 mb-1">Referral Code:</label>
+          <input
+            type="text"
+            id="referralCode"
+            name="referralCode"
+            value={newPlan.referred}
+            onChange={handleReferralCodeChange}
+            className="p-2 border rounded-md w-full bg-gray-700 text-white focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200"
+          />
+        </div>
         {referredName && (
           <p className="text-sm text-gray-300 mt-2">Referred User: {referredName}</p>
         )}

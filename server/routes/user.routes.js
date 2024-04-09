@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {allUsers, logout, login, register, profile, getReferralTree, updateUserPlan, getUserByUserCode, calculate, updateUser, updateUserByAdmin, deleteUser } from '../controllers/user.controllers.js'
+import {allUsers, logout, login, register, profile, getReferralTree, updateUserPlan, getUserByUserCode, calculate, updateUser, updateUserByAdmin, deleteUser, forgotPassword } from '../controllers/user.controllers.js'
 import {authRequired} from '../middlewares/validateToken.js'
 
 const routerUser = Router();
@@ -16,6 +16,7 @@ routerUser.post("/calculate", calculate )
 routerUser.put("/update", authRequired, updateUser)
 routerUser.put("/updateByAdmin", authRequired, updateUserByAdmin)
 routerUser.post("/delete", authRequired, deleteUser)
+routerUser.post("/forgotPassword", forgotPassword); // Agregar la ruta para el reinicio de contraseña
 
 
 export default routerUser

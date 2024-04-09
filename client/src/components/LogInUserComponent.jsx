@@ -1,29 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/actions';
 import NavbarComponent from './NavbarComponent';
-
 import toast from 'react-hot-toast';
 import ToasterConfig from './Toaster';
-
 import getParamsEnv from '../functions/getParamsEnv';
+import ForgotPasswordModal from './modals/ForgotPasswordModal'; // Import the ForgotPasswordModal component
 
-const { API_URL_BASE, VITE_HOME, VITE_REGISTER } = getParamsEnv()
+const { API_URL_BASE, VITE_HOME, VITE_REGISTER } = getParamsEnv();
 
 const LogInUserComponent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [isLoading, setLoading] = useState(false);
-
   const [formData, setFormData] = useState({
     Email: '',
     Password: '',
   });
-
   const [errors, setErrors] = useState({});
+  const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false); // State to manage visibility of forgot password modal
 
   const handleInputChange = (e) => {
     setFormData({
@@ -55,30 +53,37 @@ const LogInUserComponent = () => {
 
     if (validateForm()) {
       try {
-        setLoading(true); // Mostrar el loader
-        // Realizar la solicitud a tu servidor Node.js
-        console.log('Datos del formulario:', formData);
-        const response = await axios.post(
-          `${API_URL_BASE}/apiUser/login`,
-          formData,
-          {
-            withCredentials: true,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-        setLoading(false); // Ocultar el loader
+        setLoading(true);
+        const response = await axios.post(`${API_URL_BASE}/apiUser/login`, formData, {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        setLoading(false);
         dispatch(setUser(response.data));
         navigate(VITE_HOME);
-
-        console.log('Respuesta del servidor:', response.data);
       } catch (error) {
-        setLoading(false); // Ocultar el loader
-        console.error('Error al enviar datos al servidor:', error);
+        setLoading(false);
+        console.error('Error sending data to server:', error);
         toast.error(`${error.response.data.message ? error.response.data.message : "Log in Error, please try again"}`)
       }
     }
+  };
+
+  const forgotPassword = async () => {
+    try {
+      await axios.post(`${API_URL_BASE}/apiUser/forgotPassword`, { email: formData.Email });
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
+  const handleForgotPassword = () => {
+    console.log("asdasdas")
+    
+      setShowForgotPasswordModal(true);
+    
   };
 
   return (
@@ -114,8 +119,7 @@ const LogInUserComponent = () => {
                   required
                   value={formData.Email}
                   onChange={handleInputChange}
-                  className={`block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-gray-700 text-white ${errors.Email ? 'border-red-500' : ''
-                    }`}
+                  className={`block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-gray-700 text-white ${errors.Email ? 'border-red-500' : ''}`}
                 />
                 {errors.Email && (
                   <p className="text-red-500 text-sm mt-1">{errors.Email}</p>
@@ -135,6 +139,7 @@ const LogInUserComponent = () => {
                   <a
                     href="#"
                     className="font-semibold text-indigo-600 hover:text-indigo-500"
+                    onClick={handleForgotPassword} // Handle forgot password click
                   >
                     Forgot password?
                   </a>
@@ -149,8 +154,7 @@ const LogInUserComponent = () => {
                   required
                   value={formData.Password}
                   onChange={handleInputChange}
-                  className={`block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-gray-700 text-white ${errors.Password ? 'border-red-500' : ''
-                    }`}
+                  className={`block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-gray-700 text-white ${errors.Password ? 'border-red-500' : ''}`}
                 />
                 {errors.Password && (
                   <p className="text-red-500 text-sm mt-1">{errors.Password}</p>
@@ -184,9 +188,41 @@ const LogInUserComponent = () => {
           </p>
         </div>
       </div>
+      {showForgotPasswordModal && (
+        <ForgotPasswordModal // Render the ForgotPasswordModal component
+        onSubmit={(email) => {
+          // Handle form submission in the modal
+          forgotPassword(email)
+            .then(() => {
+              toast.success('Password reset email sent successfully');
+            })
+            .catch(() => {
+              toast.error('Error sending password reset email');
+            });
+        }}
+        setShowForgotPasswordModal={setShowForgotPasswordModal}
+      />
+        
+      )}
       <ToasterConfig />
     </>
   );
 };
 
 export default LogInUserComponent;
+
+/*
+<ForgotPasswordModal // Render the ForgotPasswordModal component
+       
+       onClose={() => setShowForgotPasswordModal(false)} // Handle modal close
+       onSubmit={(email) => {
+         // Handle form submission in the modal
+         forgotPassword(email)
+           .then(() => {
+             toast.success('Password reset email sent successfully');
+           })
+           .catch(() => {
+             toast.error('Error sending password reset email');
+           });
+       }}
+     />*/

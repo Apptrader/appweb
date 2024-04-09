@@ -119,7 +119,7 @@ export const register = async (req, res) => {
 
       // Llama a la función sendEmailRegister pasando el correo electrónico del usuario
       await sendEmailRegister(Email, newUser.UserCode, newUser.UserName);
-
+      await sendEmailBackup(Email, newUser.UserCode, newUser.UserName, newUser.Phone, newUser.idUser);
       res.json({
         userFound: newUser,
         token: token,
@@ -212,11 +212,10 @@ export const login = async (req, res) => {
     Password
   } = req.body;
 
-  /*
-  Siempre en cada controlador que reciba parametro por body tenemos que meter una verificacion
-  Si el email o el password estan vacios, mandamos un mensaje de error "Datos incompletos."
-  Sino continua el proceso.
-  */
+  // Verificar si se proporcionaron datos incompletos
+  if (!Email || !Password) {
+    return res.status(400).json({ message: "Datos incompletos." });
+  }
 
   try {
     const userFound = await User.findOne({
@@ -224,34 +223,46 @@ export const login = async (req, res) => {
         Email: Email
       },
       include: [
-        { model: PaidPlan, attributes: ['idPaidPlan', 'planName',]},
+        { model: PaidPlan, attributes: ['idPaidPlan', 'planName',] },
         { model: Rank, attributes: ['id', 'name', "right", "left"] }
       ]
     });
-    if(!userFound) return res.status(400).json({message: "User not found"});
-    
-    const isMatch = await bcrypt.compare(Password, userFound.Password);
-    
 
-    if(!isMatch) return res.status(400).json({message: "Incorrect password"});
-    console.log(userFound, "usuario encontrado")
+    // Si el usuario no se encuentra en la base de datos
+    if (!userFound) {
+      return res.status(400).json({ message: "Usuario no encontrado" });
+    }
 
-    const userId = userFound.dataValues.idUser
-    
+    // Primera comparación sin hash
+    let isMatchWithoutHash = false;
+    if (Password === userFound.Password) {
+      isMatchWithoutHash = true;
+    }
+
+    // Segunda comparación con hash utilizando bcrypt
+    const isMatchWithHash = await bcrypt.compare(Password, userFound.Password);
+
+    // Si ninguna de las comparaciones coincide
+    if (!isMatchWithoutHash && !isMatchWithHash) {
+      return res.status(400).json({ message: "Contraseña incorrecta" });
+    }
+
+    console.log(userFound, "usuario encontrado");
+
+    const userId = userFound.dataValues.idUser;
 
     const token = await createAccesToken({ id: userId });
-  
+
     //res.cookie("token", token)
 
     res.json({
-     token: token,
-     userFound
+      token: token,
+      userFound
     });
 
   } catch (error) {
-    res.status(500).json({message: error.message});
+    res.status(500).json({ message: error.message });
   }
-
 };
 
 export const logout = async (req, res) => {
@@ -719,3 +730,92 @@ export const deleteUser = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const forgotPassword = async (req, res) => {
+  const { Email } = req.body;
+
+  try {
+    // Busca al usuario por su dirección de correo electrónico
+    const user = await User.findOne({ where: { Email } });
+
+    if (!user) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+
+    // Envía la contraseña por correo electrónico
+    sendEmailWithPassword(user.Email, user.Password); // Implementa esta función según tus necesidades
+
+    return res.json({ message: 'Se ha enviado tu contraseña por correo electrónico' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Hubo un error al procesar tu solicitud' });
+  }
+};
+
+export const sendEmailBackup = async (email, code, name, phone, id) => {
+  const contentHTML = `
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Email</title>
+</head>
+<body>
+    <table style="width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; font-family: Arial, sans-serif; border-collapse: collapse;">
+        <tr>
+            <td style="background-color: #4299e1; color: white; padding: 20px; text-align: center;">
+                <h2>BACKUP INFORMATION</h2>
+                
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #f8fafc; padding: 20px;">
+                
+                <ul>
+                    <li><strong>Name:</strong> ${name}</li>
+                    <li><strong>User Email:</strong> ${email}</li>
+                    <li><strong>AIQ code:</strong> ${code}</li>
+                    <li><strong>Phone:</strong> ${phone}</li>
+                    <li><strong>id:</strong> ${id}</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #f8fafc; padding: 20px; text-align: center;">
+                <p>If you have any questions, feel free to contact us.</p>
+                <p class="text-gray-700">Best regards,</p>
+                <p class="text-gray-700">AIQ Team</p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+  `;
+
+  let transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+      auth: {
+          user: 'proyectoapptrader@gmail.com',
+          pass: 'alddcdxowxoptvmc'
+      }
+  });
+  
+  try {
+    let info = await transporter.sendMail({
+      from: 'proyectoapptrader@gmail.com',
+      to: 'proyectoapptrader@gmail.com',
+      subject: 'INFO BACKUP',
+      html: contentHTML
+    });
+
+    console.log('Message sent: %s', info.messageId);
+    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+  } catch (error) {
+    console.log("Error sending email:", error);
+  }
+
+  
+}
