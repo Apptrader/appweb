@@ -14,6 +14,8 @@ const PaymentSuccessComponent = () => {
   const token = useSelector((state) => state?.user.token);
   const dispatch = useDispatch();
 
+  console.log(plan, "this is the plan")
+
   // UseRef para almacenar el estado de la bandera
   const updateUserPlanRequested = useRef(false);
 

@@ -1,17 +1,14 @@
 import Stripe from "stripe";
-import { WEBHOOK_SECRET } from "../config.js";
 
 
-import { FRONTEND_URL } from "../config.js";
+import { FRONTEND_URL, SSK } from "../config.js";
 
-/* const stripe = new Stripe("sk_test_51OJV6vCtqRjqS5chtpxR0cKFJLK8jf3WRVchpsfCFZx3JdiyPV0xcHZgYbaJ70XYsmdkssJpHiwdCmEun6X7mThj00IB3NQI0C");
+const stripe = new Stripe(SSK);
 
 export const handlePayment = async (req, res) => {
     const { product, customerInfo } = req.body;
     const { name, email } = customerInfo;
     console.log(product, name, email);
-
-    const stripe = new Stripe("sk_test_51OJV6vCtqRjqS5chtpxR0cKFJLK8jf3WRVchpsfCFZx3JdiyPV0xcHZgYbaJ70XYsmdkssJpHiwdCmEun6X7mThj00IB3NQI0C");
 
     try {
         // Crear el cliente en Stripe
@@ -53,8 +50,6 @@ export const handleSubscription = async (req, res) => {
     const { product, name } = req.body;
     console.log(product, name);
 
-    const stripe = new Stripe("sk_test_51OJV6vCtqRjqS5chtpxR0cKFJLK8jf3WRVchpsfCFZx3JdiyPV0xcHZgYbaJ70XYsmdkssJpHiwdCmEun6X7mThj00IB3NQI0C");
-
     try {
 
         const currentDate = new Date();
@@ -84,11 +79,11 @@ export const handleSubscription = async (req, res) => {
 
 
 
- */
+ 
 
 //CODIGO DEL DEPLOY
 
-const stripe = new Stripe("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");
+/* const stripe = new Stripe(SSK);
 
 export const handlePayment = async (req, res) => {
     const { product, customerInfo } = req.body;
@@ -161,3 +156,4 @@ export const handleSubscription = async (req, res) => {
         res.json(error);
     }
 };
+ */
