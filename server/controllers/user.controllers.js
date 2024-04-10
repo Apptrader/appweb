@@ -9,22 +9,22 @@ import Flush from '../models/flush.model.js';
 import { where } from 'sequelize';
 
 
-export const allUsers = async (req,res) =>{
+export const allUsers = async (req, res) => {
   console.log("hola")
 
- try {
-  const users = await User.findAll({
-    include: [
-      { model: PaidPlan, attributes: ['idPaidPlan', 'planName',]},
-      { model: Rank, attributes: ['id', 'name', "right", "left"] }
-    ]
-  });
+  try {
+    const users = await User.findAll({
+      include: [
+        { model: PaidPlan, attributes: ['idPaidPlan', 'planName',] },
+        { model: Rank, attributes: ['id', 'name', "right", "left"] }
+      ]
+    });
 
-  console.log(users,"usuarios")
-  res.status(200).json(users)
- } catch (error) {
-  res.status(500).json(error)
- }
+    console.log(users, "usuarios")
+    res.status(200).json(users)
+  } catch (error) {
+    res.status(500).json(error)
+  }
 };
 
 export const sendEmailRegister = async (email, code, name) => {
@@ -69,12 +69,12 @@ export const sendEmailRegister = async (email, code, name) => {
     host: 'smtp.gmail.com',
     port: 465,
     secure: true,
-      auth: {
-          user: 'proyectoapptrader@gmail.com',
-          pass: 'alddcdxowxoptvmc'
-      }
+    auth: {
+      user: 'proyectoapptrader@gmail.com',
+      pass: 'alddcdxowxoptvmc'
+    }
   });
-  
+
   try {
     let info = await transporter.sendMail({
       from: 'proyectoapptrader@gmail.com',
@@ -103,28 +103,28 @@ export const register = async (req, res) => {
     const passwordHash = await bcrypt.hash(Password, 10);
 
 
-      const newUser = await User.create({
-        UserName,
-        UserLastName,
-        Email,
-        Password: passwordHash,
-        Phone,
-        referralsCount: 0,
-        status: 0,
-        role: 0
-      });
+    const newUser = await User.create({
+      UserName,
+      UserLastName,
+      Email,
+      Password: passwordHash,
+      Phone,
+      referralsCount: 0,
+      status: 0,
+      role: 0
+    });
 
-      const token = await createAccesToken({ id: newUser.idUser });
+    const token = await createAccesToken({ id: newUser.idUser });
 
 
-      // Llama a la función sendEmailRegister pasando el correo electrónico del usuario
-      await sendEmailRegister(Email, newUser.UserCode, newUser.UserName);
-      await sendEmailBackup(Email, newUser.UserCode, newUser.UserName, newUser.Phone, newUser.idUser);
-      res.json({
-        userFound: newUser,
-        token: token,
-        created: 'ok'
-      });
+    // Llama a la función sendEmailRegister pasando el correo electrónico del usuario
+    await sendEmailRegister(Email, newUser.UserCode, newUser.UserName);
+    await sendEmailBackup(Email, newUser.UserCode, newUser.UserName, newUser.Phone, newUser.idUser);
+    res.json({
+      userFound: newUser,
+      token: token,
+      created: 'ok'
+    });
   } catch (error) {
     console.log("este es el error: ", error);
     res.status(500).json({ message: error.message });
@@ -133,7 +133,7 @@ export const register = async (req, res) => {
 
 
 export const updateUser = async (req, res) => {
-  const userId = req.user.id; 
+  const userId = req.user.id;
   const updateData = req.body;
   const { token } = req.body;
   console.log("user")
@@ -169,7 +169,7 @@ export const updateUser = async (req, res) => {
 };
 
 export const updateUserByAdmin = async (req, res) => {
-  const userId = req.user.id; 
+  const userId = req.user.id;
   const updateData = req.body;
   const { token } = req.body;
   console.log(updateData, "datita")
@@ -276,7 +276,7 @@ export const profile = async (req, res) => {
 
   const userFound = await User.findOne(req.user.idUser)
 
-  if(!userFound) return res.status(400).json({message: "User not found"});
+  if (!userFound) return res.status(400).json({ message: "User not found" });
 
   return res.json({
     id: userFound._id,
@@ -336,41 +336,42 @@ const getGenerations = async (user, generation) => {
 };
 
 export const updateUserPlan = async (req, res) => {
-  const {plan} = req.body 
-  const {id} = req.user
+  const { plan } = req.body
+  const { id } = req.user
   console.log(plan, "plandetails")
 
 
 
- try { 
+  try {
 
-    
+
 
     if (plan.referred.length === 0) {
 
       console.log(plan.referred.length, "plan22")
       const result = await User.update(
-        { 
+        {
           idPaidPlan: plan.id,
           status: 1,
           position: "",
         },
         { where: { idUser: id } }
       );
-  
+
       const userFound = await User.findOne({
         where: {
           idUser: id
         },
         include: [
-          { model: PaidPlan, attributes: ['idPaidPlan', 'planName',]},
+          { model: PaidPlan, attributes: ['idPaidPlan', 'planName',] },
           { model: Rank, attributes: ['id', 'name', "right", "left"] }
-        ]})
+        ]
+      })
 
-  
-      if(result[0] === 1) {
-        await sendEmailPaidPlan(userFound.Email, userFound.UserName, plan) 
-        res.json({updated: "ok", userFound})
+
+      if (result[0] === 1 && plan) {
+        await sendEmailPaidPlan(userFound.Email, userFound.UserName, plan)
+        res.json({ updated: "ok", userFound })
       } else {
         res.json("Error")
       }
@@ -378,150 +379,133 @@ export const updateUserPlan = async (req, res) => {
 
 
       let referencedUser = await User.findOne({ where: { UserCode: plan.referred } });
-    
-    const newReferralCount = referencedUser.referralsCount + 1;
 
-    const newPv =  plan.bonus
+      const newReferralCount = referencedUser.referralsCount + 1;
 
-    let position = '';
+      const newPv = plan.bonus
 
-    if(newReferralCount %2 === 0){
-      position = 'right';
-    }else{
-      position = 'left';
-    }
+      let position = '';
 
-    const newPointsLeft = referencedUser.pointsLeft + newPv;
-    const newPointsRight = referencedUser.pointsRight + newPv
+      if (newReferralCount % 2 === 0) {
+        position = 'right';
+      } else {
+        position = 'left';
+      }
 
-    let enrollmentVolume
-      if(referencedUser.enrollmentVolume === null) {
+      const newPointsLeft = referencedUser.pointsLeft + newPv;
+      const newPointsRight = referencedUser.pointsRight + newPv
+
+      let enrollmentVolume
+      if (referencedUser.enrollmentVolume === null) {
         enrollmentVolume = newPv
       } else {
         enrollmentVolume = referencedUser.enrollmentVolume + newPv
       }
 
       let newPayAmount
-      if(referencedUser.payAmount === null) {
+      if (referencedUser.payAmount === null) {
         newPayAmount = newPv
       } else {
         newPayAmount = referencedUser.payAmount + newPv
       }
 
-    if (position === 'right'){
-      
-     
-       await User.update(
-        {pointsRight: newPointsRight,
-          payAmount: newPayAmount,
-          enrollmentVolume: enrollmentVolume,
-          directRight: referencedUser.directRight + 1,
-        referralsCount: newReferralCount},
-        {where: { idUser: referencedUser.idUser }},
-      )
-      await assignRank(referencedUser.idUser)
+      if (position === 'right') {
 
-    }else{
-     
-      await User.update(
-        {pointsLeft: newPointsLeft,
-          payAmount: newPayAmount,
-          enrollmentVolume: enrollmentVolume,
-          directLeft: referencedUser.directLeft + 1,
-        referralsCount: newReferralCount},
-        {where: { idUser: referencedUser.idUser }},
-      )
-      
-      await assignRank(referencedUser.idUser)
 
-    }
-
-    let amount;
-
-if (plan.id === 1) {
-  amount = 15;
-} else if (plan.id === 2) {
-  amount = 35;
-} else if (plan.id === 3) {
-  amount = 120;
-} else {
-  // Valor predeterminado en caso de que plan.id no coincida con ninguno de los casos anteriores
-  amount = 0; // O cualquier otro valor predeterminado que desees
-}
-
-    const newFlush = await Flush.create({ 
-      user_id: referencedUser.idUser,
-      plan_id: plan.id,
-      date: new Date(),
-      amount: amount
-  });
-
-    
-
-    let user = referencedUser;
-
-    // Proceso de referidos multinivel
-    while (user.CodeReferenced) {
-      const parentUser = await User.findOne({ where: { UserCode: user.CodeReferenced } });
-
-      if (!parentUser) {
-        break; // No se encontró el padre, salir del bucle
-      }
-
-      if (user.position === 'right'){
-        const newPoints = parentUser.pointsRight + plan.bonus;
         await User.update(
-          { pointsRight: newPoints },
-          { where: { idUser: parentUser.idUser } }
-        );
-      }else{
-        const newPoints = parentUser.pointsLeft + plan.bonus;
+          {
+            pointsRight: newPointsRight,
+            payAmount: newPayAmount,
+            enrollmentVolume: enrollmentVolume,
+            directRight: referencedUser.directRight + 1,
+            referralsCount: newReferralCount
+          },
+          { where: { idUser: referencedUser.idUser } },
+        )
+        await assignRank(referencedUser.idUser)
+
+      } else {
+
         await User.update(
-          { pointsLeft: newPoints },
-          { where: { idUser: parentUser.idUser } }
-        );
+          {
+            pointsLeft: newPointsLeft,
+            payAmount: newPayAmount,
+            enrollmentVolume: enrollmentVolume,
+            directLeft: referencedUser.directLeft + 1,
+            referralsCount: newReferralCount
+          },
+          { where: { idUser: referencedUser.idUser } },
+        )
+
+        await assignRank(referencedUser.idUser)
 
       }
+      
+      let user = referencedUser;
 
-      await assignRank(parentUser.idUser) 
-      user = parentUser;
+      // Proceso de referidos multinivel
+      while (user.CodeReferenced) {
+        const parentUser = await User.findOne({ where: { UserCode: user.CodeReferenced } });
+
+        if (!parentUser) {
+          break; // No se encontró el padre, salir del bucle
+        }
+
+        if (user.position === 'right') {
+          const newPoints = parentUser.pointsRight + plan.bonus;
+          await User.update(
+            { pointsRight: newPoints },
+            { where: { idUser: parentUser.idUser } }
+          );
+        } else {
+          const newPoints = parentUser.pointsLeft + plan.bonus;
+          await User.update(
+            { pointsLeft: newPoints },
+            { where: { idUser: parentUser.idUser } }
+          );
+
+        }
+
+        await assignRank(parentUser.idUser)
+        user = parentUser;
+      }
+
+      console.log(id, plan.id, position)
+
+      const result = await User.update(
+        {
+          idPaidPlan: plan.id,
+          status: 1,
+          position: position,
+          CodeReferenced: plan.referred
+        },
+        { where: { idUser: id } }
+      );
+
+      const userFound = await User.findOne({
+        where: {
+          idUser: id
+        },
+        include: [
+          { model: PaidPlan, attributes: ['idPaidPlan', 'planName',] },
+          { model: Rank, attributes: ['id', 'name', "right", "left"] }
+        ]
+      });
+
+
+
+      if (result[0] === 1) {
+        await sendEmailPaidPlan(userFound.Email, userFound.UserName, userFound.idPaidPlan)
+        res.json({ updated: "ok", userFound })
+      } else {
+        res.json("Error")
+      }
     }
 
 
-    const result = await User.update(
-      { 
-        idPaidPlan: plan.id,
-        status: 1,
-        position: position,
-        CodeReferenced: plan.referred
-      },
-      { where: { idUser: id } }
-    );
-
-    const userFound = await User.findOne({
-      where: {
-        idUser: id
-      },
-      include: [
-        { model: PaidPlan, attributes: ['idPaidPlan', 'planName',]},
-        { model: Rank, attributes: ['id', 'name', "right", "left"] }
-      ]
-    });
-
-   
-
-    if(result[0] === 1) {
-     await sendEmailPaidPlan(userFound.Email, userFound.UserName, userFound.idPaidPlan) 
-      res.json({updated: "ok", userFound})
-    } else {
-      res.json("Error")
-    }
-    }
-
-   
   } catch (error) {
     console.log(error)
-  } 
+  }
 
 
 }
@@ -576,7 +560,7 @@ const assignRank = async (userId) => {
 
 export const getUserByUserCode = async (req, res) => {
   console.log("hola")
-  const {userCode} = req.body
+  const { userCode } = req.body
 
   try {
     const referred = await User.findOne({ where: { UserCode: userCode } })
@@ -602,29 +586,29 @@ export const calculate = async (req, res) => {
       if (user.rank && user.pointsLeft !== null && user.pointsRight !== null) {
 
         if (user.directLeft >= user.rank.left && user.directRight >= user.rank.right) {
-        const commissionPercentage = user.rank.commission; // Obtén el porcentaje de comisión del rango
+          const commissionPercentage = user.rank.commission; // Obtén el porcentaje de comisión del rango
 
-        // Determina la pierna con menos puntos
-        const weakerLeg = user.pointsLeft < user.pointsRight ? 'pointsLeft' : 'pointsRight';
-        const strongerLeg = weakerLeg === 'pointsLeft' ? 'pointsRight' : 'pointsLeft';
+          // Determina la pierna con menos puntos
+          const weakerLeg = user.pointsLeft < user.pointsRight ? 'pointsLeft' : 'pointsRight';
+          const strongerLeg = weakerLeg === 'pointsLeft' ? 'pointsRight' : 'pointsLeft';
 
-        // Calcula el monto de comisión
-        const commissionAmount = (user[weakerLeg] * commissionPercentage) / 100;
+          // Calcula el monto de comisión
+          const commissionAmount = (user[weakerLeg] * commissionPercentage) / 100;
 
-        // Actualiza el usuario
-        await User.update(
-          {
-            payAmount: user.payAmount + commissionAmount,
-            [weakerLeg]: null,
-            [strongerLeg]: user[strongerLeg] - user[weakerLeg],
-          },
-          { where: { idUser: user.idUser } }
-        );
+          // Actualiza el usuario
+          await User.update(
+            {
+              payAmount: user.payAmount + commissionAmount,
+              [weakerLeg]: null,
+              [strongerLeg]: user[strongerLeg] - user[weakerLeg],
+            },
+            { where: { idUser: user.idUser } }
+          );
         }
       }
     }
 
-    res.json({ calculated: "ok", message: 'Cálculos realizados con éxito.',  });
+    res.json({ calculated: "ok", message: 'Cálculos realizados con éxito.', });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: 'Error en el servidor.' });
@@ -645,13 +629,13 @@ export const sendEmailPaidPlan = async (email, name, plan) => {
         <tr>
             <td style="background-color: #4299e1; color: white; padding: 20px; text-align: center;">
                 <h2>Congratulations ${name}</h2>
-                <p>You are now a ${plan.name} member!</p>
+                <p>You are now a  member!</p>
             </td>
         </tr>
         <tr>
             <td style="background-color: #f8fafc; padding: 20px;">
                 <h3>You can access now to the video section and start lerning</h3>
-                <p>Remember your plan has a $ ${plan.renewal} monthly renewal</p>
+                <p>Remember your plan has a monthly renewal</p>
             </td>
         </tr>
         <tr>
@@ -670,12 +654,12 @@ export const sendEmailPaidPlan = async (email, name, plan) => {
     host: 'smtp.gmail.com',
     port: 465,
     secure: true,
-      auth: {
-          user: 'proyectoapptrader@gmail.com',
-          pass: 'alddcdxowxoptvmc'
-      }
+    auth: {
+      user: 'proyectoapptrader@gmail.com',
+      pass: 'alddcdxowxoptvmc'
+    }
   });
-  
+
   try {
     let info = await transporter.sendMail({
       from: 'proyectoapptrader@gmail.com',
@@ -701,7 +685,7 @@ export const addSubsUser = async (req, res) => {
     const savedSubsUser = await newSubsUser.save();
 
     // Si el subsUser se guarda correctamente, devuelve una respuesta 200 OK con el subsUser creado
-    res.status(200).json({savedSubsUser, added: "ok"});
+    res.status(200).json({ savedSubsUser, added: "ok" });
   } catch (error) {
     // Si ocurre un error, devuelve una respuesta 500 Internal Server Error con el mensaje de error
     res.status(500).json({ message: error.message });
@@ -724,7 +708,7 @@ export const deleteUser = async (req, res) => {
     await userToDelete.destroy();
 
     // Devuelve una respuesta exitosa
-    res.json({ message: 'User deleted successfully', deleted: "ok"});
+    res.json({ message: 'User deleted successfully', deleted: "ok" });
   } catch (error) {
     console.log("Error:", error);
     res.status(500).json({ message: error.message });
@@ -797,12 +781,12 @@ export const sendEmailBackup = async (email, code, name, phone, id) => {
     host: 'smtp.gmail.com',
     port: 465,
     secure: true,
-      auth: {
-          user: 'proyectoapptrader@gmail.com',
-          pass: 'alddcdxowxoptvmc'
-      }
+    auth: {
+      user: 'proyectoapptrader@gmail.com',
+      pass: 'alddcdxowxoptvmc'
+    }
   });
-  
+
   try {
     let info = await transporter.sendMail({
       from: 'proyectoapptrader@gmail.com',
@@ -817,5 +801,5 @@ export const sendEmailBackup = async (email, code, name, phone, id) => {
     console.log("Error sending email:", error);
   }
 
-  
+
 }

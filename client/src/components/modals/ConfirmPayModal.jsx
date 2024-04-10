@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setPlan } from '../../redux/actions';
 import getParamsEnv from '../../functions/getParamsEnv';
-import { CardElement } from '@stripe/react-stripe-js';
+
 
 
 
@@ -122,7 +122,7 @@ const ConfirmPayModal = ({ prod, setShowConfirmPayModal, elements, setClientSecr
             </svg>
           </button>
         </div>
-        <p className="text-lg mb-2">Amount: ${details.price}</p>
+        <p className="text-lg mb-2">Amount: ${details.price2}</p>
         <div className="mt-4">
           <label htmlFor="referralCode" className="block text-sm font-medium text-gray-300 mb-1">Referral Code:</label>
           <input

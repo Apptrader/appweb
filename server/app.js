@@ -15,13 +15,12 @@ import http from 'http'; // Importa el módulo http de Node.js
 import routerChapters from './routes/chapters.routes.js';
 import bodyParser from 'body-parser';
 import Stripe from "stripe";
-import { WEBHOOK_SECRET } from "./config.js";
-
+import { WEBHOOK_SECRET, SSK } from "./config.js";
 
 const endpointSecret = WEBHOOK_SECRET
-/* const stripe = new Stripe("sk_test_51OJV6vCtqRjqS5chtpxR0cKFJLK8jf3WRVchpsfCFZx3JdiyPV0xcHZgYbaJ70XYsmdkssJpHiwdCmEun6X7mThj00IB3NQI0C");
- */
-const stripe = new Stripe("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")
+const stripe = new Stripe(SSK);
+ 
+/* const stripe = new Stripe("SSK") */
 
 const app = express();
 
@@ -102,7 +101,7 @@ async function crearSuscripcionConMetodoDePago(customerId, priceId, paymentMetho
       event = stripe.webhooks.constructEvent(
         bodyString,
         sig,
-        /* endpointSecret */
+        endpointSecret
       );
     } catch (err) {
       console.log(`Webhook Error: ${err.message}`);
@@ -116,21 +115,21 @@ async function crearSuscripcionConMetodoDePago(customerId, priceId, paymentMetho
         const paymentIntent = event.data.object;
         customer = paymentIntent.customer
         payMethod = paymentIntent.payment_method
-        /* if (paymentIntent.amount === 60000) {
+        if (paymentIntent.amount === 60000) {
           await crearSuscripcionConMetodoDePago(customer, "price_1P2MQQCtqRjqS5chcgCR4WJ2", payMethod)
         } else if(paymentIntent.amount === 25000) {
           await crearSuscripcionConMetodoDePago(customer, "price_1P2MPqCtqRjqS5chqiRgs0jA", payMethod)
         } else if (paymentIntent.amount === 15000) {
           await crearSuscripcionConMetodoDePago(customer, "price_1P2LOSCtqRjqS5ch03lA7nKo", payMethod)
-        } */
-
+        }
+/* 
         if (paymentIntent.amount === 60000) {
           await crearSuscripcionConMetodoDePago(customer, "price_1P2yuVIrqUJwwaEOWgYCIp1O", payMethod)
         } else if(paymentIntent.amount === 25000) {
           await crearSuscripcionConMetodoDePago(customer, "price_1P2yuVIrqUJwwaEOWgYCIp1O", payMethod)
         } else if (paymentIntent.amount === 15000) {
           await crearSuscripcionConMetodoDePago(customer, "price_1P2yuVIrqUJwwaEOWgYCIp1O", payMethod)
-        } 
+        }  */
       
         resData = paymentIntent;
         break;

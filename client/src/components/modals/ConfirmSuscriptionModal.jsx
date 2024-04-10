@@ -12,10 +12,16 @@ const ConfirmSubscriptionModal = ({ prod, setShowConfirmSubModal }) => {
   const [newPlan, setNewPlan] = useState({
     name: prod.name || "",
     price: details.price || "",
-    price2: details.price2 || ""
+    price2: details.price2 || "",
+    bonus: details.bonus || "",
+    renewal: details.renewal || "",
+    id: details.id || "",
+
   });
   const [referredName, setReferredName] = useState("");
   const [agreedToTerms, setAgreedToTerms] = useState(false);
+
+  console.log(newPlan, "planNew")
 
   const dispatch = useDispatch();
 
