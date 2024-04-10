@@ -1,4 +1,4 @@
-/* import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import NavbarComponent from './NavbarComponent';
 import 'animate.css';
@@ -303,9 +303,9 @@ const PaidPlansListComponent = ({user}) => {
   );
 }
 
-export default PaidPlansListComponent; */
+export default PaidPlansListComponent;
 
-import { useState, useEffect } from 'react';
+/* import { useState, useEffect } from 'react';
 import axios from 'axios';
 import NavbarComponent from './NavbarComponent';
 import 'animate.css';
@@ -362,7 +362,7 @@ const PaidPlansListComponent = ({user}) => {
   const handlePaymentConfirm1 = (product, name) => {
     setProduct({
       name: "Basic",
-      details: { price: "price_1P3jkgIrqUJwwaEOzYAoYHiF", id: 1, bonus: 35, renewal: 60 },
+      details: { price: "price_1P3qtUIrqUJwwaEOE0NIcCGm", id: 1, bonus: 35, renewal: 60 },
       customerInfo: {
         name: user.UserName,
         email: user.Email
@@ -374,7 +374,7 @@ const PaidPlansListComponent = ({user}) => {
   const handlePaymentConfirm2 = (product, name) => {
     setSubscription({
       name: "Pro",
-      details: { price: "price_1P3jkgIrqUJwwaEOzYAoYHiF", id: 2, bonus: 60, renewal: 85 },
+      details: { price: "price_1P3qtUIrqUJwwaEOE0NIcCGm", id: 2, bonus: 60, renewal: 85 },
       customerInfo: {
         name: user.UserName,
         email: user.Email
@@ -387,7 +387,7 @@ const PaidPlansListComponent = ({user}) => {
   const handlePaymentConfirm3 = (product, name) => {
     setProduct({
       name: "Sonic",
-      details: { price: "price_1P3jkgIrqUJwwaEOzYAoYHiF", id: 3, bonus: 150, renewal: 90 },
+      details: { price: "price_1P3qtUIrqUJwwaEOE0NIcCGm", id: 3, bonus: 150, renewal: 90 },
       customerInfo: {
         name: user.UserName,
         email: user.Email
@@ -423,7 +423,7 @@ const PaidPlansListComponent = ({user}) => {
   const handleSubConfirm1 = (product, name) => {
     setSubscription({
       name: "Basic",
-      details: { price: "price_1P3ksQIrqUJwwaEOzdkDccGC", price2: 60 }
+      details: { price: "price_1P3qruIrqUJwwaEOAKc5IfWE", price2: 60 }
     })
     setShowConfirmSubModal(true)
   }
@@ -431,7 +431,7 @@ const PaidPlansListComponent = ({user}) => {
   const handleSubConfirm2 = (product, name) => {
     setSubscription({
       name: "Pro",
-      details: { price: "price_1P2yuVIrqUJwwaEOWgYCIp1O", price2: 85 }
+      details: { price: "price_1P3qruIrqUJwwaEOAKc5IfWE", price2: 85 }
     })
     setShowConfirmSubModal(true)
   }
@@ -439,7 +439,7 @@ const PaidPlansListComponent = ({user}) => {
   const handleSubConfirm3 = (product, name) => {
     setSubscription({
       name: "Sonic",
-      details: { price: "price_1P2yuVIrqUJwwaEOWgYCIp1O", price2: 90 }
+      details: { price: "price_1P3qruIrqUJwwaEOAKc5IfWE", price2: 90 }
     })
     setShowConfirmSubModal(true)
   }
@@ -603,4 +603,4 @@ const PaidPlansListComponent = ({user}) => {
   );
 }
 
-export default PaidPlansListComponent;
+export default PaidPlansListComponent; */

@@ -1,4 +1,4 @@
- export const TOKEN_SECRET = 'some secret key'
+export const TOKEN_SECRET = 'some secret key'
 export const DB_HOST = 'aiqlearning.cryueqiccrnl.us-east-2.rds.amazonaws.com'
 export const FRONTEND_URL = process.env.FRONTEND_URL || 'http://aiqfrontend.s3-website.us-east-2.amazonaws.com'
 
