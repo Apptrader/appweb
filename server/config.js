@@ -15,7 +15,6 @@ export const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173'
 export const DB_DATABASE =process.env.DB_DATABASE || 'tradesite'
 export const DB_USER = process.env.DB_USER || 'postgres'
 export const DB_PASSWORD = process.env.DB_PASSWORD || 'admin' */
-export const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET || "whsec_K7QRoZIS0meOdX1OHg0jlojSfUsBT8nK"
+
+export const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET || "whsec_l68MPfZGBQBmf72l17OBdWdSqkGaqVWv"
 export const SSK = process.env.SSK
-
-

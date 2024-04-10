@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+/* import { useState, useEffect } from 'react';
 import axios from 'axios';
 import NavbarComponent from './NavbarComponent';
 import 'animate.css';
@@ -303,9 +303,9 @@ const PaidPlansListComponent = ({user}) => {
   );
 }
 
-export default PaidPlansListComponent;
+export default PaidPlansListComponent; */
 
-/* import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import NavbarComponent from './NavbarComponent';
 import 'animate.css';
@@ -327,8 +327,6 @@ const PaidPlansListComponent = ({user}) => {
   const [plans, setPlans] = useState([]);
   const [clientSecret, setClientSecret] = useState("null")
   const [showStripeCard, setShowStripeCard] = useState(false)
-  const stripe = loadStripe("pk_live_51OCrz7IrqUJwwaEOBPWjl8LIGG6sePk4B1oqlJ4c9thpQrOHzYbqk9BXshhojqG2xZc02sG7FVXcjlg13Dy172V000WNHK9t3G");
-
   console.log(user, "suario en plans")
 
   const initialPackageStates = {
@@ -601,13 +599,8 @@ const PaidPlansListComponent = ({user}) => {
           <ConfirmSubscriptionModal prod={subscription} setShowConfirmSubModal={setShowConfirmSubModal} />
         )
       }
-      {showStripeCard && clientSecret && (
-  <Elements stripe={stripe} options={{ clientSecret: clientSecret }}>
-    <CheckOutModal setShowStripeCard={setShowStripeCard} clientSecret={clientSecret} />
-  </Elements>
-)}
     </div>
   );
 }
 
-export default PaidPlansListComponent; */
+export default PaidPlansListComponent;
