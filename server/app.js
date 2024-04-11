@@ -127,11 +127,11 @@ app.post(
         } */
 
         if (paymentIntent.amount === 60000) {
-          await crearSuscripcionConMetodoDePago(customer, "price_1P4T9dIrqUJwwaEOBPZp0O0M", payMethod)
+          await crearSuscripcionConMetodoDePago(customer, "price_1P4XNOIrqUJwwaEOzJfiunHk", payMethod)
         } else if(paymentIntent.amount === 25000) {
-          await crearSuscripcionConMetodoDePago(customer, "price_1P4T9dIrqUJwwaEOBPZp0O0M", payMethod)
+          await crearSuscripcionConMetodoDePago(customer, "price_1P4XN7IrqUJwwaEO74KcP17W", payMethod)
         } else if (paymentIntent.amount === 15000) {
-          await crearSuscripcionConMetodoDePago(customer, "price_1P4T9dIrqUJwwaEOBPZp0O0M", payMethod)
+          await crearSuscripcionConMetodoDePago(customer, "price_1P4XLgIrqUJwwaEOjHD2sGNq", payMethod)
         }
 
       case "charge.succeeded":

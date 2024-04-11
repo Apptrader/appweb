@@ -1,6 +1,6 @@
 export const TOKEN_SECRET = 'some secret key'
 export const DB_HOST = 'aiqlearning.cryueqiccrnl.us-east-2.rds.amazonaws.com'
-export const FRONTEND_URL = process.env.FRONTEND_URL || 'aiqacademy.net'
+export const FRONTEND_URL = process.env.FRONTEND_URL || 'https://aiqacademy.net'
 
 export const DB_DATABASE =process.env.DB_DATABASE || 'AIQAcademy'
 export const DB_USER = process.env.DB_USER || 'postgres'
