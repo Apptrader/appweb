@@ -118,12 +118,20 @@ app.post(
         const paymentIntent = event.data.object;
         customer = paymentIntent.customer
         payMethod = paymentIntent.payment_method
-        if (paymentIntent.amount === 60000) {
+       /*  if (paymentIntent.amount === 60000) {
           await crearSuscripcionConMetodoDePago(customer, "price_1P2MQQCtqRjqS5chcgCR4WJ2", payMethod)
         } else if(paymentIntent.amount === 25000) {
           await crearSuscripcionConMetodoDePago(customer, "price_1P2MPqCtqRjqS5chqiRgs0jA", payMethod)
         } else if (paymentIntent.amount === 15000) {
           await crearSuscripcionConMetodoDePago(customer, "price_1P2LOSCtqRjqS5ch03lA7nKo", payMethod)
+        } */
+
+        if (paymentIntent.amount === 60000) {
+          await crearSuscripcionConMetodoDePago(customer, "price_1P4T9dIrqUJwwaEOBPZp0O0M", payMethod)
+        } else if(paymentIntent.amount === 25000) {
+          await crearSuscripcionConMetodoDePago(customer, "price_1P4T9dIrqUJwwaEOBPZp0O0M", payMethod)
+        } else if (paymentIntent.amount === 15000) {
+          await crearSuscripcionConMetodoDePago(customer, "price_1P4T9dIrqUJwwaEOBPZp0O0M", payMethod)
         }
 
       case "charge.succeeded":
