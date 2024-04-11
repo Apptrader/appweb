@@ -7,6 +7,8 @@ import createRanks from './functions/ranks.js';
 import createVideoChapters from './functions/videoChapters.js';
 import createVideos from './functions/videos.js';
 import videoLanguage from './functions/languageVideo.js';
+import https from 'https'; // Importa el módulo https de Node.js
+import fs from 'fs'; // Importa el módulo fs para trabajar con archivos del sistema
 
 const createDefaultUser = async () => {
   try {
@@ -97,12 +99,29 @@ sequelize.sync({ force: false })
     await createDefaultUser();
     await createRanks()
     await videoLanguage()
-   
+    const privateKey = fs.readFileSync('./../certificados/private.key', 'utf8');
+const certificate = fs.readFileSync('./../certificados/certificate.crt', 'utf8');
+const ca = fs.readFileSync('./../certificados/ca_bundle.crt', 'utf8');
 
-    const port = 80;
+const credentials = {
+  key: privateKey,
+  cert: certificate,
+  ca: ca
+};
+
+// Crea un servidor HTTPS utilizando Express
+const httpsServer = https.createServer(credentials, app);
+
+// Escucha en el puerto 443 (puerto predeterminado para HTTPS)
+httpsServer.listen(443, () => {
+  console.log('Servidor HTTPS está escuchando en el puerto 443');
+});
+
+
+    /* const port = 80;
     app.listen(port, () => {
       console.log(`Servidor escuchando en http://localhost:${port}`);
-    });
+    }); */
   })
   .catch((error) => {
     console.error('Error al sincronizar modelos con la base de datos:', error);

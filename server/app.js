@@ -11,12 +11,11 @@ import morgan from 'morgan';
 import routerRank from './routes/rank.routes.js';
 import routerContact from './routes/contact.routes.js';
 import { FRONTEND_URL } from './config.js';
-import https from 'https'; // Importa el módulo https de Node.js
 import routerChapters from './routes/chapters.routes.js';
 import bodyParser from 'body-parser';
 import Stripe from "stripe";
 import { WEBHOOK_SECRET, SSK } from "./config.js";
-import fs from 'fs'; // Importa el módulo fs para trabajar con archivos del sistema
+
 
 const endpointSecret = WEBHOOK_SECRET
 const stripe = new Stripe(SSK);
