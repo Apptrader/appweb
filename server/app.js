@@ -81,6 +81,17 @@ async function crearSuscripcionConMetodoDePago(customerId, priceId, paymentMetho
   }
 }
 
+app.get('/.well-known/pki-validation/1F52366ED74813EF703CD04F32B70D85.txt', (req, res) => {
+  const filePath = './../certificados/1F52366ED74813EF703CD04F32B70D85.txt';
+  fs.readFile(filePath, 'utf8', (err, data) => {
+    if (err) {
+      res.status(500).send('Error al leer el archivo de autorización');
+      return;
+    }
+    res.send(data);
+  });
+});
+
 app.post(
   "/webhook",
   express.raw({ type: "application/json" }),
