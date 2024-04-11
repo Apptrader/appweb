@@ -11,17 +11,16 @@ import morgan from 'morgan';
 import routerRank from './routes/rank.routes.js';
 import routerContact from './routes/contact.routes.js';
 import { FRONTEND_URL } from './config.js';
-import http from 'http'; // Importa el módulo http de Node.js
+import https from 'https'; // Importa el módulo https de Node.js
 import routerChapters from './routes/chapters.routes.js';
 import bodyParser from 'body-parser';
 import Stripe from "stripe";
 import { WEBHOOK_SECRET, SSK } from "./config.js";
+import fs from 'fs'; // Importa el módulo fs para trabajar con archivos del sistema
 
 const endpointSecret = WEBHOOK_SECRET
 const stripe = new Stripe(SSK);
  
-/* const stripe = new Stripe("SSK") */
-
 const app = express();
 
 // Configuración CORS
@@ -55,25 +54,19 @@ let subPlanId
 let customer
 let payMethod
 
-
 async function crearSuscripcionConMetodoDePago(customerId, priceId, paymentMethodId) {
   try {
       console.log(paymentMethodId)
-      
-
-      // Adjuntar el método de pago al cliente
       await stripe.paymentMethods.attach(paymentMethodId, {
         customer: customerId,
     });
     
-    // Establecer el método de pago como predeterminado y configurar el uso futuro
     await stripe.customers.update(customerId, {
         invoice_settings: {
             default_payment_method: paymentMethodId,
         }
     });
 
-      // Crear la suscripción utilizando el método de pago predeterminado
       const subscription = await stripe.subscriptions.create({
           customer: customerId,
           items: [{ price: priceId }],
@@ -88,11 +81,10 @@ async function crearSuscripcionConMetodoDePago(customerId, priceId, paymentMetho
   }
 }
 
-
- app.post(
+app.post(
   "/webhook",
   express.raw({ type: "application/json" }),
-  async (request, response) => { // Agrega la palabra clave async aquí
+  async (request, response) => { 
     const sig = request.headers["stripe-signature"];
     const bodyString = request.body.toString();
     let event;
@@ -123,16 +115,6 @@ async function crearSuscripcionConMetodoDePago(customerId, priceId, paymentMetho
           await crearSuscripcionConMetodoDePago(customer, "price_1P2LOSCtqRjqS5ch03lA7nKo", payMethod)
         }
 
-      /*   if (paymentIntent.amount === 60000) {
-          await crearSuscripcionConMetodoDePago(customer, "price_1P3qruIrqUJwwaEOAKc5IfWE", payMethod)
-        } else if(paymentIntent.amount === 25000) {
-          await crearSuscripcionConMetodoDePago(customer, "price_1P3qruIrqUJwwaEOAKc5IfWE", payMethod)
-        } else if (paymentIntent.amount === 15000) {
-          await crearSuscripcionConMetodoDePago(customer, "price_1P3qruIrqUJwwaEOAKc5IfWE", payMethod)
-        }  */
-      
-        resData = paymentIntent;
-        break;
       case "charge.succeeded":
          payMethod = event.data.object.payment_method;
         resData= payMethod
@@ -143,7 +125,7 @@ async function crearSuscripcionConMetodoDePago(customerId, priceId, paymentMetho
       case "customer.subscription.created":
         const subscription = event.data.object;
         resData = { message: `Subscription for ${subscription.id} was Created!`, sub: subscription };
-        subId = subscription.id; // Asignar el valor de subscription.id a subId
+        subId = subscription.id; 
         subPlanId = subscription.plan.id
         break;
       case 'checkout.session.completed':
@@ -159,14 +141,18 @@ async function crearSuscripcionConMetodoDePago(customerId, priceId, paymentMetho
   }
 );
 
-// Configura el tiempo de espera del servidor HTTP
-const server = http.createServer(app);
-server.setTimeout(800000); // 10 minutos en milisegundos
+/* // Carga los certificados SSL/TLS
+const options = {
+    key: fs.readFileSync('./../certificados/server.key'),
+    cert: fs.readFileSync('./../certificados/server.cer')
+};
 
-export default app;
+// Crea el servidor HTTPS
+const server = https.createServer(options, app);
 
-/* const payment = event.data.object
-    resData = payment
-    if (subId && subPlanId) {
-      alterarSuscripcion(subId, subPlanId)
-    } */
+// Escucha en el puerto 443
+server.listen(443, () => {
+    console.log('Servidor HTTPS en funcionamiento en el puerto 443');
+}); */
+
+export default app
