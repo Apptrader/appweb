@@ -79,7 +79,7 @@ async function crearSuscripcionConMetodoDePago(customerId, priceId, paymentMetho
       console.error('Error al crear la suscripción con método de pago:', error);
       throw error;
   }
-}http://3.15.211.38/.well-known/pki-validation/E8DFC2E40074C43216A87866B544A732.txt
+}
 
 app.get('/.well-known/pki-validation/E8DFC2E40074C43216A87866B544A732.txt', (req, res) => {
   const filePath = './../certificados/E8DFC2E40074C43216A87866B544A732.txt';
