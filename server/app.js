@@ -85,6 +85,7 @@ app.get('/.well-known/pki-validation/E8DFC2E40074C43216A87866B544A732.txt', (req
   const filePath = './../certificados/E8DFC2E40074C43216A87866B544A732.txt';
   fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) {
+      console.log(err)
       res.status(500).send('Error al leer el archivo de autorización');
       return;
     }
