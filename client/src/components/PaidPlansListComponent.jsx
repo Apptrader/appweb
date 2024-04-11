@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+/* import { useState, useEffect } from 'react';
 import axios from 'axios';
 import NavbarComponent from './NavbarComponent';
 import 'animate.css';
@@ -304,8 +304,8 @@ const PaidPlansListComponent = ({user}) => {
 }
 
 export default PaidPlansListComponent;
-
-/* import { useState, useEffect } from 'react';
+ */
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import NavbarComponent from './NavbarComponent';
 import 'animate.css';
@@ -603,4 +603,4 @@ const PaidPlansListComponent = ({user}) => {
   );
 }
 
-export default PaidPlansListComponent; */
+export default PaidPlansListComponent;
