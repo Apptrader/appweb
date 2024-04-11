@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/actions';
 import NavbarComponent from './NavbarComponent';
@@ -181,12 +181,9 @@ const LogInUserComponent = () => {
 
           <p className="mt-8 text-center text-sm text-gray-400">
             Not a member?
-            <a
-              href={VITE_REGISTER}
-              className="ml-1 font-semibold text-indigo-600 hover:text-indigo-500"
-            >
+            <Link to={VITE_REGISTER} className="ml-1 font-semibold text-indigo-600 hover:text-indigo-500">          
               Sign Up
-            </a>
+            </Link>
           </p>
         </div>
       </div>
