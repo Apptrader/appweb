@@ -7,14 +7,15 @@ const stripe = new Stripe(SSK);
 
 export const handlePayment = async (req, res) => {
     const { product, customerInfo } = req.body;
+    console.log(customerInfo)
     const { name, email } = customerInfo;
     console.log(product, name, email);
 
     try {
         // Crear el cliente en Stripe
         const customer = await stripe.customers.create({
-            name: name,
-            email: email,
+            name: name || "",
+            email: email || "",
         });
 
         const currentDate = new Date();

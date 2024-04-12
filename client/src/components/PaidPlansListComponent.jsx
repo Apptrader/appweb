@@ -362,7 +362,7 @@ const PaidPlansListComponent = ({user}) => {
   const handlePaymentConfirm1 = (product, name) => {
     setProduct({
       name: "Basic",
-      details: { price: "price_1P4XJGIrqUJwwaEOICrXKRvh", id: 1, bonus: 35, renewal: 60 },
+      details: { price: "price_1P4XJGIrqUJwwaEOICrXKRvh", id: 1, bonus: 35, renewal: 60, price2: 150 },
       customerInfo: {
         name: user.UserName,
         email: user.Email
@@ -374,7 +374,7 @@ const PaidPlansListComponent = ({user}) => {
   const handlePaymentConfirm2 = (product, name) => {
     setSubscription({
       name: "Pro",
-      details: { price: "price_1P4XJnIrqUJwwaEO9YIyuvXB", id: 2, bonus: 60, renewal: 85 },
+      details: { price: "price_1P4XJnIrqUJwwaEO9YIyuvXB", id: 2, bonus: 60, renewal: 85, price2: 250 },
       customerInfo: {
         name: user.UserName,
         email: user.Email
@@ -387,7 +387,7 @@ const PaidPlansListComponent = ({user}) => {
   const handlePaymentConfirm3 = (product, name) => {
     setProduct({
       name: "Sonic",
-      details: { price: "price_1P4XKGIrqUJwwaEOYLoXvOYd", id: 3, bonus: 150, renewal: 90 },
+      details: { price: "price_1P4XKGIrqUJwwaEOYLoXvOYd", id: 3, bonus: 150, renewal: 90, price2: 600 },
       customerInfo: {
         name: user.UserName,
         email: user.Email
