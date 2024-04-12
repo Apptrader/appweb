@@ -25,7 +25,7 @@ const PaymentSuccessSubComponent = () => {
     const updateUserPlan = async () => {
       try {
         const response = await axios.post(
-          `${API_URL_BASE}/apiUser/updateUserPlanOnlySub`,
+          `${API_URL_BASE}/apiUser/updateUserPlanSub`,
           { plan },
           {
             headers: {
