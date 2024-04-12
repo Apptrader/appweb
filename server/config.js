@@ -17,4 +17,5 @@ export const DB_USER = process.env.DB_USER || 'postgres'
 export const DB_PASSWORD = process.env.DB_PASSWORD || 'admin' */
 
 export const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET || "whsec_l68MPfZGBQBmf72l17OBdWdSqkGaqVWv"
+/* export const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET || "whsec_L6U5ZCMuAnRO9uJf0STwDW3L56R00PWv" */
 export const SSK = process.env.SSK

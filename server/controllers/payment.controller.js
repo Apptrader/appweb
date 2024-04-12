@@ -68,8 +68,9 @@ export const handleSubscription = async (req, res) => {
             ],
             mode: 'subscription',
             payment_method_types: ['card'],
-            success_url: `${FRONTEND_URL}/payment/success`, 
+            success_url: `${FRONTEND_URL}/payment/successSub`, 
             cancel_url: `${FRONTEND_URL}/payment/cancel`,
+            trial_period_days: 30
         });
         res.json(session);
     } catch (error) {
