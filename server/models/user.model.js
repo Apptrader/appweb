@@ -120,6 +120,14 @@ const User = sequelize.define('user', {
 
 });
 
+User.beforeCreate((user, options) => {
+  return User.max('UserCode')
+    .then(max => {
+      user.UserCode = (max || 912003) + 1;
+    });
+});
+
+
 
 User.belongsTo(PaidPlan, { foreignKey: 'idPaidPlan' });
 User.belongsTo(Rank, { foreignKey: 'rank_id' });

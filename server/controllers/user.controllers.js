@@ -522,10 +522,10 @@ const getGenerations = async (user, generation) => {
 
 export const updateUserPlan = async (req, res) => {
   try {
-    
     const { plan } = req.body;
     const { id } = req.user;
 
+    
     // Validar la entrada
     if (!plan || !id) {
       throw new Error('Datos de entrada inválidos.');
